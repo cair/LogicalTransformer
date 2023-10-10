@@ -14,7 +14,6 @@ word_profile = pickle.load(open("word_profile.p", "rb"))
 
 target_id_one = list(feature_names).index(args.target_one)
 target_id_two = list(feature_names).index(args.target_two)
-target_id_three = list(feature_names).index(args.target_three)
 
 print(feature_names[target_id_one])
 print(feature_names[word_profile.getrow(target_id_one).indices][0:25])
