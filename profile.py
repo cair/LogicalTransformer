@@ -6,7 +6,6 @@ import numpy as np
 parser = argparse.ArgumentParser()
 parser.add_argument("--target_one", default='hate', type=str)
 parser.add_argument("--target_two", default='hate', type=str)
-parser.add_argument("--target_three", default='hate', type=str)
 
 args = parser.parse_args()
 
@@ -25,11 +24,11 @@ print(feature_names[target_id_two])
 print(feature_names[word_profile.getrow(target_id_two).indices][0:25])
 print(word_profile.getrow(target_id_two)[0:25])
 
-print(cosine_similarity(word_profile.getrow(target_id_one), word_profile.getrow(target_id_two)))
-
-joint_score = word_profile.getrow(target_id_one).toarray().reshape(-1) * word_profile.getrow(target_id_two).toarray().reshape(-1) * word_profile.getrow(target_id_three).toarray().reshape(-1)
-#joint_score = word_profile.getrow(target_id_one).toarray().reshape(-1) + word_profile.getrow(target_id_two).toarray().reshape(-1) + word_profile.getrow(target_id_three).toarray().reshape(-1)
+joint_score = word_profile.getrow(target_id_one).toarray().reshape(-1) * word_profile.getrow(target_id_two).toarray().reshape(-1) 
+#joint_score = word_profile.getrow(target_id_one).toarray().reshape(-1) + word_profile.getrow(target_id_two).toarray().reshape(-1)
 
 print(joint_score.shape)
 sorted_ids = np.argsort(-joint_score)
 print(feature_names[sorted_ids][0:100])
+
+print("Similarity:", cosine_similarity(word_profile.getrow(target_id_one), word_profile.getrow(target_id_two)))
