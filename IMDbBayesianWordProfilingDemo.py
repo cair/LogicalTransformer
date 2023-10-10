@@ -19,7 +19,7 @@ print(sys.version)
 target_word = 'motorcycle'
 #target_word = 'car'
 
-min_frequency = 5
+min_frequency = 0
 prior = 250
 
 NUM_WORDS=10000
@@ -85,7 +85,7 @@ for i in range(number_of_features):
 	word_score = word_score / word_p
 	word_score *= word_count / (prior + word_count)
 	sorted_ids = np.argsort(-word_score)[1:]
-	word_profile[i, sorted_ids] = np.where(np.log(-1*np.sort(-word_score)[1:]) > 0.1, np.log(-1*np.sort(-word_score)[1:]), 0)
+	word_profile[i, sorted_ids] = np.where(np.log(-1*np.sort(-word_score)[1:]) > 1.0, np.log(-1*np.sort(-word_score)[1:]), 0)
 word_profile = word_profile.tocsr()
 
 print(feature_names[target_id])
