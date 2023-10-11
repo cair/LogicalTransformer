@@ -17,7 +17,7 @@ Questions to investigate:
 
 ## Example with Bayesian Word Profiling and Word Sense Refinement
 
-'''
+```bash
 python3 ./profile.py --target_one "heart" --target_two "love"
 
 ['bleeding' 'soul' 'valentine' 'crazy' 'hearts' 'romance' 'sacred' 'dies'
@@ -34,4 +34,26 @@ python3 ./profile.py --target_one "heart" --target_two "love"
  'guitarist' 'hormone' 'widow' 'combines' 'diamond' 'chorus' 'singer'
  'pure' 'pains' 'intimate' 'lies' 'charm' 'lovely' 'story' 'actress'
  'truly' 'fat']
-'''
+```
+
+```bash
+python3 ./profile.py --target_one "heart" --target_two "hospital"
+
+['cardiac' 'transplant' 'underwent' 'surgeon' 'kidney' 'complications'
+ 'chest' 'surgery' 'cardiovascular' 'surgeons' 'lungs' 'patients' 'lung'
+ 'bypass' 'liver' 'bleeding' 'respiratory' 'stroke' 'pains' 'stab'
+ 'undergoing' 'acute' 'condition' 'patient' 'surgical' 'breathing'
+ 'paramedics' 'doctors' 'organs' 'died' 'diabetes' 'organ' 'mortality'
+ 'asthma' 'blood' 'procedure' 'suffering' 'recovering' 'oxygen' 'treated'
+ 'admissions' 'hospitalized' 'discharged' 'disease' 'treating' 'mortem'
+ 'symptoms' 'suffered' 'ambulance' 'chronic' 'medicine' 'medical'
+ 'infection' 'treatment' 'illnesses' 'clinical' 'premature' 'dr'
+ 'diagnosed' 'scan' 'physician' 'strokes' 'undergo' 'dying' 'clinic'
+ 'nurse' 'physicians' 'medication' 'stabbed' 'stomach' 'intensive'
+ 'cancer' 'diseases' 'nurses' 'outcomes' 'tissue' 'disorders' 'doctor'
+ 'infections' 'brain' 'hospitals' 'therapy' 'trauma' 'attack' 'babies'
+ 'unconscious' 'diagnosis' 'medications' 'dementia' 'publicist' 'wound'
+ 'johns' 'treat' 'imaging' 'infants' 'prescribed' 'chemotherapy' 'donor'
+ 'syndrome' 'treatments']
+```
+
