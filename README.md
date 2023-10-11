@@ -13,7 +13,9 @@ Questions to investigate:
 * How can we create hierarchical logical embeddings that represent more complex sentence structures, above the word level representation? E.g., by building up a representation around each word separately, incorporating context into the hypervector.
 * How can we integrate language and images in the autoencoder?
 * Given the new Tsetlin machine composites, should the architecture be flat or deep?
-* Our starting point is a single set-of-words representation encompassing the complete document. How can we create one set-of-words representation per word instead, incorporating a local view of the document?
+* Our starting point is a single set-of-words representation encompassing the complete document. How can we create one set-of-words representation per word instead, incorporating multiple local views of the document?
+* Should the transformer part be Bayesian pre-processing (see Bayesian Word Profiler), or should the Tsetlin machine perform the transformation?
+* How to we incorporate relative position into the representation? 
 * And more, ... :-)
 
 ## Example with Bayesian Word Profiling and Word Sense Refinement
