@@ -15,7 +15,7 @@ Questions to investigate:
 * Given the new Tsetlin machine composites, should the architecture be flat or deep?
 * Our starting point is a single set-of-words representation encompassing the complete document. How can we create one set-of-words representation per word instead, incorporating multiple local views of the document?
 * Should the transformer part be Bayesian pre-processing (see Bayesian Word Profiler), or should the Tsetlin machine perform the transformation?
-* How to we incorporate relative position into the representation? 
+* How to we incorporate relative word positions into the representation? 
 * And more, ... :-)
 
 ## Example with Bayesian Word Profiling and Word Sense Refinement
