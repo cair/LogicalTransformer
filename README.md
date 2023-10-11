@@ -14,3 +14,24 @@ Questions to investigate:
 * How can we integrate language and images in the autoencoder?
 * Given the new Tsetlin machine composites, should the architecture be flat or deep?
 * And more, ... :-)
+
+## Example with Bayesian Word Profiling and Word Sense Refinement
+
+'''
+python3 ./profile.py --target_one "heart" --target_two "love"
+
+['bleeding' 'soul' 'valentine' 'crazy' 'hearts' 'romance' 'sacred' 'dies'
+ 'romantic' 'rhythm' 'dear' 'tale' 'purple' 'ace' 'lonely' 'pray' 'song'
+ 'sing' 'loving' 'joy' 'twilight' 'passionate' 'poetry' 'passion'
+ 'happiness' 'lyrics' 'diamonds' 'my' 'lover' 'darkness' 'emotion' 'sung'
+ 'songs' 'beloved' 'anthem' 'humor' 'memoir' 'humour' 'sang' 'tales'
+ 'singing' 'emotions' 'hbo' 'chocolate' 'beautiful' 'novel' 'emotionally'
+ 'loved' 'genre' 'childhood' 'lifestyle' 'publicist' 'ellen' 'myers'
+ 'princess' 'jesus' 'emotional' 'poet' 'gentle' 'loves' 'eat' 'finds'
+ 'forever' 'novels' 'grief' 'hannah' 'spirit' 'mighty' 'endless'
+ 'genuinely' 'shaped' 'god' 'shakespeare' 'caring' 'dying' 'grammy'
+ 'enduring' 'vibrant' 'diana' 'syndrome' 'your' 'sight' 'drama'
+ 'guitarist' 'hormone' 'widow' 'combines' 'diamond' 'chorus' 'singer'
+ 'pure' 'pains' 'intimate' 'lies' 'charm' 'lovely' 'story' 'actress'
+ 'truly' 'fat']
+'''
