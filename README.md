@@ -6,7 +6,7 @@ Here is a quick summary of where we are:
 * Set of words is our preferred representation.
 * Hypervectors with bundling of words gives similar accuracy, in fewer epochs. Each word is represented by a random binary vector, and ORed together to represent a text.
 * Convolution over single word vectors works.
-* We know how to combine different perspectives on the data in a Tsetlin Machine Cpmposite. https://arxiv.org/abs/2309.04801
+* We know how to combine different perspectives on the data in a Tsetlin Machine Composite. https://arxiv.org/abs/2309.04801
 
 Questions to investigate:
 * How can we make the random hypervectors less random and more semantic for boosted accuracy, e.g., in integration with logical embeddings?
