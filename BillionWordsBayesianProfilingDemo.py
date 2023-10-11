@@ -18,7 +18,7 @@ print(sys.version)
 #target_word = 'frightening'
 target_word = 'king'
 
-min_frequency = 0
+min_frequency = 1
 prior = 250
 
 NUM_WORDS=10000

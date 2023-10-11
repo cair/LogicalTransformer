@@ -19,7 +19,7 @@ print(sys.version)
 target_word = 'motorcycle'
 #target_word = 'car'
 
-min_frequency = 0
+min_frequency = 1
 prior = 250
 
 NUM_WORDS=10000
@@ -92,7 +92,7 @@ print(feature_names[target_id])
 print(feature_names[word_profile.getrow(target_id).indices])
 print(word_profile.getrow(target_id))
 
-pickle.dump(feature_names, open("imdb_words.p", "wb"))
-pickle.dump(word_profile, open("imdb_word_profile.p", "wb"))
+pickle.dump(feature_names, open("words.p", "wb"))
+pickle.dump(word_profile, open("word_profile.p", "wb"))
 
 
