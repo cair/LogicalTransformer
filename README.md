@@ -1,4 +1,4 @@
-# LogicalTransformer
+# Logical Transformer
 
 Here is a quick summary of where we are:
 * We have an autoencoder that can do flat logical word embedding at the level of neural networks. https://arxiv.org/abs/2301.00709
