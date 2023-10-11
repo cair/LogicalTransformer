@@ -18,6 +18,10 @@ Questions to investigate:
 * How to we incorporate relative word positions into the representation? 
 * And more, ... :-)
 
+## Overleaf Paper
+
+https://www.overleaf.com/5141817728jzzqkkspjwjc
+
 ## Example with Bayesian Word Profiling and Word Sense Refinement
 
 ```bash
