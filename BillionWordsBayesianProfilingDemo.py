@@ -70,7 +70,7 @@ for i in range(number_of_features):
 	word_score = word_score / word_score.sum()
 	word_score = np.log(word_score / word_p)
 	word_score *= word_count / (prior + word_count)
-	word_score = np.where(word_score > 1.0, word_score, 0)
+	word_score = np.where(word_score > 0.01, word_score, 0)
 	sorted_ids = np.argsort(-word_score)[1:]
 	word_profile[i, sorted_ids] = -1*np.sort(-word_score)[1:]
 
