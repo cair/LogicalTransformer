@@ -71,40 +71,40 @@ python3 ./profile.py --target_one "heart" --target_two "hospital"
 ```bash
 python3 ./profile.py --target_one "bank" --target_two "river"
 
-['fargo' 'banks' 'flows' 'frozen' 'barrier' 'flowing' 'thames' 'stricken'
- 'pumping' 'deposits' 'pumped' 'west' 'shore' 'plunged' 'rogue' 'branches'
- 'toxic' 'central' 'collapsed' 'branch' 'rescue' 'rescued' 'plunging'
- 'hike' 'rock' 'fdic' 'institution' 'wells' 'northern' 'surging' 'abbey'
- 'steep' 'drain' 'agricultural' 'construction' 'headquartered' 'jordan'
- 'pump' 'freezing' 'sank' 'plunge' 'strip' 'charlotte' 'meets' 'winding'
- 'east' 'largest' 'falls' 'millennium' 'lowered' 'rising' 'below' 'ny'
- 'boutique' 'forecasting' 'reopen' 'rises' 'facility' 'located'
- 'settlement' 'checkpoints' 'reinforced' 'operates' 'triggered' 'shanghai'
- 'emergency' 'above' 'checkpoint' 'bear' 'elevated' 'colonial' 'jumped'
- '6m' 'restore' 'ga' '450' 'dried' 'warning' 'massive' 'tel'
- 'headquarters' 'owned' 'flow' 'backdrop' 'capital' 'owns' 'plummeted'
- 'darling' 'height' 'sands' 'dip' 'spree' 'territory' 'manages'
- 'overnight' 'widening' 'predicted' 'richmond' 'forecast' 'collapse']
+['fargo' 'banks' 'frozen' 'barrier' 'stricken' 'west' 'pumping' 'shore'
+ 'pumped' 'plunged' 'rogue' 'toxic' 'collapsed' 'rescue' 'hike' 'northern'
+ 'construction' 'pink' 'pioneer' 'pipe' 'pin' 'pipeline' 'pipes' 'piracy'
+ 'pilots' 'pinch' '00' 'pills' 'pirate' 'picks' 'pickup' 'picture'
+ 'pictures' 'pie' 'piece' 'pieces' 'pierce' 'pierre' 'pietersen' 'pig'
+ 'pigs' 'pile' 'pilgrims' 'pill' 'pilot' 'pirates' 'pitcher' 'pitch'
+ 'planet' 'planned' 'planning' 'plans' 'plant' 'planted' 'planting'
+ 'plants' 'plastic' 'plate' 'plates' 'platform' 'platforms' 'play'
+ 'played' 'planes' 'plane' 'plan' 'plaintiffs' 'pitched' 'picking'
+ 'pitches' 'pitching' 'pitt' 'pittsburgh' 'pivotal' 'pit' 'pizza' 'place'
+ 'placed' 'placement' 'places' 'placing' 'plagued' 'plain' 'pkk' 'picked'
+ 'physicians' 'piano' 'personality' 'personally' 'personnel' 'persons'
+ 'perspective' 'persuade' 'persuaded' 'peru' 'pervez' 'peshawar' 'pet'
+ 'pete' 'peter']
 ```
 
 ```bash
 python3 ./profile.py --target_one "bank" --target_two "money"
 
-['laundering' 'savers' 'tarp' 'lend' 'repaid' 'repay' 'bailout' 'deposit'
- 'icelandic' 'taxpayer' 'easing' 'deposits' 'lending' 'borrow' 'inject'
- 'borrowed' 'fdic' 'lent' 'accounts' 'taxpayers' 'printing' 'banks'
- 'pumped' 'borrowing' 'liquidity' 'bonuses' 'collateral' 'owed' 'raise'
- 'ecb' 'funds' 'sums' 'transfers' 'loans' 'mutual' 'account' 'billions'
- 'fund' 'assets' 'invested' 'asset' 'lender' 'insured' 'treasury'
- 'pumping' 'ubs' 'savings' 'bonds' 'monetary' 'lehman' 'lenders' 'banking'
- 'loan' 'reserve' 'injected' 'investors' 'goldman' 'creditors' 'debts'
- 'guarantee' 'investment' 'bailed' 'investments' 'raising' 'aig'
- 'citigroup' 'transactions' 'institutions' 'hbos' 'bankers' 'purchases'
- 'bets' 'financed' 'withdraw' 'pump' 'stimulate' 'stearns' 'mortgages'
- 'cash' 'stimulus' 'imf' 'hedge' 'brokerage' 'credit' 'invest'
- 'guarantees' 'financing' 'fraud' 'lloyds' 'troubled' 'clients' 'flowing'
- 'rates' 'sachs' 'interest' 'mortgage' 'jpmorgan' 'finance' 'iceland'
- 'sum']
+['laundering' 'savers' 'tarp' 'lend' 'bailout' 'repay' 'deposit' 'repaid'
+ 'taxpayer' 'easing' 'lending' 'deposits' 'icelandic' 'borrow' 'inject'
+ 'accounts' 'borrowed' 'fdic' 'taxpayers' 'lent' 'banks' 'printing'
+ 'borrowing' 'bonuses' 'liquidity' 'pumped' 'raise' 'owed' 'collateral'
+ 'funds' 'ecb' 'loans' 'account' 'billions' 'mutual' 'fund' 'transfers'
+ 'assets' 'invested' 'asset' 'treasury' 'savings' 'bonds' 'loan' 'lenders'
+ 'insured' 'pumping' 'investors' 'debts' 'creditors' 'guarantee'
+ 'injected' 'investments' 'raising' 'aig' 'institutions' 'bailed'
+ 'transactions' 'bankers' 'purchases' 'withdraw' 'cash' 'financed' 'pump'
+ 'bets' 'hedge' 'fraud' 'financing' 'clients' 'stimulate' 'guarantees'
+ 'finance' 'trillion' 'paulson' 'irs' 'guaranteed' 'buy' 'dividends'
+ 'institutional' 'federal' 'scheme' 'bail' 'bankrupt' 'payments' 'dollars'
+ 'fraudulent' 'pension' 'buying' 'funding' 'virgin' 'payment'
+ 'reconstruction' 'pinch' 'pitcher' 'pin' 'pink' 'pitched' 'pitch'
+ 'peshawar' 'pipes']
 ```
 
 
