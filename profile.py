@@ -31,3 +31,5 @@ sorted_ids = np.argsort(-joint_score)
 print(feature_names[sorted_ids][0:100])
 
 print("Similarity:", cosine_similarity(word_profile.getrow(target_id_one), word_profile.getrow(target_id_two)))
+
+print(word_profile.getrow(target_id_one).nonzero()[0].shape, word_profile.getrow(target_id_two).nonzero()[0].shape, joint_score.nonzero()[0].shape)
