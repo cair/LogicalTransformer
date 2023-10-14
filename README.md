@@ -71,40 +71,39 @@ python3 ./profile.py --target_one "heart" --target_two "hospital"
 ```bash
 python3 ./profile.py --target_one "bank" --target_two "river"
 
-['fargo' 'banks' 'frozen' 'barrier' 'stricken' 'west' 'pumping' 'shore'
- 'pumped' 'plunged' 'rogue' 'toxic' 'collapsed' 'rescue' 'hike' 'northern'
- 'construction' 'pink' 'pioneer' 'pipe' 'pin' 'pipeline' 'pipes' 'piracy'
- 'pilots' 'pinch' '00' 'pills' 'pirate' 'picks' 'pickup' 'picture'
- 'pictures' 'pie' 'piece' 'pieces' 'pierce' 'pierre' 'pietersen' 'pig'
- 'pigs' 'pile' 'pilgrims' 'pill' 'pilot' 'pirates' 'pitcher' 'pitch'
- 'planet' 'planned' 'planning' 'plans' 'plant' 'planted' 'planting'
- 'plants' 'plastic' 'plate' 'plates' 'platform' 'platforms' 'play'
- 'played' 'planes' 'plane' 'plan' 'plaintiffs' 'pitched' 'picking'
- 'pitches' 'pitching' 'pitt' 'pittsburgh' 'pivotal' 'pit' 'pizza' 'place'
- 'placed' 'placement' 'places' 'placing' 'plagued' 'plain' 'pkk' 'picked'
- 'physicians' 'piano' 'personality' 'personally' 'personnel' 'persons'
- 'perspective' 'persuade' 'persuaded' 'peru' 'pervez' 'peshawar' 'pet'
- 'pete' 'peter']
+['fargo' 'banks' 'flows' 'frozen' 'barrier' 'flowing' 'thames' 'stricken'
+ 'pumping' 'deposits' 'west' 'shore' 'pumped' 'plunged' 'branches' 'rogue'
+ 'toxic' 'central' 'collapsed' 'branch' 'rescue' 'rescued' 'plunging'
+ 'hike' 'rock' 'institution' 'fdic' 'wells' 'northern' 'surging' 'abbey'
+ 'steep' 'agricultural' 'construction' 'drain' 'headquartered' 'jordan'
+ 'pump' 'strip' 'sank' 'freezing' 'plunge' 'charlotte' 'meets' 'east'
+ 'largest' 'winding' 'falls' 'rising' 'lowered' 'below' 'millennium' 'ny'
+ 'boutique' 'rises' 'reopen' 'facility' 'forecasting' 'located'
+ 'settlement' 'operates' 'emergency' 'above' 'triggered' 'shanghai'
+ 'checkpoints' 'reinforced' 'bear' 'checkpoint' 'colonial' 'elevated'
+ 'jumped' 'restore' '6m' 'ga' '450' 'warning' 'massive' 'owned'
+ 'headquarters' 'capital' 'dried' 'flow' 'owns' 'darling' 'backdrop'
+ 'height' 'tel' 'plummeted' 'dip' 'territory' 'sands' 'overnight' 'spree'
+ 'manages' 'predicted' 'forecast' 'collapse' 'widening' 'richmond']
 ```
 
 ```bash
 python3 ./profile.py --target_one "bank" --target_two "money"
 
-['laundering' 'savers' 'tarp' 'lend' 'bailout' 'repay' 'deposit' 'repaid'
- 'taxpayer' 'easing' 'lending' 'deposits' 'icelandic' 'borrow' 'inject'
- 'accounts' 'borrowed' 'fdic' 'taxpayers' 'lent' 'banks' 'printing'
- 'borrowing' 'bonuses' 'liquidity' 'pumped' 'raise' 'owed' 'collateral'
- 'funds' 'ecb' 'loans' 'account' 'billions' 'mutual' 'fund' 'transfers'
- 'assets' 'invested' 'asset' 'treasury' 'savings' 'bonds' 'loan' 'lenders'
- 'insured' 'pumping' 'investors' 'debts' 'creditors' 'guarantee'
- 'injected' 'investments' 'raising' 'aig' 'institutions' 'bailed'
- 'transactions' 'bankers' 'purchases' 'withdraw' 'cash' 'financed' 'pump'
- 'bets' 'hedge' 'fraud' 'financing' 'clients' 'stimulate' 'guarantees'
- 'finance' 'trillion' 'paulson' 'irs' 'guaranteed' 'buy' 'dividends'
- 'institutional' 'federal' 'scheme' 'bail' 'bankrupt' 'payments' 'dollars'
- 'fraudulent' 'pension' 'buying' 'funding' 'virgin' 'payment'
- 'reconstruction' 'pinch' 'pitcher' 'pin' 'pink' 'pitched' 'pitch'
- 'peshawar' 'pipes']
+['laundering' 'savers' 'tarp' 'lend' 'bailout' 'repaid' 'repay' 'deposit'
+ 'taxpayer' 'easing' 'icelandic' 'lending' 'deposits' 'borrow' 'inject'
+ 'borrowed' 'accounts' 'fdic' 'lent' 'taxpayers' 'banks' 'printing'
+ 'borrowing' 'bonuses' 'liquidity' 'pumped' 'collateral' 'owed' 'raise'
+ 'funds' 'ecb' 'sums' 'loans' 'account' 'transfers' 'mutual' 'billions'
+ 'fund' 'assets' 'invested' 'asset' 'treasury' 'lender' 'ubs' 'savings'
+ 'insured' 'pumping' 'bonds' 'monetary' 'banking' 'loan' 'lenders'
+ 'lehman' 'reserve' 'investors' 'goldman' 'injected' 'debts' 'creditors'
+ 'investment' 'guarantee' 'investments' 'raising' 'bailed' 'aig'
+ 'citigroup' 'institutions' 'transactions' 'bankers' 'hbos' 'purchases'
+ 'financed' 'bets' 'withdraw' 'pump' 'cash' 'stimulus' 'mortgages'
+ 'stearns' 'hedge' 'credit' 'imf' 'stimulate' 'invest' 'fraud' 'financing'
+ 'brokerage' 'troubled' 'guarantees' 'clients' 'lloyds' 'rates' 'interest'
+ 'mortgage' 'sachs' 'finance' 'flowing' 'jpmorgan' 'iceland' 'sum']
 ```
 
 
