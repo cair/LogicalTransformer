@@ -24,6 +24,8 @@ https://www.overleaf.com/5141817728jzzqkkspjwjc
 
 ## Example with Bayesian Word Profiling and Word Sense Refinement
 
+## Two Meanings of Heart
+
 ```bash
 python3 ./profile.py --target_one "heart" --target_two "love"
 
@@ -63,4 +65,47 @@ python3 ./profile.py --target_one "heart" --target_two "hospital"
  'johns' 'treat' 'imaging' 'infants' 'prescribed' 'chemotherapy' 'donor'
  'syndrome' 'treatments']
 ```
+
+## Two Meanings of Bank
+
+```bash
+python3 ./profile.py --target_one "bank" --target_two "river"
+
+['fargo' 'banks' 'flows' 'frozen' 'barrier' 'flowing' 'thames' 'stricken'
+ 'pumping' 'deposits' 'pumped' 'west' 'shore' 'plunged' 'rogue' 'branches'
+ 'toxic' 'central' 'collapsed' 'branch' 'rescue' 'rescued' 'plunging'
+ 'hike' 'rock' 'fdic' 'institution' 'wells' 'northern' 'surging' 'abbey'
+ 'steep' 'drain' 'agricultural' 'construction' 'headquartered' 'jordan'
+ 'pump' 'freezing' 'sank' 'plunge' 'strip' 'charlotte' 'meets' 'winding'
+ 'east' 'largest' 'falls' 'millennium' 'lowered' 'rising' 'below' 'ny'
+ 'boutique' 'forecasting' 'reopen' 'rises' 'facility' 'located'
+ 'settlement' 'checkpoints' 'reinforced' 'operates' 'triggered' 'shanghai'
+ 'emergency' 'above' 'checkpoint' 'bear' 'elevated' 'colonial' 'jumped'
+ '6m' 'restore' 'ga' '450' 'dried' 'warning' 'massive' 'tel'
+ 'headquarters' 'owned' 'flow' 'backdrop' 'capital' 'owns' 'plummeted'
+ 'darling' 'height' 'sands' 'dip' 'spree' 'territory' 'manages'
+ 'overnight' 'widening' 'predicted' 'richmond' 'forecast' 'collapse']
+```
+
+```bash
+python3 ./profile.py --target_one "bank" --target_two "money"
+
+['laundering' 'savers' 'tarp' 'lend' 'repaid' 'repay' 'bailout' 'deposit'
+ 'icelandic' 'taxpayer' 'easing' 'deposits' 'lending' 'borrow' 'inject'
+ 'borrowed' 'fdic' 'lent' 'accounts' 'taxpayers' 'printing' 'banks'
+ 'pumped' 'borrowing' 'liquidity' 'bonuses' 'collateral' 'owed' 'raise'
+ 'ecb' 'funds' 'sums' 'transfers' 'loans' 'mutual' 'account' 'billions'
+ 'fund' 'assets' 'invested' 'asset' 'lender' 'insured' 'treasury'
+ 'pumping' 'ubs' 'savings' 'bonds' 'monetary' 'lehman' 'lenders' 'banking'
+ 'loan' 'reserve' 'injected' 'investors' 'goldman' 'creditors' 'debts'
+ 'guarantee' 'investment' 'bailed' 'investments' 'raising' 'aig'
+ 'citigroup' 'transactions' 'institutions' 'hbos' 'bankers' 'purchases'
+ 'bets' 'financed' 'withdraw' 'pump' 'stimulate' 'stearns' 'mortgages'
+ 'cash' 'stimulus' 'imf' 'hedge' 'brokerage' 'credit' 'invest'
+ 'guarantees' 'financing' 'fraud' 'lloyds' 'troubled' 'clients' 'flowing'
+ 'rates' 'sachs' 'interest' 'mortgage' 'jpmorgan' 'finance' 'iceland'
+ 'sum']
+```
+
+
 
