@@ -108,15 +108,15 @@ python3 ./profile.py --target_one "bank" --target_two "money"
 
 ## Bayesian Transformer Prototype
 
-### Without Position Encoding
+### A. Without Position Encoding
 
 1. Input: Document, Bayesian embeddings, Distance threshold **d**
-2. For each unique word **w** in the document:
-   1. Compare the embedding of the word **w** with the embedding of the other words (cosinus distance)
-   2. Refine the embedding values of the word **w** by multiplying in the embedding values of the other words that are within a cosinus distance **d** (see above demo)
-3. Add the refined embeddings together to form the final representation of the document
+2. For each target word  **w<sub>t</sub>** in the document:
+   1. Compare the embedding of the word **w<sub>t</sub>** with the embedding of the neighbour words **w<sub>n</sub>** (cosinus distance)
+   2. Refine the embedding values of the target word **w<sub>t</sub>** by multiplying in the embedding values of the neighbour words **w<sub>n</sub>** that are within cosinus distance **d** (see above demo)
+3. Add the refined embeddings together to form the final representation of the document.
    
-### With Position Encoding
+### B. With Position Encoding
 
 #### Create Bayesian Embedding With Position Information
 
@@ -124,8 +124,9 @@ python3 ./profile.py --target_one "bank" --target_two "money"
 2. Calculate position specific mutual information between each target word **w<sub>t</sub>** and each neighbour word **w<sub>n</sub>** at each position **i** relative to the target word **w<sub>t</sub>**.
 
 #### Create Representation of Document With Position Information
-1. Input: Document, Bayesian embeddings, Distance threshold **d**
-2. For each unique word **w** in the document:
-   1. Compare the embedding of the word **w** with the embedding of the other words (cosinus distance)
-   2. Refine the embedding values of the word **w** by multiplying in the embedding values of the other words that are within a cosinus distance **d** (see above demo)
-3. Add the refined embeddings together to form the final representation of the document
+1. Input: Document, Bayesian embeddings with positional information, Distance threshold **d**
+2. For each unique target word **w<sub>t</sub>** in the document:
+   1. Compare the embedding of the target word **w<sub>t</sub>** with the embedding of the neighbour words **w<sub>n</sub>**.
+      1. Align the relative position information of each embedding to correctly match the contexts (e.g., for the phrase "a car", "a" has position *-1* relative to "car" in the embedding of "car", while "car" has position *+1* relative to "a" in the embedding of "a"). 
+   3. Refine the embedding values of the target word **w<sub>t</sub>** by multiplying in the embedding values of the neighbour words **w<sub>n</sub>** that are within cosinus distance **d** (after the position information has been aligned)
+3. Add the refined embeddings together to form the final representation of the document.
