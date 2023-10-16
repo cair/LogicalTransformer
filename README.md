@@ -108,4 +108,12 @@ python3 ./profile.py --target_one "bank" --target_two "money"
 
 ## Bayesian Transformer Prototype
 
+### Without positional encoding
 
+1. Input: Document, Bayesian embeddings, Distance threshold **d**
+2. For each unique word **w** in the document:
+   a. Compare the embedding of the word **w** with the embedding of the other words (cosinus distance)
+   b. Refine the embedding values of the word **w** by multiplying in the embedding values of the other words within a cosinus distance **d** (see above demo)
+3. Add the refined embeddings together to form the final representation of the document
+   
+### With positional encoding
