@@ -127,7 +127,7 @@ python3 ./profile.py --target_one "bank" --target_two "money"
 
 **Dataset**
 
-[Refine Web](https://huggingface.co/datasets/tiiuae/falcon-refinedweb)?
+[RefinedWeb](https://huggingface.co/datasets/tiiuae/falcon-refinedweb)?
 
 #### Create Representation of Document With Position Information
 
