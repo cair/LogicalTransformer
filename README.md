@@ -137,6 +137,6 @@ python3 ./profile.py --target_one "bank" --target_two "money"
    3. Refine the embedding values of the target word **w<sub>t</sub>** by multiplying in the embedding values of the neighbour words **w<sub>n</sub>** (after the position information has been aligned). Only the neighbour words that are within cosinus distance **d** are used here.
 3. Add the refined embeddings together to form the final representation of the document.
 
-### Bayesian Embedding With Position Informantion for 2D Data (Images, Board Games)
+### Bayesian Embedding With Position Information for 2D Data (Images, Board Games)
 
 Replicate the above structure with a 2D position grid.
