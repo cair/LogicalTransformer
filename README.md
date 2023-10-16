@@ -108,12 +108,24 @@ python3 ./profile.py --target_one "bank" --target_two "money"
 
 ## Bayesian Transformer Prototype
 
-### Without positional encoding
+### Without Position Encoding
 
 1. Input: Document, Bayesian embeddings, Distance threshold **d**
 2. For each unique word **w** in the document:
    1. Compare the embedding of the word **w** with the embedding of the other words (cosinus distance)
-   2. Refine the embedding values of the word **w** by multiplying in the embedding values of the other words within a cosinus distance **d** (see above demo)
+   2. Refine the embedding values of the word **w** by multiplying in the embedding values of the other words that are within a cosinus distance **d** (see above demo)
 3. Add the refined embeddings together to form the final representation of the document
    
-### With positional encoding
+### With Position Encoding
+
+#### Create Bayesian Embedding With Position Information
+
+1. Create a 3D matrix *WxWx2L* where *W* is the size of the vocabulary and *L* is maximum document length.
+2. Calculate position specific mutual information between each target word **w<sub>t</sub>** and each neighbour word **w<sub>n</sub>** at each position **i** relative to the target word **w<sub>t</sub>**.
+
+#### Create Representation of Document With Position Information
+1. Input: Document, Bayesian embeddings, Distance threshold **d**
+2. For each unique word **w** in the document:
+   1. Compare the embedding of the word **w** with the embedding of the other words (cosinus distance)
+   2. Refine the embedding values of the word **w** by multiplying in the embedding values of the other words that are within a cosinus distance **d** (see above demo)
+3. Add the refined embeddings together to form the final representation of the document
