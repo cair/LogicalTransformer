@@ -132,6 +132,7 @@ python3 ./profile.py --target_one "bank" --target_two "money"
 1. Input: Document, Bayesian embeddings with positional information, Distance threshold **d**
 2. For each unique target word **w<sub>t</sub>** in the document:
    1. Compare the embedding of the target word **w<sub>t</sub>** with the embedding of the neighbour words **w<sub>n</sub>**.
-      1. Align the relative position information of each embedding to correctly match the contexts (e.g., for the phrase "a car", "a" has position *-1* relative to "car" in the embedding of "car", while "car" has position *+1* relative to "a" in the embedding of "a"). 
+      1. Align the relative position information of each embedding to correctly match the contexts (e.g., for the phrase "a car", "a" has position *-1* relative to "car" in the embedding of "car", while "car" has position *+1* relative to "a" in the embedding of "a").
+      2. Calculate cosinus distance between the aligned embeddings.
    3. Refine the embedding values of the target word **w<sub>t</sub>** by multiplying in the embedding values of the neighbour words **w<sub>n</sub>** (after the position information has been aligned). Only the neighbour words that are within cosinus distance **d** are used here.
 3. Add the refined embeddings together to form the final representation of the document.
