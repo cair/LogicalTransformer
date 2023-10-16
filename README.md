@@ -123,7 +123,7 @@ python3 ./profile.py --target_one "bank" --target_two "money"
 1. Create a 3D matrix *WxWxL* where *W* is the size of the vocabulary and *L* is size of the relative position information.
 2. Calculate position specific mutual information between each target word **w<sub>t</sub>** and each neighbour word **w<sub>n</sub>** at each position **i** relative to the target word **w<sub>t</sub>**.
 
-**Example:** A vocabulary of size *W=10000* with relative position encoding *[<=-10, -9, -8, ...,-2, -1, +1, +2, ..., +8, +9, >=+10]*, i.e., *L=20*, gives a 3D matrix of size 7.5 GB.
+**Example:** A vocabulary of size *W=10000* with relative position encoding *[<=-10, -9, -8, ...,-2, -1, +1, +2, ..., +8, +9, >=+10]*, i.e., *L=20*, gives a 3D matrix of size 7.5 GB. If we increase the vocabulary to size *W=50000* the size of the matrix grows to 186 GB.
 
 #### Create Representation of Document With Position Information
 
