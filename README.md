@@ -125,8 +125,6 @@ python3 ./profile.py --target_one "bank" --target_two "money"
 
 **Example:** A vocabulary of size *W=10000* with relative position encoding *[<=-10, -9, -8, ...,-2, -1, +1, +2, ..., +8, +9, >=+10]*, i.e., *L=20*, gives a 3D matrix of size 7.5 GB.
 
-**Optional:** Group position information into ranges.
-
 #### Create Representation of Document With Position Information
 
 1. Input: Document, Bayesian embeddings with positional information, Distance threshold **d**
