@@ -24,7 +24,7 @@ https://www.overleaf.com/5141817728jzzqkkspjwjc
 
 ## Example with Bayesian Word Profiling and Word Sense Refinement
 
-## Two Meanings of Heart
+### Two Meanings of Heart
 
 ```bash
 python3 ./profile.py --target_one "heart" --target_two "love"
@@ -66,7 +66,7 @@ python3 ./profile.py --target_one "heart" --target_two "hospital"
  'syndrome' 'treatments']
 ```
 
-## Two Meanings of Bank
+### Two Meanings of Bank
 
 ```bash
 python3 ./profile.py --target_one "bank" --target_two "river"
@@ -106,5 +106,6 @@ python3 ./profile.py --target_one "bank" --target_two "money"
  'mortgage' 'sachs' 'finance' 'flowing' 'jpmorgan' 'iceland' 'sum']
 ```
 
+## Bayesian Transformer Prototype
 
 
