@@ -43,13 +43,25 @@ if __name__ == "__main__":
 
     id_to_word = {value: key for key, value in word_to_id.items()}
 
+    # Load Bayesian word profile
+
+    feature_names = pickle.load(open("words.p", "rb"))
+    word_profile = pickle.load(open("word_profile.p", "rb"))
+
+    feature_name = {}
+    for i in range(len(feature_names)):
+        feature_name[feature_names[i]] = i 
+
+    # Create document representation directly, without vectorizer
+
     training_documents = []
     for i in range(train_y.shape[0]):
-        terms = []
-        for word_id in train_x[i]:
-            terms.append(id_to_word[word_id].lower())
+        # Get the profile of each word and calculate the cos distance, printing them out
+        for j in range(train_x[i].shape[0]):
+            for k in range(j, train_x[i].shape[0]):
+                print(j, k)
 
-        training_documents.append(terms)
+        training_documents.append([])
 
     testing_documents = []
     for i in range(test_y.shape[0]):
