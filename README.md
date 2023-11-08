@@ -22,6 +22,14 @@ Questions to investigate:
 
 https://www.overleaf.com/5141817728jzzqkkspjwjc
 
+## Tsetlin Machine Embedding
+
+dockerhub public image:   https://hub.docker.com/layers/bobsbimal58/tsetlinembed/v2/images/sha256-6bc5aa7e4cc3c24f797aed64854883b4b0e9014dcbccf0bfa549085ada8f85b0?context=repo
+
+playground:  https://labs.play-with-docker.com/p/cl5nvoggftqg00bohm10#cl5nvogg_cl5pfhufml8g00evf7mg
+
+script to run in playground: docker run -dp 0.0.0.0:80:80 bobsbimal58/tsetlinembed:v2
+
 ## Example with Bayesian Word Profiling and Word Sense Refinement
 
 ### Two Meanings of Heart
