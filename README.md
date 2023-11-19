@@ -118,7 +118,7 @@ python3 ./profile.py --target_one "bank" --target_two "money"
 
 ### A. Without Position Encoding
 
-1. Input: Document **d**, Bayesian embedding vector **v<sub>t</sub>** for each word **w<sub>t</sub>** in the vocabulary, Relevance threshold **r**
+1. Input: Document **d**, Bayesian embedding vector **v<sub>t</sub>** for each word **w<sub>t</sub>** in the vocabulary, Relevance threshold **r**.
 2. For each target word **w<sub>t</sub>** in document **d**:
    1. Look up the value of each neighbour word **w<sub>n</sub>** in document **d** using the embedding vector **v<sub>t</sub>** of the target word **w<sub>t</sub>**.
    2. Identify the neighbour words **w<sub>n</sub>** whose value in **v<sub>t</sub>** exceeds the relevance threshold **r</sub>**, i.e., **v<sub>t</sub>[w<sub>n</sub>] > r**. Refine the embedding vector **v<sub>t</sub>** of the target word **w<sub>t</sub>** by multiplying in the embedding vectors **v<sub>n</sub>** of the selected neighbour words **w<sub>n</sub>** (see above demo for an example of how to multiply the embedding vectors).
@@ -137,7 +137,7 @@ python3 ./profile.py --target_one "bank" --target_two "money"
 
 #### Create Representation of Document With Position Information
 
-1. Input: Document **d**, Bayesian embedding vector **v<sub>t</sub>** with positional information for each word **w<sub>t</sub>** in the vocabulary, Relevance threshold **r**
+1. Input: Document **d**, Bayesian embedding vector **v<sub>t</sub>** with positional information for each word **w<sub>t</sub>** in the vocabulary, Relevance threshold **r**.
 2. For each target word **w<sub>t</sub>** in document **d**:
    1. Look up the value of each neighbour word **w<sub>n</sub>** in document **d** using the embedding vector **v<sub>t</sub>** of the target word **w<sub>t</sub>**. Take into account the relative position of the neighbour word **w<sub>n</sub>** to the target word **w<sub>t</sub>**.
    2. Identify the neighbour words **w<sub>n</sub>** whose value in **v<sub>t</sub>** exceeds the relevance threshold **r</sub>**, i.e., **v<sub>t</sub>[w<sub>n</sub>] > r**. Refine the embedding vector **v<sub>t</sub>** of the target word **w<sub>t</sub>** by multiplying in the embedding vectors **v<sub>n</sub>** of the selected neighbour words **w<sub>n</sub>** (see above demo for an example of how to multiply the embedding vectors).  
