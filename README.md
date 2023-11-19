@@ -118,7 +118,7 @@ python3 ./profile.py --target_one "bank" --target_two "money"
 
 ### A. Without Position Encoding
 
-1. Input: Document, Bayesian embeddings, Distance threshold **d**
+1. Input: Document, Bayesian embeddings, Relevance threshold **t**
 2. For each target word  **w<sub>t</sub>** in the document:
    1. Look up the value of word **w<sub>t</sub>** in the embedding vector **v<sub>n</sub>** of each neighbour words **w<sub>n</sub>**.
    2. Identify the neighbour word embedding vectors **v<sub>n</sub>** whose value for **w<sub>t</sub>** surpasses a threshold **w<sub>t</sub>**, i.e.,  **v<sub>n</sub>[w<sub>t</sub>] > t**. Refine the embedding vector **v<sub>t</sub>** of the target word **w<sub>t</sub>** by multiplying in the embedding vectors **v<sub>n</sub>** of the selected neighbour word vector **w<sub>n</sub>** (see above demo).
