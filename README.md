@@ -121,7 +121,7 @@ python3 ./profile.py --target_one "bank" --target_two "money"
 1. Input: Document **d**, Bayesian embedding vector **v<sub>t</sub>** for each word **w<sub>t</sub>** in the vocabulary, Relevance threshold **r**
 2. For each word **w<sub>t</sub>** in document **d**:
    1. Look up the value of word **w<sub>t</sub>** in the embedding vector **v<sub>n</sub>** of each neighbour word **w<sub>n</sub>** in document **d**.
-   2. Identify the embedding vectors **v<sub>n</sub>** whose value for **w<sub>t</sub>** surpasses a threshold **w<sub>t</sub>**, i.e.,  **v<sub>n</sub>[w<sub>t</sub>] > r**. Refine the embedding vector **v<sub>t</sub>** of the target word **w<sub>t</sub>** by multiplying in the embedding vectors **v<sub>n</sub>** of the selected neighbour word vector **w<sub>n</sub>** (see above demo).
+   2. Identify the embedding vectors **v<sub>n</sub>** whose value for **w<sub>t</sub>** surpasses the relevance threshold **r</sub>**, i.e.,  **v<sub>n</sub>[w<sub>t</sub>] > r**. Refine the embedding vector **v<sub>t</sub>** of the target word **w<sub>t</sub>** by multiplying in the embedding vectors **v<sub>n</sub>** of the selected neighbour word vector **w<sub>n</sub>** (see above demo for an example of how to multiply the embedding vectors).
 3. Add the refined embeddings together to form the final representation of the document.
    
 ### B. With Position Encoding
