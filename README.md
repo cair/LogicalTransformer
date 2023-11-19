@@ -122,7 +122,7 @@ python3 ./profile.py --target_one "bank" --target_two "money"
 2. For each target word **w<sub>t</sub>** appearing in document **d**:
    1. Look up the value of each neighbouring word **w<sub>n</sub>** in document **d** using the embedding vector **v<sub>t</sub>** of the target word **w<sub>t</sub>**.
    2. Identify the neighbouring words **w<sub>n</sub>** whose value in **v<sub>t</sub>** exceeds the relevance threshold **r</sub>**, i.e., **v<sub>t</sub>[w<sub>n</sub>] > r**.
-   3. Refine the embedding vector **v<sub>t</sub>** of the target word **w<sub>t</sub>** by multiplying in the embedding vectors **v<sub>n</sub>** of the selected neighbour words **w<sub>n</sub>** (see above demo for an example of how to multiply the embedding vectors).
+   3. Refine the embedding vector **v<sub>t</sub>** of the target word **w<sub>t</sub>** by multiplying in the embedding vectors **v<sub>n</sub>** of the identified neighbouring words **w<sub>n</sub>** (see above demo for an example of how to multiply the embedding vectors).
 3. Add the refined embeddings together to form the final representation of the document.
    
 ### B. With Position Encoding
@@ -142,7 +142,7 @@ python3 ./profile.py --target_one "bank" --target_two "money"
 2. For each target word **w<sub>t</sub>** appearing in document **d**:
    1. Look up the value of each neighbouring word **w<sub>n</sub>** in document **d** using the embedding vector **v<sub>t</sub>** of the target word **w<sub>t</sub>**. Take into account the relative position of the neighbour word **w<sub>n</sub>** to the target word **w<sub>t</sub>**.
    2. Identify the neighbouring words **w<sub>n</sub>** whose value in **v<sub>t</sub>** exceeds the relevance threshold **r</sub>**, i.e., **v<sub>t</sub>[w<sub>n</sub>] > r**.
-   3. Refine the embedding vector **v<sub>t</sub>** of the target word **w<sub>t</sub>** by multiplying in the embedding vectors **v<sub>n</sub>** of the selected neighbour words **w<sub>n</sub>** (see above demo for an example of how to multiply the embedding vectors).  
+   3. Refine the embedding vector **v<sub>t</sub>** of the target word **w<sub>t</sub>** by multiplying in the embedding vectors **v<sub>n</sub>** of the identified neighbouring words **w<sub>n</sub>** (see above demo for an example of how to multiply the embedding vectors).  
 3. Add the refined embeddings together to form the final representation of the document.
 
 ## Bayesian Embedding With Position Information for 2D Data (Images, Board Games)
