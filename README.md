@@ -119,9 +119,9 @@ python3 ./profile.py --target_one "bank" --target_two "money"
 ### A. Without Position Encoding
 
 1. Input: Document **d**, Bayesian embedding vector **v<sub>t</sub>** for each word **w<sub>t</sub>** in the vocabulary, Relevance threshold **r**
-2. For each word **w<sub>t</sub>** in document **d**:
-   1. Look up the value of word **w<sub>t</sub>** in the embedding vector **v<sub>n</sub>** of each neighbour word **w<sub>n</sub>** in document **d**.
-   2. Identify the embedding vectors **v<sub>n</sub>** whose value for **w<sub>t</sub>** surpasses the relevance threshold **r</sub>**, i.e.,  **v<sub>n</sub>[w<sub>t</sub>] > r**. Refine the embedding vector **v<sub>t</sub>** of the target word **w<sub>t</sub>** by multiplying in the embedding vectors **v<sub>n</sub>** of the selected neighbour word vector **w<sub>n</sub>** (see above demo for an example of how to multiply the embedding vectors).
+2. For each target word **w<sub>t</sub>** in document **d**:
+   1. Look up the value of each neighbour word **w<sub>n</sub>** in document **d** using the embedding vector **v<sub>t</sub>** of the target word **w<sub>t</sub>**.
+   2. Identify the neighbour words **w<sub>n</sub>** whose value in **v<sub>t</sub>** exceeds the relevance threshold **r</sub>**, i.e., **v<sub>t</sub>[w<sub>n</sub>] > r**. Refine the embedding vector **v<sub>t</sub>** of the target word **w<sub>t</sub>** by multiplying in the embedding vectors **v<sub>n</sub>** of the selected neighbour words **w<sub>n</sub>** (see above demo for an example of how to multiply the embedding vectors).
 3. Add the refined embeddings together to form the final representation of the document.
    
 ### B. With Position Encoding
@@ -137,12 +137,10 @@ python3 ./profile.py --target_one "bank" --target_two "money"
 
 #### Create Representation of Document With Position Information
 
-1. Input: Document **d**, Bayesian embeddings with positional information, Distance threshold **d**
-2. For each unique target word **w<sub>t</sub>** in document  **d**:
-   1. Compare the embedding of the target word **w<sub>t</sub>** with the embedding of the neighbour words **w<sub>n</sub>**.
-      1. Align the relative position information of each embedding to correctly match the contexts (e.g., for the phrase "a car", "a" has position *-1* relative to "car" in the embedding of "car", while "car" has position *+1* relative to "a" in the embedding of "a").
-      2. Calculate cosinus distance between the aligned embeddings.
-   3. Refine the embedding values of the target word **w<sub>t</sub>** by multiplying in the embedding values of the neighbour words **w<sub>n</sub>** (after the position information has been aligned). Only the neighbour words that are within cosinus distance **d** are used here.
+1. Input: Document **d**, Bayesian embedding vector **v<sub>t</sub>** with positional information for each word **w<sub>t</sub>** in the vocabulary, Relevance threshold **r**
+2. For each target word **w<sub>t</sub>** in document **d**:
+   1. Look up the value of each neighbour word **w<sub>n</sub>** in document **d** using the embedding vector **v<sub>t</sub>** of the target word **w<sub>t</sub>**. Take into account the relative position of the neighbour word **w<sub>n</sub>** to the target word **w<sub>t</sub>**.
+   2. Identify the neighbour words **w<sub>n</sub>** whose value in **v<sub>t</sub>** exceeds the relevance threshold **r</sub>**, i.e., **v<sub>t</sub>[w<sub>n</sub>] > r**. Refine the embedding vector **v<sub>t</sub>** of the target word **w<sub>t</sub>** by multiplying in the embedding vectors **v<sub>n</sub>** of the selected neighbour words **w<sub>n</sub>** (see above demo for an example of how to multiply the embedding vectors).  
 3. Add the refined embeddings together to form the final representation of the document.
 
 ## Bayesian Embedding With Position Information for 2D Data (Images, Board Games)
