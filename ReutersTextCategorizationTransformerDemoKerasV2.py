@@ -11,7 +11,7 @@ import pickle
 from sklearn.metrics.pairwise import cosine_similarity
 from numba import jit
 from glob import glob
-from scipy.sparse import csc_matrix, csr_matrix, dok_array
+from scipy.sparse import csc_matrix, csr_matrix, dok_array, hstack
 
 @jit(nopython=True)
 def count_tokens(X_indices, X_indptr, word_profile_data, word_profile_indices, word_profile_indptr, feature_map, profile_threshold):
@@ -280,8 +280,8 @@ if __name__ == "__main__":
 
     _LOGGER.info("Selecting Features....")
 
-    X_train = np.concatenate((X_train.toarray(), X_train_embedded.toarray()), axis=1)
-    X_test= np.concatenate((X_test.toarray(), X_test_embedded.toarray()), axis=1)
+    X_train = hstack((X_train, X_train_embedded))
+    X_test= hstack((X_test, X_test_embedded))
 
     SKB = SelectKBest(chi2, k=args.features)
     SKB.fit(X_train, Y_train)
