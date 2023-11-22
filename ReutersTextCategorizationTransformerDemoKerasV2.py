@@ -13,7 +13,7 @@ from numba import jit
 from glob import glob
 from scipy.sparse import csc_matrix, csr_matrix, dok_array, hstack
 
-@jit(nopython=True,boundscheck=True)
+@jit(nopython=True)
 def count_tokens(X_indices, X_indptr, word_profile_data, word_profile_indices, word_profile_indptr, feature_map, profile_threshold):
     document_vector = np.zeros(word_profile_indptr.shape[0]-1)
     target_word_profile = np.zeros(word_profile_indptr.shape[0]-1)
@@ -94,7 +94,7 @@ def count_tokens(X_indices, X_indptr, word_profile_data, word_profile_indices, w
     print(global_token_count)
     return global_token_count
 
-@jit(nopython=True,boundscheck=True)
+@jit(nopython=True)
 def embed_X(X_indices, X_indptr, word_profile_data, word_profile_indices, word_profile_indptr, feature_map, token_count, profile_threshold):
     document_vector = np.zeros(word_profile_indptr.shape[0]-1)
     target_word_profile = np.zeros(word_profile_indptr.shape[0]-1)
@@ -280,8 +280,8 @@ if __name__ == "__main__":
 
     _LOGGER.info("Selecting Features....")
 
-    X_train = hstack((X_train, X_train_embedded), axis=1)
-    X_test= hstack((X_test, X_test_embedded), axis=1)
+    X_train = hstack((X_train, X_train_embedded))
+    X_test= hstack((X_test, X_test_embedded))
 
     SKB = SelectKBest(chi2, k=args.features)
     SKB.fit(X_train, Y_train)
