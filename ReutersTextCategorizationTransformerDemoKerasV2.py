@@ -280,12 +280,15 @@ if __name__ == "__main__":
 
     _LOGGER.info("Selecting Features....")
 
+    X_train = np.concatenate((X_train, X_train_embedded), axis=1)
+    X_test= np.concatenate((X_test, X_test_embedded), axis=1)
+
     SKB = SelectKBest(chi2, k=args.features)
-    SKB.fit(X_train_embedded, Y_train)
+    SKB.fit(X_train, Y_train)
 
     selected_features = SKB.get_support(indices=True)
-    X_train = SKB.transform(X_train_embedded).toarray()
-    X_test = SKB.transform(X_test_embedded).toarray()
+    X_train = SKB.transform(X_train).toarray()
+    X_test = SKB.transform(X_test).toarray()
 
     _LOGGER.info("Selecting Features.... Done!")
 
