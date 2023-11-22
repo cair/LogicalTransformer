@@ -13,11 +13,8 @@ from numba import jit
 from glob import glob
 from scipy.sparse import csc_matrix, csr_matrix, dok_array
 
-relevance_threshold = 0.5
-profile_threshold = 2.5
-
 @jit(nopython=True)
-def count_tokens(X_indices, X_indptr, word_profile_data, word_profile_indices, word_profile_indptr, feature_map):
+def count_tokens(X_indices, X_indptr, word_profile_data, word_profile_indices, word_profile_indptr, feature_map, relevance_threshold, profile_threshold):
     document_vector = np.zeros(word_profile_indptr.shape[0]-1)
     target_word_profile = np.zeros(word_profile_indptr.shape[0]-1)
     target_word_refined_profile = np.zeros(word_profile_indptr.shape[0]-1)
@@ -82,7 +79,7 @@ def count_tokens(X_indices, X_indptr, word_profile_data, word_profile_indices, w
     return global_token_count
 
 @jit(nopython=True)
-def embed_X(X_indices, X_indptr, word_profile_data, word_profile_indices, word_profile_indptr, feature_map, token_count):
+def embed_X(X_indices, X_indptr, word_profile_data, word_profile_indices, word_profile_indptr, feature_map, token_count, relevance_threshold, profile_threshold):
     document_vector = np.zeros(word_profile_indptr.shape[0]-1)
     target_word_profile = np.zeros(word_profile_indptr.shape[0]-1)
     target_word_refined_profile = np.zeros(word_profile_indptr.shape[0]-1)
@@ -146,7 +143,8 @@ def embed_X(X_indices, X_indptr, word_profile_data, word_profile_indices, word_p
                 global_token_count += 1
         X_embedded_indptr[row+1] = global_token_count
 
-        print(row, X_indptr.shape[0]-1, document_token_count)
+        if row % 100 == 0:
+            print(row, X_indptr.shape[0]-1, document_token_count)
 
         #print(row, X_indptr[row], X_indptr[row+1], X_indptr[row+1] - X_indptr[row], document_token_count)
     return (X_embedded_data, X_embedded_indices, X_embedded_indptr)
@@ -166,6 +164,9 @@ if __name__ == "__main__":
     parser.add_argument("--features", default=5000, type=int)
     parser.add_argument("--reuters-num-words", default=10000, type=int)
     parser.add_argument("--reuters-index-from", default=2, type=int)
+    parser.add_argument("--relevance_threshold", default=0.25, type=float)
+    parser.add_argument("--profile_threshold", default=0.5, type=float)
+
     args = parser.parse_args()
 
 
@@ -233,13 +234,13 @@ if __name__ == "__main__":
             feature_map[i] = 0
 
     # Counts number of tokens in the augmented dataset to allocate memory for sparse data structure
-    token_count = count_tokens(X_train.indices, X_train.indptr, word_profile.data, word_profile.indices, word_profile.indptr, feature_map)
-    (X_train_embedded_data, X_train_embedded_indices, X_train_embedded_indptr) = embed_X(X_train.indices, X_train.indptr, word_profile.data, word_profile.indices, word_profile.indptr, feature_map, token_count)
+    token_count = count_tokens(X_train.indices, X_train.indptr, word_profile.data, word_profile.indices, word_profile.indptr, feature_map, args.relevance_threshold, args.profile_threshold)
+    (X_train_embedded_data, X_train_embedded_indices, X_train_embedded_indptr) = embed_X(X_train.indices, X_train.indptr, word_profile.data, word_profile.indices, word_profile.indptr, feature_map, token_count, args.relevance_threshold, args.profile_threshold)
     X_train_embedded = csr_matrix((X_train_embedded_data, X_train_embedded_indices, X_train_embedded_indptr))
 
     # Counts number of tokens in the augmented dataset to allocate memory for sparse data structure
-    token_count = count_tokens(X_test.indices, X_test.indptr, word_profile.data, word_profile.indices, word_profile.indptr, feature_map)
-    (X_test_embedded_data, X_test_embedded_indices, X_test_embedded_indptr) = embed_X(X_test.indices, X_test.indptr, word_profile.data, word_profile.indices, word_profile.indptr, feature_map, token_count)
+    token_count = count_tokens(X_test.indices, X_test.indptr, word_profile.data, word_profile.indices, word_profile.indptr, feature_map, args.relevance_threshold, args.profile_threshold)
+    (X_test_embedded_data, X_test_embedded_indices, X_test_embedded_indptr) = embed_X(X_test.indices, X_test.indptr, word_profile.data, word_profile.indices, word_profile.indptr, feature_map, token_count, args.relevance_threshold, args.profile_threshold)
     X_test_embedded = csr_matrix((X_test_embedded_data, X_test_embedded_indices, X_test_embedded_indptr))
 
 
