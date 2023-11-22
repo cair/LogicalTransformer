@@ -73,7 +73,8 @@ def count_tokens(X_indices, X_indptr, word_profile_data, word_profile_indices, w
                 document_token_count += 1
                 global_token_count += 1
         
-        print(row, X_indptr.shape[0]-1, document_token_count)
+        if row % 100 == 0:
+            print(row, X_indptr.shape[0]-1, document_token_count)
 
         #print(row, X_indptr[row], X_indptr[row+1], X_indptr[row+1] - X_indptr[row], document_token_count)
 
@@ -214,8 +215,8 @@ if __name__ == "__main__":
     X_test = vectorizer_X.transform(testing_documents)
     Y_test = test_y.astype(np.uint32)
 
-    words = pickle.load(open("words.p", "rb"))
-    word_profile = pickle.load(open("word_profile.p", "rb"))
+    words = pickle.load(open("words_1.p", "rb"))
+    word_profile = pickle.load(open("word_profile_1.p", "rb"))
    
  
     # Creates mapping of word to word id for the profiles
@@ -237,16 +238,22 @@ if __name__ == "__main__":
     (X_train_embedded_data, X_train_embedded_indices, X_train_embedded_indptr) = embed_X(X_train.indices, X_train.indptr, word_profile.data, word_profile.indices, word_profile.indptr, feature_map, token_count)
     X_train_embedded = csr_matrix((X_train_embedded_data, X_train_embedded_indices, X_train_embedded_indptr))
 
+    # Counts number of tokens in the augmented dataset to allocate memory for sparse data structure
+    token_count = count_tokens(X_test.indices, X_test.indptr, word_profile.data, word_profile.indices, word_profile.indptr, feature_map)
+    (X_test_embedded_data, X_test_embedded_indices, X_test_embedded_indptr) = embed_X(X_test.indices, X_test.indptr, word_profile.data, word_profile.indices, word_profile.indptr, feature_map, token_count)
+    X_test_embedded = csr_matrix((X_test_embedded_data, X_test_embedded_indices, X_test_embedded_indptr))
+
+
     _LOGGER.info("Producing bit representation... Done!")
 
     _LOGGER.info("Selecting Features....")
 
     SKB = SelectKBest(chi2, k=args.features)
-    SKB.fit(X_train, Y_train)
+    SKB.fit(X_train_embedded, Y_train)
 
     selected_features = SKB.get_support(indices=True)
-    X_train = SKB.transform(X_train).toarray()
-    X_test = SKB.transform(X_test).toarray()
+    X_train = SKB.transform(X_train_embedded).toarray()
+    X_test = SKB.transform(X_test_embedded).toarray()
 
     _LOGGER.info("Selecting Features.... Done!")
 
