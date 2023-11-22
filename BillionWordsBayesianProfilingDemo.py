@@ -19,7 +19,7 @@ print(sys.version)
 target_word = 'king'
 
 min_frequency = 1
-prior = 250
+prior = 1
 
 NUM_WORDS=10000
 INDEX_FROM=2 
@@ -71,8 +71,8 @@ for i in range(number_of_features):
 	word_score = np.log(word_score / word_p)
 	word_score *= word_count / (prior + word_count)
 	word_score = np.where(word_score > 0.01, word_score, 0)
-	sorted_ids = np.argsort(-word_score)[1:]
-	word_profile[i, sorted_ids] = -1*np.sort(-word_score)[1:]
+	sorted_ids = np.argsort(-word_score)
+	word_profile[i, sorted_ids] = -1*np.sort(-word_score)
 
 	#word_score = word_score / word_p
 	#word_score *= word_count / (prior + word_count)
@@ -83,7 +83,7 @@ word_profile = word_profile.tocsr()
 print(feature_names[target_id])
 print(feature_names[word_profile.getrow(target_id).indices])
 
-pickle.dump(feature_names, open("words.p", "wb"))
-pickle.dump(word_profile, open("word_profile.p", "wb"))
+pickle.dump(feature_names, open("words_1.p", "wb"))
+pickle.dump(word_profile, open("word_profile_1.p", "wb"))
 
 
