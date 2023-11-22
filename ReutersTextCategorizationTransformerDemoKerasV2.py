@@ -280,8 +280,8 @@ if __name__ == "__main__":
 
     _LOGGER.info("Selecting Features....")
 
-    X_train = hstack((X_train, X_train_embedded))
-    X_test= hstack((X_test, X_test_embedded))
+    X_train = hstack((X_train, X_train_embedded), axis=1)
+    X_test= hstack((X_test, X_test_embedded), axis=1)
 
     SKB = SelectKBest(chi2, k=args.features)
     SKB.fit(X_train, Y_train)
