@@ -215,10 +215,9 @@ if __name__ == "__main__":
     X_test = vectorizer_X.transform(testing_documents)
     Y_test = test_y.astype(np.uint32)
 
-    words = pickle.load(open("words_1.p", "rb"))
-    word_profile = pickle.load(open("word_profile_1.p", "rb"))
+    words = pickle.load(open("words.p", "rb"))
+    word_profile = pickle.load(open("word_profile.p", "rb"))
    
- 
     # Creates mapping of word to word id for the profiles
     word_to_id = {}
     for i in range(len(words)):
