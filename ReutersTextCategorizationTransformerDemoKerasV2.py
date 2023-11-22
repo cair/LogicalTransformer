@@ -156,9 +156,12 @@ def embed_X(X_indices, X_indptr, word_profile_data, word_profile_indices, word_p
             target_word_refined_profile = target_word_refined_profile * other_word_profile
             target_word_refined_profile = target_word_refined_profile * other_word_profile_2
 
-            for k in range(target_word_refined_profile.shape[0]):
-                if target_word_refined_profile[k] < profile_threshold:
-                    target_word_refined_profile[k] = 0
+            sorted_indices = np.argsort(-1*target_word_refined_profile)
+            target_word_refined_profile[sorted_indices[5:]] = 0
+
+            #for k in range(target_word_refined_profile.shape[0]):
+            #    if target_word_refined_profile[k] < profile_threshold:
+            #        target_word_refined_profile[k] = 0
 
             # The refiend profile is added to the document vector
             document_vector += target_word_refined_profile
