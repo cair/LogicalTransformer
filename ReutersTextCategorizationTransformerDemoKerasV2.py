@@ -19,6 +19,7 @@ def count_tokens(X_indices, X_indptr, word_profile_data, word_profile_indices, w
     target_word_profile = np.zeros(word_profile_indptr.shape[0]-1)
     target_word_refined_profile = np.zeros(word_profile_indptr.shape[0]-1)
     other_word_profile = np.zeros(word_profile_indptr.shape[0]-1)
+    other_word_profile_2 = np.zeros(word_profile_indptr.shape[0]-1)
 
     global_token_count = 0
 
@@ -42,22 +43,33 @@ def count_tokens(X_indices, X_indptr, word_profile_data, word_profile_indices, w
                 target_word_profile[word_profile_indices[k]] = word_profile_data[k]
                 target_word_refined_profile[word_profile_indices[k]] = word_profile_data[k]
 
-            max_relevance = 0.0
+            highest_relevance = 0.0
+            second_highest_relevance = 0.0
             # Next, the profile of each other word in the document is inspected
             for j in range(X_indptr[row], X_indptr[row+1]):
                 if feature_map[X_indices[j]] == 0 or i == j:
                     continue
 
                 # Words that are related to the target word are processed further
-                if target_word_profile[feature_map[X_indices[j]]] > max_relevance:
+                if target_word_profile[feature_map[X_indices[j]]] > highest_relevance:
                     # The other word profile is created first
+                    other_word_profile_2[:] = other_word_profile[:]
+                    second_highest_relevance = highest_relevance
+
                     other_word_profile[:] = 0
                     for k in range(word_profile_indptr[feature_map[X_indices[j]]], word_profile_indptr[feature_map[X_indices[j]]+1]):
                         other_word_profile[word_profile_indices[k]] = word_profile_data[k]
-                    max_relevance = target_word_profile[feature_map[X_indices[j]]]
+                    highest_relevance = target_word_profile[feature_map[X_indices[j]]]
+                elif target_word_profile[feature_map[X_indices[j]]] > second_highest_relevance:
+                    # The other word profile is created first
+                    other_word_profile_2[:] = 0
+                    for k in range(word_profile_indptr[feature_map[X_indices[j]]], word_profile_indptr[feature_map[X_indices[j]]+1]):
+                        other_word_profile_2[word_profile_indices[k]] = word_profile_data[k]
+                    second_highest_relevance = target_word_profile[feature_map[X_indices[j]]]
 
             # The other word profile is multiplied into the refined target word profile
             target_word_refined_profile = target_word_refined_profile * other_word_profile
+            target_word_refined_profile = target_word_refined_profile * other_word_profile_2
 
             for k in range(target_word_refined_profile.shape[0]):
                 if target_word_refined_profile[k] < profile_threshold:
