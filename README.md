@@ -148,3 +148,8 @@ python3 ./profile.py --target_one "bank" --target_two "money"
 ## Bayesian Embedding With Position Information for 2D Data (Images, Board Games)
 
 Add 2D position grid to the Bayesian embedding approach.
+
+## Possible Baseline for Embeddings
+
+[Near-lossless Binarization of Word Embeddings](https://github.com/tca19/near-lossless-binarization)
+
