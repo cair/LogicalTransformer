@@ -153,3 +153,7 @@ Add 2D position grid to the Bayesian embedding approach.
 
 [Near-lossless Binarization of Word Embeddings](https://github.com/tca19/near-lossless-binarization)
 
+## Binary Embeddings
+
+[Collection of Binary Embeddings](https://www.dropbox.com/scl/fo/5uvac9ztiazyw90rtmp28/h?rlkey=9mb1tck9tv65llvezbayy6gc1&dl=0)
+
