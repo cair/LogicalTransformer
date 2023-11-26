@@ -19,9 +19,9 @@ print(sys.version)
 target_word = 'king'
 
 min_frequency = 1
-prior = 1
+prior = 250
 
-NUM_WORDS=10000
+NUM_WORDS=100000
 INDEX_FROM=2 
 
 # Data obtained from https://www.kaggle.com/c/billion-word-imputation
@@ -83,7 +83,7 @@ word_profile = word_profile.tocsr()
 print(feature_names[target_id])
 print(feature_names[word_profile.getrow(target_id).indices])
 
-pickle.dump(feature_names, open("words_1.p", "wb"))
-pickle.dump(word_profile, open("word_profile_1.p", "wb"))
+pickle.dump(feature_names, open("words_250.p", "wb"))
+pickle.dump(word_profile, open("word_profile_250.p", "wb"))
 
 
