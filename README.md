@@ -152,6 +152,7 @@ Add 2D position grid to the Bayesian embedding approach.
 * [RefinedWeb](https://huggingface.co/datasets/tiiuae/falcon-refinedweb)?
 * Wikipedia 2017, UMBC webbase corpus and statmt.org news dataset (16B tokens)
 * [One Billion Words Benchmark](https://www.kaggle.com/datasets/alexrenz/one-billion-words-benchmark)
+* [Downloaded](https://www.dropbox.com/scl/fo/otf37qiwyy7p4ic6il7dl/h?rlkey=aa28muzrr5ng1qm4ksmwqtw56&dl=0)
 
 ## Possible Baseline for Embeddings
 
