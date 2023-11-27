@@ -134,8 +134,6 @@ python3 ./profile.py --target_one "bank" --target_two "money"
 
 **Example:** A vocabulary of size *W=10000* with relative position encoding *[<=-10, -9, -8, ...,-2, -1, +1, +2, ..., +8, +9, >=+10]*, i.e., *L=20*, gives a 3D matrix of size 7.5 GB. If we increase the vocabulary size to *W=50000*, the size of the 3D matrix grows to 186 GB.
 
-**Dataset:** [RefinedWeb](https://huggingface.co/datasets/tiiuae/falcon-refinedweb)?
-
 #### Create Representation of Document With Position Information
 
 1. Input: Document **d**, Bayesian embedding vector **v<sub>t</sub>** with positional information for each target word **w<sub>t</sub>** in the vocabulary, Relevance threshold **r**.
@@ -148,6 +146,12 @@ python3 ./profile.py --target_one "bank" --target_two "money"
 ## Bayesian Embedding With Position Information for 2D Data (Images, Board Games)
 
 Add 2D position grid to the Bayesian embedding approach.
+
+## Datasets
+
+* [RefinedWeb](https://huggingface.co/datasets/tiiuae/falcon-refinedweb)?
+* Wikipedia 2017, UMBC webbase corpus and statmt.org news dataset (16B tokens)
+* [One Billion Words Benchmark](https://www.kaggle.com/datasets/alexrenz/one-billion-words-benchmark)
 
 ## Possible Baseline for Embeddings
 
