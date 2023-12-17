@@ -23,7 +23,7 @@ Questions to investigate:
 * Composites - goes from 66% to 80% accuracy on CIFAR10.
 * Reasoning by elimination - obtain 90% accuracy on IMDB in a single epoch.
 * Convolution - effective for images.
-* Set of tokens - very efficient and effective for language modelling.
+* Set of tokens - computationally efficient and effective for language modelling.
 * Question: How to integrate them?
 
 ## Overleaf Paper
