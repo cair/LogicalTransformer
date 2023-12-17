@@ -29,7 +29,7 @@ Questions to investigate:
    * For each class, train a classifier per token, predicting the presence of that token (by Ahmed). Can be done unsupervised, scales well. Incorporates logical language modelling.
    * Introduce relative position information (by Vojtech). Supports learning image and language constructs.
    * Composite inference (All):
-      1. For a given input, go through each token present.
+      1. For a given input, go through each token present (maybe also not present, but that requires more computation).
       2. Calculate the overall class sum for each class by summing up the vote sum of each token classifier for the tokens present.
       3. Output the class with the largest overal class sum.
       
