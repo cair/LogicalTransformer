@@ -20,7 +20,7 @@ Questions to investigate:
 
 ## Promising Solution Ingredients
 
-* Composites - goes from 66% to 80% accuracy on CIFAR10.
+* Composites - goes from 66% to 80% accuracy on CIFAR10 with 2000 clauses per class per member classifier.
 * Reasoning by elimination - obtain 90% accuracy on IMDB in a single epoch.
 * Convolution - effective for images.
 * Set of tokens - computationally efficient and effective for language modelling.
