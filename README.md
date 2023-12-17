@@ -18,6 +18,14 @@ Questions to investigate:
 * How to we incorporate relative word positions into the representation? 
 * And more, ... :-)
 
+## Promising Solution Ingredients
+
+* Composites - goes from 66% to 80% accuracy on CIFAR10.
+* Reasoning by elimination - obtain 90% accuracy on IMDB in a single epoch.
+* Convolution - effective for images.
+* Set of tokens - very efficient and effective for language modelling.
+* Question: How to integrate them?
+
 ## Overleaf Paper
 
 https://www.overleaf.com/5141817728jzzqkkspjwjc
