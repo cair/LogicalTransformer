@@ -23,6 +23,7 @@ Questions to investigate:
 * Composites - goes from 66% to 80% accuracy on CIFAR10 with 2000 clauses per class per member classifier.
 * Reasoning by elimination - obtain 90% accuracy on IMDB in a single epoch with 1000 clauses per class.
 * Convolution - effective for images.
+* Logical word modelling produces competitive word embedding.
 * Set of tokens - computationally efficient and effective for language modelling.
 * Question: How to integrate them?
    * Model: Set of tokens (by Rupsa). Supports semantic modelling and reasoning by elimination. Convolution can be used to produce image tokens (Vojtech) or brute force by extracting all unique patches occuring e.g. more that five times in the data (Vojtech).
