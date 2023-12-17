@@ -25,7 +25,14 @@ Questions to investigate:
 * Convolution - effective for images.
 * Set of tokens - computationally efficient and effective for language modelling.
 * Question: How to integrate them?
-
+   * Model: Set of tokens
+   * For each class, train a classifier per token, predicting the presence of that token (Ahmed)
+   * Introduce relative position information (Vojtech)
+   * Composite inference (Rupsa):
+      1. For a given input, go through each token present.
+      2. Calculate the overall class sum for each class by summing up the vote sum of each token classifier for the tokens present.
+      3. Output the class with the largest overal class sum.
+      
 ## Overleaf Paper
 
 https://www.overleaf.com/5141817728jzzqkkspjwjc
