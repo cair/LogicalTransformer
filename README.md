@@ -33,7 +33,7 @@ Questions to investigate:
       1. For a given input, go through each token present (maybe also not present, but that requires more computation).
       2. Calculate the overall class sum for each class by summing up the vote sum of each token classifier for the tokens present.
       3. Output the class with the largest overal class sum.
-* Alternative strategy: Concatenate individual tokens that are related (e.g., one predicts the other) to create "joint" tokens.
+* Alternative strategy: Concatenate individual tokens that are related (e.g., one predicts the other) to create "joint" tokens. The joint tokens are to represent the text more precisely.
       
 ## Overleaf Paper
 
