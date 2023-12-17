@@ -25,9 +25,9 @@ Questions to investigate:
 * Convolution - effective for images.
 * Set of tokens - computationally efficient and effective for language modelling.
 * Question: How to integrate them?
-   * Model: Set of tokens (by Rupsa). Supports semantic modelling and reasoning by elimination. Convolution can be used to produce image tokens (Vojtech).
+   * Model: Set of tokens (by Rupsa). Supports semantic modelling and reasoning by elimination. Convolution can be used to produce image tokens (Vojtech) or brute force by extracting all unique patches occuring e.g. more that five times in the data.
    * For each class, train a classifier per token, predicting the presence of that token (by Ahmed). Can be done unsupervised, scales well. Incorporates logical language modelling.
-   * Introduce relative position information (by Vojtech). Supports learning image and language constructs.
+   * Introduce relative position information (by Vojtech). Supports learning image and language constructs from the context, like a transformer.
    * Composite inference (All):
       1. For a given input, go through each token present (maybe also not present, but that requires more computation).
       2. Calculate the overall class sum for each class by summing up the vote sum of each token classifier for the tokens present.
