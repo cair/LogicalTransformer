@@ -39,7 +39,7 @@ sentences = f.read().split("\n")
 f.close()
 
 vectorizer_X = CountVectorizer(max_features=NUM_WORDS, binary=True)
-X = vectorizer_X.fit_transform(sentences)
+X_csr = vectorizer_X.fit_transform(sentences)
 
 f_vectorizer_X = open("vectorizer_X.pickle", "wb")
 pickle.dump(vectorizer_X, f_vectorizer_X, protocol=4)
@@ -51,7 +51,7 @@ f_vectorizer_X.close()
 #f_vectorizer_X.close()
 
 f_X = open("X.pickle", "wb")
-pickle.dump(X, f_X, protocol=4)
+pickle.dump(X_csr, f_X, protocol=4)
 f_X.close()
 
 #print("Loading Data")
