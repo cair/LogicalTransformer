@@ -8,23 +8,24 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.model_selection import train_test_split
 from tmu.models.classification.vanilla_classifier import TMClassifier
 import pickle
+from sklearn.metrics import recall_score, precision_score, accuracy_score
 
 #target_word = 'awful'#'comedy'#'romance'#"scary"
-#target_word = 'conflict'#'comedy'#'romance'#"scary"
+target_word = 'conflict'#'comedy'#'romance'#"scary"
 #target_word = 'war'
 #target_word = 'afghanistan'
 #target_word = 'iraq'
 #target_word = 'russia'
-target_word = 'france'
+#target_word = 'france'
 
 examples = 10000
-context_size = 1
-profile_size = 250
+accumulation = 1
+profile_size = 100
 
 positive_sample_p = 0.5
 
-clauses = 100
-T = 1000
+clauses = 10
+T = 100
 s = 1.1
 
 NUM_WORDS=10000
@@ -81,11 +82,11 @@ X_train = np.zeros((examples, X_csc.shape[1]), dtype=np.uint32)
 Y_train = np.zeros(examples, dtype=np.uint32)
 for i in range(examples):
 	if np.random.rand() <= positive_sample_p:
-		for c in range(context_size):
+		for c in range(accumulation):
 			X_train[i] = np.logical_or(X_train[i], X_train_1[np.random.randint(X_train_1.shape[0]),:].toarray())
 		Y_train[i] = 1
 	else:
-		for c in range(context_size):
+		for c in range(accumulation):
 			X_train[i] = np.logical_or(X_train[i], X_train_0[np.random.randint(X_train_0.shape[0]),:].toarray())
 		Y_train[i] = 0
 
@@ -98,11 +99,11 @@ X_test = np.zeros((examples, X_csc.shape[1]), dtype=np.uint32)
 Y_test = np.zeros(examples, dtype=np.uint32)
 for i in range(examples):
 	if np.random.rand() <= 0.5:
-		for c in range(context_size):
+		for c in range(accumulation):
 			X_test[i] = np.logical_or(X_test[i], X_test_1[np.random.randint(X_test_1.shape[0])].toarray())
 		Y_test[i] = 1
 	else:
-		for c in range(context_size):
+		for c in range(accumulation):
 			X_test[i] = np.logical_or(X_test[i], X_test_0[np.random.randint(X_test_0.shape[0])].toarray())
 		Y_test[i] = 0
 
@@ -121,10 +122,11 @@ for i in range(40):
 	stop_training = time()
 
 	start_testing = time()
-	result = 100*(tm.predict(X_test) == Y_test).mean()
+	Y_test_predicted = tm.predict(X_test)
 	stop_testing = time()
 
-	print("\n#%d Accuracy: %.2f%% Training: %.2fs Testing: %.2fs" % (i+1, result, stop_training-start_training, stop_testing-start_testing))
+
+	print("\n#%d Accuracy: %.2f%% Precision: %.2f Recall: %.2f Training: %.2fs Testing: %.2fs" % (i+1, 100*accuracy_score(Y_test, Y_test_predicted), 100*precision_score(Y_test, Y_test_predicted), 100*recall_score(Y_test, Y_test_predicted), stop_training-start_training, stop_testing-start_testing))
 
 	print("\nPositive Polarity:", end=' ')
 	literal_importance = tm.literal_importance(1, negated_features=False, negative_polarity=False).astype(np.int32)
