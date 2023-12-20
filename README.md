@@ -27,12 +27,14 @@ Questions to investigate:
 * Set of tokens - computationally efficient and effective for language modelling.
 * Question: How to integrate them?
    * Model: Set of tokens (by Rupsa). Supports semantic modelling and reasoning by elimination. Convolution can be used to produce image tokens (Vojtech) or brute force by extracting all unique patches occuring e.g. more that five times in the data (Vojtech).
-   * For each class, train a classifier per token, predicting the presence of that token (by Ahmed). Can be done self-supervised, scales well. Incorporates logical language modelling (Bimal). Each classifier is a member of the composite.
+   * For each class, train a classifier per token, predicting the presence of that token (by Ahmed). Can be done self-supervised, scales well. Incorporates logical language modelling (Bimal). Each classifier is an "embedding" of its token.
    * Introduce relative position information (by Vojtech). Supports learning image and language constructs from the context, like a transformer.
    * Composite inference (All):
       1. For a given input, go through each token present (maybe also not present, but that requires more computation).
       2. Calculate the overall class sum for each class by summing up the vote sum of each token classifier for the tokens present.
       3. Output the class with the largest overal class sum.
+   * **Summarized:** Each token gets its own Tsetlin machine as its embedding. Sentence/document/image embedding is a *composite* of the Tsetlin machines of the tokens appearing in the sentence/document/image.  
+* Alternative strategy: Concatenate individual tokens that are related (e.g., one predicts the other) to create "joint" tokens. The joint tokens are to represent the text more precisely.
       
 ## Overleaf Paper
 
