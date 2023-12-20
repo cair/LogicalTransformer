@@ -18,46 +18,44 @@ import pickle
 target_word = 'france'
 
 examples = 10000
-context_size = 50
-profile_size = 50
+context_size = 1
+profile_size = 250
 
-positive_sample_p = 0.1
+positive_sample_p = 0.5
 
-clause_drop_p = 0.75
-
-clauses = int(20/(1.0 - clause_drop_p))
-T = 40
-s = 5.0
+clauses = 100
+T = 1000
+s = 1.1
 
 NUM_WORDS=10000
 INDEX_FROM=2
 
 # Data obtained from https://www.kaggle.com/c/billion-word-imputation
 
-f = open("/Users/oleg/Dropbox/Research/Datasets/Billion Words/train_v2.txt")
-sentences = f.read().split("\n")
-f.close()
+#f = open("/Users/oleg/Dropbox/Research/Datasets/Billion Words/train_v2.txt")
+#sentences = f.read().split("\n")
+#f.close()
 
-vectorizer_X = CountVectorizer(max_features=NUM_WORDS, binary=True)
-X_csr = vectorizer_X.fit_transform(sentences)
+#vectorizer_X = CountVectorizer(max_features=NUM_WORDS, binary=True)
+#X_csr = vectorizer_X.fit_transform(sentences)
 
-f_vectorizer_X = open("vectorizer_X.pickle", "wb")
-pickle.dump(vectorizer_X, f_vectorizer_X, protocol=4)
-f_vectorizer_X.close()
-
-#print("Loading Vectorizer")
-#f_vectorizer_X = open("vectorizer_X.pickle", "rb")
-#vectorizer_X = pickle.load(f_vectorizer_X)
+#f_vectorizer_X = open("vectorizer_X.pickle", "wb")
+#pickle.dump(vectorizer_X, f_vectorizer_X, protocol=4)
 #f_vectorizer_X.close()
 
-f_X = open("X.pickle", "wb")
-pickle.dump(X_csr, f_X, protocol=4)
-f_X.close()
+print("Loading Vectorizer")
+f_vectorizer_X = open("vectorizer_X.pickle", "rb")
+vectorizer_X = pickle.load(f_vectorizer_X)
+f_vectorizer_X.close()
 
-#print("Loading Data")
-#f_X = open("X.pickle", "rb")
-#X_csr = pickle.load(f_X)
+#f_X = open("X.pickle", "wb")
+#pickle.dump(X_csr, f_X, protocol=4)
 #f_X.close()
+
+print("Loading Data")
+f_X = open("X.pickle", "rb")
+X_csr = pickle.load(f_X)
+f_X.close()
 
 X_csc = X_csr.tocsc()
 
@@ -77,7 +75,7 @@ Y_train_0 = Y_train[Y_train==0]
 X_train_1 = X_train[Y_train==1]
 Y_train_1 = Y_train[Y_train==1]
 
-print("Number of Target Words:", Y_train_1.shape[0])
+print("Number of Target Word Examples:", Y_train_1.shape[0])
 
 X_train = np.zeros((examples, X_csc.shape[1]), dtype=np.uint32)
 Y_train = np.zeros(examples, dtype=np.uint32)
@@ -95,6 +93,7 @@ X_test_0 = X_test[Y_test==0]
 Y_test_0 = Y_test[Y_test==0]
 X_test_1 = X_test[Y_test==1]
 Y_test_1 = Y_test[Y_test==1]
+
 X_test = np.zeros((examples, X_csc.shape[1]), dtype=np.uint32)
 Y_test = np.zeros(examples, dtype=np.uint32)
 for i in range(examples):
@@ -107,12 +106,13 @@ for i in range(examples):
 			X_test[i] = np.logical_or(X_test[i], X_test_0[np.random.randint(X_test_0.shape[0])].toarray())
 		Y_test[i] = 0
 
-tm = TMClassifier(clauses, T, s, clause_drop_p=clause_drop_p, feature_negation=False, platform='CPU', weighted_clauses=True)
+tm = TMClassifier(clauses, T, s, feature_negation=True, platform='CPU', weighted_clauses=True)
 
 feature_names = vectorizer_X.get_feature_names_out()
+print("Target Word:", feature_names[target_id])
 feature_names = np.delete(feature_names, target_id, axis=0)
 number_of_features = feature_names.shape[0]
-print("Number of features", number_of_features, feature_names[target_id])
+print("Number of Features:", number_of_features)
 
 print("\nAccuracy Over 40 Epochs:\n")
 for i in range(40):
