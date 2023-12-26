@@ -39,7 +39,7 @@ Questions to investigate:
 ## Logical Transformer Architecture
 
 <p align="center">
-  <img width="60%" src="https://github.com/cair/LogicalTransformer/blob/main/Logical_Transformer_Architecture_NLP.png">
+  <img width="90%" src="https://github.com/cair/LogicalTransformer/blob/main/Logical_Transformer_Architecture_NLP.png">
 </p>
       
 ## Overleaf Paper
