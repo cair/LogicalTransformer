@@ -35,6 +35,12 @@ Questions to investigate:
       3. Output the class with the largest overal class sum.
    * **Summarized:** Each token gets its own Tsetlin machine as its embedding. Sentence/document/image embedding is a *composite* of the Tsetlin machines of the tokens appearing in the sentence/document/image.  
 * Alternative strategy: Concatenate individual tokens that are related (e.g., one predicts the other) to create "joint" tokens. The joint tokens are to represent the text more precisely.
+
+## Logical Transformer Architecture
+
+<p align="center">
+  <img width="90%" src="https://github.com/cair/LogicalTransformer/blob/main/Logical_Transformer_Architecture_NLP.png">
+</p>
       
 ## Overleaf Paper
 
