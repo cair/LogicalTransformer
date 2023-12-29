@@ -26,7 +26,7 @@ positive_sample_p = 0.5
 
 clauses = 10
 T = 100
-s = 1.1
+s = 1.0
 
 NUM_WORDS=10000
 INDEX_FROM=2
