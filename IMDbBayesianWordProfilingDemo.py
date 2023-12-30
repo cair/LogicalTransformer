@@ -16,11 +16,12 @@ print(sys.version)
 #target_word='comedy'
 #target_word = 'brilliant'
 #target_word = 'frightening'
-target_word = 'motorcycle'
+target_word = 'lousy'
 #target_word = 'car'
 
-min_frequency = 1
+min_frequency = 5
 prior = 250
+threshold = 0.5
 
 NUM_WORDS=10000
 INDEX_FROM=2 
@@ -61,7 +62,12 @@ for i in range(test_y.shape[0]):
 def tokenizer(s):
 	return s
 
-vectorizer_X = CountVectorizer(tokenizer=tokenizer, lowercase=False, min_df=min_frequency, max_features=NUM_WORDS, binary=True)
+vectorizer_X = CountVectorizer(
+	tokenizer=tokenizer,
+	lowercase=False,
+	min_df=min_frequency,
+	max_features=NUM_WORDS,
+	binary=True)
 
 X_train = vectorizer_X.fit_transform(training_documents).toarray()
 feature_names = vectorizer_X.get_feature_names_out()
@@ -85,7 +91,7 @@ for i in range(number_of_features):
 	word_score = word_score / word_p
 	word_score *= word_count / (prior + word_count)
 	sorted_ids = np.argsort(-word_score)[1:]
-	word_profile[i, sorted_ids] = np.where(np.log(-1*np.sort(-word_score)[1:]) > 0.1, np.log(-1*np.sort(-word_score)[1:]), 0)
+	word_profile[i, sorted_ids] = np.where(np.log(-1*np.sort(-word_score)[1:]) > threshold, np.log(-1*np.sort(-word_score)[1:]), 0)
 word_profile = word_profile.tocsr()
 
 print(feature_names[target_id])
