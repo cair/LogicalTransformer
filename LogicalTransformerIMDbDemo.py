@@ -57,7 +57,7 @@ def plot_precision_recall_curve(scores, labels):
 	        recall.append(total/sorted_index.shape[0])
         	class_sum.append(max_score[i]) 
 
-        if total % 1 == 10:
+        if total % 10 == 0:
             print("%d %.2f %.2f" % (max_score[i], total/sorted_index.shape[0], correct/total))
 
     plt.plot(class_sum, precision)
