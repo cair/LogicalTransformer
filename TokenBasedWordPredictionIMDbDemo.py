@@ -37,7 +37,6 @@ def plot_precision_recall_curve(scores, labels):
     sorted_index = np.argsort(-1*max_score)
 
     precision = []
-    recall = []
     class_sum = []
 
     correct = 0.0
@@ -49,7 +48,6 @@ def plot_precision_recall_curve(scores, labels):
 
         if total > 100:
         	precision.append(correct/total)
-	        recall.append(total/sorted_index.shape[0])
         	class_sum.append(max_score[i])
 
     plt.plot(class_sum, precision)
@@ -65,12 +63,12 @@ parser.add_argument("--num_clauses", default=100, type=int)
 parser.add_argument("--T", default=1000, type=int)
 parser.add_argument("--s", default=1.0, type=float)
 parser.add_argument("--device", default="GPU", type=str)
-parser.add_argument("--target_tokens", default=['bad', 'nice'], type=list)
+parser.add_argument("--target_tokens", default=['bad', 'nice', 'car'], nargs='+', type=str)
 parser.add_argument("--weighted_clauses", default=True, type=bool)
 parser.add_argument("--epochs", default=1, type=int)
 parser.add_argument("--context_size", default=5, type=int)
 parser.add_argument("--number_of_examples", default=5000, type=int)
-parser.add_argument("--imdb-num-words", default=1000, type=int)
+parser.add_argument("--imdb-num-words", default=10000, type=int)
 parser.add_argument("--imdb-index-from", default=2, type=int)
 args = parser.parse_args()
 
