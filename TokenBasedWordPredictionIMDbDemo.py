@@ -141,10 +141,10 @@ vectorizer_X = CountVectorizer(
     binary=True
 )
 
-X_train = vectorizer_X.fit_transform(training_documents).toarray().astype(np.uint32)
+X_train = vectorizer_X.fit_transform(training_documents).astype(np.uint32)
 feature_names = vectorizer_X.get_feature_names_out()
 
-X_test = vectorizer_X.transform(testing_documents).toarray().astype(np.uint32)
+X_test = vectorizer_X.transform(testing_documents).astype(np.uint32)
 
 training_focus_token_ids = np.array(training_focus_token_ids, dtype=np.uint32)
 testing_focus_token_ids = np.array(testing_focus_token_ids, dtype=np.uint32)
@@ -158,7 +158,7 @@ for j in range(len(args.target_tokens)):
 	Y_train = (training_focus_token_ids == word_to_id[args.target_tokens[j]]) # Creates training target, i.e., target token present/absent
 
 	# Creates random training samples for balancing and speedup
-	present_p = (Y_train.sum()/Y_train.shape[0])*1.0 # Probability of sampling an example where the target token is present
+	present_p = 0.5#(Y_train.sum()/Y_train.shape[0])*1.0 # Probability of sampling an example where the target token is present
 
 	X_train_0 = X_train[Y_train==0] # Gets those training examples where the target token is absent
 	X_train_1 = X_train[Y_train==1] # Gets those training examples where the target token is present
@@ -169,10 +169,10 @@ for j in range(len(args.target_tokens)):
 	for epoch in range(args.epochs):
 		for k in range(args.number_of_examples):
 			if np.random.rand() <= present_p:
-				X_train_balanced[k,:] = X_train_1[np.random.randint(X_train_1.shape[0]),:]
+				X_train_balanced[k,:] = X_train_1[np.random.randint(X_train_1.shape[0]),:].toarray()
 				Y_train_balanced[k] = 1
 			else:
-				X_train_balanced[k,:] = X_train_0[np.random.randint(X_train_0.shape[0]),:]
+				X_train_balanced[k,:] = X_train_0[np.random.randint(X_train_0.shape[0]),:].toarray()
 				Y_train_balanced[k] = 0
 
 		tm.fit(X_train_balanced, Y_train_balanced)
@@ -189,10 +189,10 @@ for j in range(len(args.target_tokens)):
 
 	for k in range(args.number_of_examples):
 		if (np.random.rand() <= present_p):
-			X_test_balanced[k,:] = X_test_1[np.random.randint(X_test_1.shape[0]),:]
+			X_test_balanced[k,:] = X_test_1[np.random.randint(X_test_1.shape[0]),:].toarray()
 			Y_test_balanced[k] = 1
 		else:
-			X_test_balanced[k,:] = X_test_0[np.random.randint(X_test_0.shape[0]),:]
+			X_test_balanced[k,:] = X_test_0[np.random.randint(X_test_0.shape[0]),:].toarray()
 			Y_test_balanced[k] = 0
 
 	(Y_test_balanced_predicted, Y_test_balanced_predicted_scores) = tm.predict(X_test_balanced, return_class_sums=True)
