@@ -74,7 +74,7 @@ print("Preparing dataset.... Done!")
 
 print("Producing token-centered datasets...")
 
-training_focus_token_ids = [] # Here the id of the token in the centre of the sliding is stored
+training_focus_token_ids = [] # Here the id of the token in the centre of the sliding window is stored
 training_documents = [] # Here the words surrounding the center token is stored. The size of the context window is set by the argument 'context size'
 
 # First, iterate through each IMDB training document
