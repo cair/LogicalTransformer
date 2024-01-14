@@ -24,6 +24,7 @@ parser.add_argument("--convolution_window", default=1, type=int)
 parser.add_argument("--bits", default=256, type=int)
 parser.add_argument("--epochs", default=100, type=int)
 parser.add_argument("--batches", default=100, type=int)
+parser.add_argument("--skip", default=25, type=int)
 parser.add_argument("--window_size", default=2, type=int)
 parser.add_argument("--number_of_examples", default=5000, type=int)
 parser.add_argument("--imdb_num_words", default=1000, type=int)
@@ -58,22 +59,22 @@ print(id_to_word[0], id_to_word[1], id_to_word[2], id_to_word[3], id_to_word[5],
 
 print("Retrieving embeddings...")
 
-#indexes = np.arange(args.hypervector_size, dtype=np.uint32)
-#encoding = {}
-#for i in range(args.imdb_num_words+args.imdb_index_from):
-#	encoding[i] = np.random.choice(indexes, size=(args.bits), replace=False)
-
+indexes = np.arange(args.hypervector_size, dtype=np.uint32)
 encoding = {}
-f = open("/data/near-lossless-binarization/binary_vectors_512.vec", "r")
-line = f.readline()
-line = f.readline().strip()
-while line:
-	entries = line.split(" ")
-	if entries[0] in word_to_id:
-		values = np.unpackbits(np.fromstring(" ".join(entries[1:]), dtype=np.int64, sep=' ').view(np.uint8))
-		encoding[word_to_id[entries[0]]] = np.unpackbits(np.fromstring(" ".join(entries[1:]), dtype=np.int64, sep=' ').view(np.uint8)).nonzero()
-	line = f.readline().strip()
-f.close()
+for i in range(args.imdb_num_words+args.imdb_index_from):
+	encoding[i] = np.random.choice(indexes, size=(args.bits), replace=False)
+
+# encoding = {}
+# f = open("/data/near-lossless-binarization/binary_vectors_512.vec", "r")
+# line = f.readline()
+# line = f.readline().strip()
+# while line:
+# 	entries = line.split(" ")
+# 	if entries[0] in word_to_id:
+# 		values = np.unpackbits(np.fromstring(" ".join(entries[1:]), dtype=np.int64, sep=' ').view(np.uint8))
+# 		encoding[word_to_id[entries[0]]] = np.unpackbits(np.fromstring(" ".join(entries[1:]), dtype=np.int64, sep=' ').view(np.uint8)).nonzero()
+# 	line = f.readline().strip()
+# f.close()
 	
 print("Producing bit representation...")
 
@@ -83,7 +84,8 @@ for e in range(train_y.shape[0]):
 	for word_id in train_x[e]:
 		if word_id in encoding:
 			if len(window) == args.window_size:
-				number_of_training_examples += 1
+				if word_id > args.skip:
+					number_of_training_examples += 1
 				window.pop()
 			window.appendleft(word_id)
 
@@ -96,10 +98,11 @@ for e in range(train_y.shape[0]):
 	for word_id in train_x[e]:
 		if word_id in encoding:
 			if len(window) == args.window_size:
-				for i in range(args.window_size):
-					X_train[training_example_id, i, 0][encoding[window[i]]] = 1
-				Y_train[training_example_id] = word_id
-				training_example_id += 1
+				if word_id > args.skip:
+					for i in range(args.window_size):
+						X_train[training_example_id, i, 0][encoding[window[i]]] = 1
+					Y_train[training_example_id] = word_id
+					training_example_id += 1
 				window.pop()
 			window.appendleft(word_id)
 
@@ -109,7 +112,8 @@ for e in range(test_y.shape[0]):
 	for word_id in test_x[e]:
 		if word_id in encoding:
 			if len(window) == args.window_size:
-				number_of_testing_examples += 1
+				if word_id > args.skip:
+					number_of_testing_examples += 1
 				window.pop()
 			window.appendleft(word_id)
 
@@ -122,10 +126,11 @@ for e in range(test_y.shape[0]):
 	for word_id in test_x[e]:
 		if word_id in encoding:
 			if len(window) == args.window_size:
-				for i in range(args.window_size):
-					X_test[testing_example_id, i, 0][encoding[window[i]]] = 1
-				Y_test[testing_example_id] = word_id
-				testing_example_id += 1
+				if word_id > args.skip:
+					for i in range(args.window_size):
+						X_test[testing_example_id, i, 0][encoding[window[i]]] = 1
+					Y_test[testing_example_id] = word_id
+					testing_example_id += 1
 				window.pop()
 			window.appendleft(word_id)
 
