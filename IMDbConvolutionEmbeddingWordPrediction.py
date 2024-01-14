@@ -140,12 +140,12 @@ for i in range(args.epochs):
 		start_testing = time()
 		Y_test_predicted = tm.predict(X_test[batch*batch_size_test:(batch+1)*batch_size_test])
 		result_test = 100*(Y_test_predicted == Y_test[batch*batch_size_test:(batch+1)*batch_size_test]).mean()
-		f1_test = f1_score(Y_test[batch*batch_size_test:(batch+1)*batch_size_test], Y_test_predicted, average='macro')
+		f1_test = 100*f1_score(Y_test[batch*batch_size_test:(batch+1)*batch_size_test], Y_test_predicted, average='macro')
 		stop_testing = time()
 
 		print("Predict Train")
 		Y_train_predicted = tm.predict(X_train[batch*batch_size_train:(batch+1)*batch_size_train])
 		result_train = 100*(Y_train_predicted == Y_train[batch*batch_size_train:(batch+1)*batch_size_train]).mean()
-		f1_train = f1_score(Y_train[batch*batch_size_train:(batch+1)*batch_size_train], Y_train_predicted, average='macro')
+		f1_train = 100*f1_score(Y_train[batch*batch_size_train:(batch+1)*batch_size_train], Y_train_predicted, average='macro')
 
-		print("#%d/%d Accuracy Test: %.2f%% Accuracy Train: %.2f%% Training: %.2fs Testing: %.2fs" % (batch+1, i+1, result_test, result_train, stop_training-start_training, stop_testing-start_testing))
+		print("#%d/%d F1 Test: %.2f%% F1 Train: %.2f%% Training: %.2fs Testing: %.2fs" % (batch+1, i+1, f1_test, f1_train, stop_training-start_training, stop_testing-start_testing))
