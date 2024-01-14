@@ -18,16 +18,16 @@ epochs = 25
 
 window_size = 2
 
-batches = 100
+batches = 1000
 
-hypervector_size = 1024
-bits = 512
+hypervector_size = 128
+bits = 64
 
-clauses = 10000*2
-T = 8000
-s = 40.0
+clauses = 10000
+T = 100
+s = 2.5
 
-NUM_WORDS=10000
+NUM_WORDS=1000
 INDEX_FROM=2
 
 print("Downloading dataset...")
