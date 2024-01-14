@@ -55,22 +55,22 @@ id_to_word = {value:key for key,value in word_to_id.items()}
 
 print("Retrieving embeddings...")
 
-indexes = np.arange(args.hypervector_size, dtype=np.uint32)
-encoding = {}
-for i in range(args.imdb_num_words+args.imdb_index_from):
-	encoding[i] = np.random.choice(indexes, size=(args.bits), replace=False)
+#indexes = np.arange(args.hypervector_size, dtype=np.uint32)
+#encoding = {}
+#for i in range(args.imdb_num_words+args.imdb_index_from):
+#	encoding[i] = np.random.choice(indexes, size=(args.bits), replace=False)
 
-# encoding = {}
-# f = open("/data/near-lossless-binarization/binary_vectors_512.vec", "r")
-# line = f.readline()
-# line = f.readline().strip()
-# while line:
-# 	entries = line.split(" ")
-# 	if entries[0] in word_to_id:
-# 		values = np.unpackbits(np.fromstring(" ".join(entries[1:]), dtype=np.int64, sep=' ').view(np.uint8))
-# 		encoding[word_to_id[entries[0]]] = np.unpackbits(np.fromstring(" ".join(entries[1:]), dtype=np.int64, sep=' ').view(np.uint8)).nonzero()
-# 	line = f.readline().strip()
-# f.close()
+encoding = {}
+f = open("/data/near-lossless-binarization/binary_vectors_512.vec", "r")
+line = f.readline()
+line = f.readline().strip()
+while line:
+	entries = line.split(" ")
+	if entries[0] in word_to_id:
+		values = np.unpackbits(np.fromstring(" ".join(entries[1:]), dtype=np.int64, sep=' ').view(np.uint8))
+		encoding[word_to_id[entries[0]]] = np.unpackbits(np.fromstring(" ".join(entries[1:]), dtype=np.int64, sep=' ').view(np.uint8)).nonzero()
+	line = f.readline().strip()
+f.close()
 	
 print("Producing bit representation...")
 
