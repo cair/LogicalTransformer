@@ -95,7 +95,7 @@ for e in range(train_y.shape[0]):
 			if len(window) == window_size:
 				for i in range(window_size):
 					X_train[training_example_id, i, 0][encoding[window[i]]] = 1
-				Y_train[training_example_id] = encoding[word_id]
+				Y_train[training_example_id][encoding[word_id]] = 1
 				training_example_id += 1
 				window.pop()
 			window.appendleft(word_id)
@@ -121,7 +121,7 @@ for e in range(test_y.shape[0]):
 			if len(window) == window_size:
 				for i in range(window_size):
 					X_test[testing_example_id, i, 0][encoding[window[i]]] = 1
-				Y_test[testing_example_id] = encoding[word_id]
+				Y_test[testing_example_id][encoding[word_id]] = 1
 				testing_example_id += 1
 				window.pop()
 			window.appendleft(word_id)
