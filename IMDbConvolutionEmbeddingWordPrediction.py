@@ -46,7 +46,7 @@ test_x, test_y = test
 #test_y = test_y[0:1000]
 
 word_to_id = keras.datasets.imdb.get_word_index()
-word_to_id = {k:(v+args.imdb_index_from-args.skip) for k,v in word_to_id.items()}
+word_to_id = {k:(v+args.imdb_index_from) for k,v in word_to_id.items()}
 word_to_id["<PAD>"] = 0
 word_to_id["<START>"] = 1
 word_to_id["<UNK>"] = 2
@@ -99,7 +99,7 @@ for e in range(train_y.shape[0]):
 				if word_id > args.skip:
 					for i in range(args.window_size):
 						X_train[training_example_id, i, 0][encoding[window[i]]] = 1
-					Y_train[training_example_id] = word_id
+					Y_train[training_example_id] = word_id - args.skip - args.imdb_index_from
 					training_example_id += 1
 				window.pop()
 			window.appendleft(word_id)
@@ -127,7 +127,7 @@ for e in range(test_y.shape[0]):
 				if word_id > args.skip:
 					for i in range(args.window_size):
 						X_test[testing_example_id, i, 0][encoding[window[i]]] = 1
-					Y_test[testing_example_id] = word_id
+					Y_test[testing_example_id] = word_id - args.skip - args.imdb_index_from
 					testing_example_id += 1
 				window.pop()
 			window.appendleft(word_id)
@@ -145,7 +145,7 @@ for i in range(args.epochs):
 
 		print("Predict Test")
 		start_testing = time()
-		Y_test_score = np.swapaxes(tm.score(X_test[batch*batch_size_test:(batch+1)*batch_size_test]), 0, 1)
+		Y_test_score = np.swapaxes(tm.score(X_test[batch*batch_size_test:(batch+1)*batch_size_test]) 0, 1)
 		Y_test_predicted = np.argmax(Y_test_score, axis=1)
 		result_test = 100*(Y_test_predicted == Y_test[batch*batch_size_test:(batch+1)*batch_size_test]).mean()
 		f1_test = 100*f1_score(Y_test[batch*batch_size_test:(batch+1)*batch_size_test], Y_test_predicted, average='macro')
