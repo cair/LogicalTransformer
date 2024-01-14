@@ -46,7 +46,7 @@ test_x, test_y = test
 #test_y = test_y[0:1000]
 
 word_to_id = keras.datasets.imdb.get_word_index()
-word_to_id = {k:(v+args.imdb_index_from) for k,v in word_to_id.items()}
+word_to_id = {k:(v+args.imdb_index_from-args.skip) for k,v in word_to_id.items()}
 word_to_id["<PAD>"] = 0
 word_to_id["<START>"] = 1
 word_to_id["<UNK>"] = 2
