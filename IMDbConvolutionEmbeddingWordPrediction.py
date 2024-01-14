@@ -15,39 +15,24 @@ from scipy.sparse import csr_matrix, csc_matrix, lil_matrix
 
 from PyCoalescedTsetlinMachineCUDA.tm import MultiClassConvolutionalTsetlinMachine2D, MultiClassTsetlinMachine
 
-epochs = 25
-
-window_size = 2
-
-batches = 100
-
-hypervector_size = 512
-bits = 256
-
-clauses = 10000
-T = 1000
-s = 10.0
-
-NUM_WORDS=1000
-INDEX_FROM=2
-
 parser = argparse.ArgumentParser()
-parser.add_argument("--num_clauses", default=100, type=int)
+parser.add_argument("--num_clauses", default=10000, type=int)
 parser.add_argument("--T", default=1000, type=int)
-parser.add_argument("--s", default=1.0, type=float)
-parser.add_argument("--device", default="GPU", type=str)
-parser.add_argument("--target_tokens", default=['bad', 'nice', 'car'], nargs='+', type=str)
-parser.add_argument("--weighted_clauses", default=True, type=bool)
-parser.add_argument("--epochs", default=1, type=int)
-parser.add_argument("--context_size", default=5, type=int)
+parser.add_argument("--s", default=10.0, type=float)
+parser.add_argument("--hypervector_size", default=512, type=int)
+parser.add_argument("--epochs", default=100, type=int)
+parser.add_argument("--batches", default=100, type=int)
+parser.add_argument("--window_size", default=2, type=int)
 parser.add_argument("--number_of_examples", default=5000, type=int)
-parser.add_argument("--imdb-num-words", default=10000, type=int)
-parser.add_argument("--imdb-index-from", default=2, type=int)
+parser.add_argument("--imdb_num_words", default=1000, type=int)
+parser.add_argument("--imdb_index_from", default=2, type=int)
 args = parser.parse_args()
+
+bits = args.hypervector_size // 2
 
 print("Downloading dataset...")
 
-train,test = keras.datasets.imdb.load_data(num_words=NUM_WORDS, index_from=INDEX_FROM)
+train,test = keras.datasets.imdb.load_data(num_words=args.imdb_num_words, index_from=args.imdb_index_from)
 
 train_x, train_y = train
 test_x, test_y = test
@@ -59,7 +44,7 @@ test_x, test_y = test
 #test_y = test_y[0:1000]
 
 word_to_id = keras.datasets.imdb.get_word_index()
-word_to_id = {k:(v+INDEX_FROM) for k,v in word_to_id.items()}
+word_to_id = {k:(v+args.imdb_index_from) for k,v in word_to_id.items()}
 word_to_id["<PAD>"] = 0
 word_to_id["<START>"] = 1
 word_to_id["<UNK>"] = 2
@@ -70,7 +55,7 @@ id_to_word = {value:key for key,value in word_to_id.items()}
 
 print("Retrieving embeddings...")
 
-indexes = np.arange(hypervector_size, dtype=np.uint32)
+indexes = np.arange(args.hypervector_size, dtype=np.uint32)
 encoding = {}
 for i in range(NUM_WORDS+INDEX_FROM):
 	encoding[i] = np.random.choice(indexes, size=(bits), replace=False)
@@ -94,21 +79,21 @@ number_of_training_examples = 0
 for e in range(train_y.shape[0]):
 	for word_id in train_x[e]:
 		if word_id in encoding:
-			if len(window) == window_size:
+			if len(window) == args.window_size:
 				number_of_training_examples += 1
 				window.pop()
 			window.appendleft(word_id)
 
 print(number_of_training_examples)
-X_train = np.zeros((number_of_training_examples, window_size, 1, hypervector_size), dtype=np.uint32)
+X_train = np.zeros((number_of_training_examples, args.window_size, 1, args.hypervector_size), dtype=np.uint32)
 Y_train = np.zeros(number_of_training_examples, dtype=np.uint32)
 window = deque([])
 training_example_id = 0
 for e in range(train_y.shape[0]):	
 	for word_id in train_x[e]:
 		if word_id in encoding:
-			if len(window) == window_size:
-				for i in range(window_size):
+			if len(window) == args.window_size:
+				for i in range(args.window_size):
 					X_train[training_example_id, i, 0][encoding[window[i]]] = 1
 				Y_train[training_example_id] = word_id
 				training_example_id += 1
@@ -126,27 +111,27 @@ for e in range(test_y.shape[0]):
 			window.appendleft(word_id)
 
 print(number_of_testing_examples)
-X_test = np.zeros((number_of_testing_examples, window_size, 1, hypervector_size), dtype=np.uint32)
+X_test = np.zeros((number_of_testing_examples, args.window_size, 1, hypervector_size), dtype=np.uint32)
 Y_test = np.zeros(number_of_testing_examples, dtype=np.uint32)
 window = deque([])
 testing_example_id = 0
 for e in range(test_y.shape[0]):	
 	for word_id in test_x[e]:
 		if word_id in encoding:
-			if len(window) == window_size:
-				for i in range(window_size):
+			if len(window) == args.window_size:
+				for i in range(args.window_size):
 					X_test[testing_example_id, i, 0][encoding[window[i]]] = 1
 				Y_test[testing_example_id] = word_id
 				testing_example_id += 1
 				window.pop()
 			window.appendleft(word_id)
 
-batch_size_train = Y_train.shape[0] // batches
-batch_size_test = Y_test.shape[0] // batches
+batch_size_train = Y_train.shape[0] // args.batches
+batch_size_test = Y_test.shape[0] // args.batches
 
-tm = MultiClassConvolutionalTsetlinMachine2D(clauses, T, s, (1, 1))
-for i in range(epochs):
-	for batch in range(batches):
+tm = MultiClassConvolutionalTsetlinMachine2D(args.num_clauses, args.T, args.s, (1, 1))
+for i in range(args.epochs):
+	for batch in range(args.batches):
 		print("Fit")
 		start_training = time()
 		tm.fit(X_train[batch*batch_size_train:(batch+1)*batch_size_train], Y_train[batch*batch_size_train:(batch+1)*batch_size_train], epochs=1, incremental=True)
