@@ -20,8 +20,8 @@ window_size = 2
 
 batches = 100
 
-hypervector_size = 128
-bits = 64
+hypervector_size = 256
+bits = 128
 
 clauses = 10000
 T = 100
