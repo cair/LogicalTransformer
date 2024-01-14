@@ -146,6 +146,7 @@ for i in range(args.epochs):
 		print("Predict Test")
 		start_testing = time()
 		Y_test_score = tm.score(X_test[batch*batch_size_test:(batch+1)*batch_size_test])
+		print(Y_test_score.shape)
 		Y_test_predicted = np.argmax(Y_test_score, axis=0)
 		result_test = 100*(Y_test_predicted == Y_test[batch*batch_size_test:(batch+1)*batch_size_test]).mean()
 		f1_test = 100*f1_score(Y_test[batch*batch_size_test:(batch+1)*batch_size_test], Y_test_predicted, average='macro')
