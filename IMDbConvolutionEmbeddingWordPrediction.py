@@ -105,7 +105,7 @@ number_of_testing_examples = 0
 for e in range(test_y.shape[0]):
 	for word_id in test_x[e]:
 		if word_id in encoding:
-			if len(window) == window_size:
+			if len(window) == args.window_size:
 				number_of_testing_examples += 1
 				window.pop()
 			window.appendleft(word_id)
