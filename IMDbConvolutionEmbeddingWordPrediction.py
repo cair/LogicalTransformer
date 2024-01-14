@@ -27,7 +27,7 @@ parser.add_argument("--batches", default=100, type=int)
 parser.add_argument("--window_size", default=2, type=int)
 parser.add_argument("--number_of_examples", default=5000, type=int)
 parser.add_argument("--imdb_num_words", default=1000, type=int)
-parser.add_argument("--imdb_index_from", default=3, type=int)
+parser.add_argument("--imdb_index_from", default=2, type=int)
 
 args = parser.parse_args()
 
