@@ -25,7 +25,7 @@ bits = 128
 
 clauses = 10000
 T = 1000
-s = 2.5
+s = 40.0
 
 NUM_WORDS=1000
 INDEX_FROM=2
