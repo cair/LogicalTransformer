@@ -24,7 +24,7 @@ hypervector_size = 256
 bits = 128
 
 clauses = 10000
-T = 100
+T = 1000
 s = 2.5
 
 NUM_WORDS=1000
@@ -55,22 +55,22 @@ id_to_word = {value:key for key,value in word_to_id.items()}
 
 print("Retrieving embeddings...")
 
-indexes = np.arange(hypervector_size, dtype=np.uint32)
-encoding = {}
-for i in range(NUM_WORDS+INDEX_FROM):
-	encoding[i] = np.random.choice(indexes, size=(bits), replace=False)
-
+# indexes = np.arange(hypervector_size, dtype=np.uint32)
 # encoding = {}
-# f = open("/data/near-lossless-binarization/binary_vectors_1024.vec", "r")
-# line = f.readline()
-# line = f.readline().strip()
-# while line:
-# 	entries = line.split(" ")
-# 	if entries[0] in word_to_id:
-# 		values = np.unpackbits(np.fromstring(" ".join(entries[1:]), dtype=np.int64, sep=' ').view(np.uint8))
-# 		encoding[word_to_id[entries[0]]] = np.unpackbits(np.fromstring(" ".join(entries[1:]), dtype=np.int64, sep=' ').view(np.uint8)).nonzero()
-# 	line = f.readline().strip()
-# f.close()
+# for i in range(NUM_WORDS+INDEX_FROM):
+# 	encoding[i] = np.random.choice(indexes, size=(bits), replace=False)
+
+encoding = {}
+f = open("/data/near-lossless-binarization/binary_vectors_256.vec", "r")
+line = f.readline()
+line = f.readline().strip()
+while line:
+	entries = line.split(" ")
+	if entries[0] in word_to_id:
+		values = np.unpackbits(np.fromstring(" ".join(entries[1:]), dtype=np.int64, sep=' ').view(np.uint8))
+		encoding[word_to_id[entries[0]]] = np.unpackbits(np.fromstring(" ".join(entries[1:]), dtype=np.int64, sep=' ').view(np.uint8)).nonzero()
+	line = f.readline().strip()
+f.close()
 	
 print("Producing bit representation...")
 
