@@ -27,7 +27,8 @@ parser.add_argument("--batches", default=100, type=int)
 parser.add_argument("--window_size", default=2, type=int)
 parser.add_argument("--number_of_examples", default=5000, type=int)
 parser.add_argument("--imdb_num_words", default=1000, type=int)
-parser.add_argument("--imdb_index_from", default=2, type=int)
+parser.add_argument("--imdb_index_from", default=3, type=int)
+
 args = parser.parse_args()
 
 print("Downloading dataset...")
@@ -50,6 +51,8 @@ word_to_id["<START>"] = 1
 word_to_id["<UNK>"] = 2
 
 id_to_word = {value:key for key,value in word_to_id.items()}
+
+print(id_to_word[0], id_to_word[1], id_to_word[2], id_to_word[3], id_to_word[5], id_to_word[6], id_to_word[7], id_to_word[8], id_to_word[9], id_to_word[10])
 
 # Read from file instead, otherwise the same
 
