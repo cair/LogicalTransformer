@@ -96,7 +96,7 @@ for e in range(train_y.shape[0]):
 	for word_id in train_x[e]:
 		if word_id in encoding:
 			if len(window) == args.window_size:
-				if word_id > args.skip:
+				if word_id > args.skip + args.imdb_index_from:
 					for i in range(args.window_size):
 						X_train[training_example_id, i, 0][encoding[window[i]]] = 1
 					Y_train[training_example_id] = word_id - args.skip - args.imdb_index_from
@@ -124,7 +124,7 @@ for e in range(test_y.shape[0]):
 	for word_id in test_x[e]:
 		if word_id in encoding:
 			if len(window) == args.window_size:
-				if word_id > args.skip:
+				if word_id > args.skip + args.imdb_index_from:
 					for i in range(args.window_size):
 						X_test[testing_example_id, i, 0][encoding[window[i]]] = 1
 					Y_test[testing_example_id] = word_id - args.skip - args.imdb_index_from
