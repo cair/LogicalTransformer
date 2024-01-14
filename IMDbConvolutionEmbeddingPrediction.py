@@ -20,11 +20,11 @@ window_size = 1
 
 batches = 100
 
-hypervector_size = 256
-bits = 128
+hypervector_size = 128
+bits = 64
 
 clauses = 10000
-T = 100
+T = 1000
 s = 10.0
 
 NUM_WORDS=1000
