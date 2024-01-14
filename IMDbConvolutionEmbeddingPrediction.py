@@ -20,12 +20,12 @@ window_size = 1
 
 batches = 100
 
-hypervector_size = 128
-bits = 64
+hypervector_size = 512
+bits = 256
 
-clauses = 10000
+clauses = 1000
 T = 1000
-s = 10.0
+s = 40.0
 
 NUM_WORDS=1000
 INDEX_FROM=2
