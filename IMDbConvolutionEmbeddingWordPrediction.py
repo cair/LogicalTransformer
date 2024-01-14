@@ -18,7 +18,7 @@ epochs = 25
 
 window_size = 2
 
-batches = 10
+batches = 100
 
 hypervector_size = 1024
 bits = 512
@@ -89,13 +89,15 @@ print(number_of_training_examples)
 X_train = np.zeros((number_of_training_examples, window_size, 1, hypervector_size), dtype=np.uint32)
 Y_train = np.zeros(number_of_training_examples, dtype=np.uint32)
 window = deque([])
-for e in range(number_of_training_examples):	
+training_example_id = 0
+for e in range(train_y.shape[0]):	
 	for word_id in train_x[e]:
 		if word_id in encoding:
 			if len(window) == window_size:
 				for i in range(window_size):
-					X_train[e, i, 0][encoding[window[i]]] = 1
-				Y_train[e] = word_id
+					X_train[training_example_id, i, 0][encoding[window[i]]] = 1
+				Y_train[training_example_id] = word_id
+				training_example_id += 1
 				window.pop()
 			window.appendleft(word_id)
 
@@ -112,13 +114,15 @@ print(number_of_testing_examples)
 X_test = np.zeros((number_of_testing_examples, window_size, 1, hypervector_size), dtype=np.uint32)
 Y_test = np.zeros(number_of_testing_examples, dtype=np.uint32)
 window = deque([])
-for e in range(number_of_testing_examples):	
+testing_example_id = 0
+for e in range(test_y.shape[0]):	
 	for word_id in test_x[e]:
 		if word_id in encoding:
 			if len(window) == window_size:
 				for i in range(window_size):
-					X_test[e, i, 0][encoding[window[i]]] = 1
+					X_test[testing_example_id, i, 0][encoding[window[i]]] = 1
 				Y_test[e] = word_id
+				testing_example_id += 1
 				window.pop()
 			window.appendleft(word_id)
 
