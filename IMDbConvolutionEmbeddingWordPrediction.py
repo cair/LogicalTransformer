@@ -6,7 +6,7 @@ from keras.datasets import imdb
 from time import time
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
-from sklearn.metrics import f1_score
+from sklearn.metrics import f1_score, top_k_accuracy_score
 import argparse
 
 from collections import deque
@@ -145,14 +145,18 @@ for i in range(args.epochs):
 
 		print("Predict Test")
 		start_testing = time()
-		Y_test_predicted = tm.predict(X_test[batch*batch_size_test:(batch+1)*batch_size_test])
+		Y_test_score = tm.score(X_test[batch*batch_size_test:(batch+1)*batch_size_test])
+		Y_test_predicted = np.argmax(Y_test_score, axis=0)
 		result_test = 100*(Y_test_predicted == Y_test[batch*batch_size_test:(batch+1)*batch_size_test]).mean()
 		f1_test = 100*f1_score(Y_test[batch*batch_size_test:(batch+1)*batch_size_test], Y_test_predicted, average='macro')
+		top_k_accuracy_test = 100*top_k_accuracy_score(Y_test[batch*batch_size_test:(batch+1)*batch_size_test], Y_test_score, k=10)
 		stop_testing = time()
 
 		print("Predict Train")
-		Y_train_predicted = tm.predict(X_train[batch*batch_size_train:(batch+1)*batch_size_train])
+		Y_train_score = tm.score(X_train[batch*batch_size_train:(batch+1)*batch_size_train])
+		Y_train_predicted = np.argmax(Y_train_score, axis=0)
 		result_train = 100*(Y_train_predicted == Y_train[batch*batch_size_train:(batch+1)*batch_size_train]).mean()
 		f1_train = 100*f1_score(Y_train[batch*batch_size_train:(batch+1)*batch_size_train], Y_train_predicted, average='macro')
+		top_k_accuracy_train = 100*top_k_accuracy_score(Y_train[batch*batch_size_train:(batch+1)*batch_size_train], Y_train_score, k=10)
 
 		print("#%d/%d F1 Test: %.2f%% F1 Train: %.2f%% Training: %.2fs Testing: %.2fs" % (batch+1, i+1, f1_test, f1_train, stop_training-start_training, stop_testing-start_testing))
