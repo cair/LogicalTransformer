@@ -131,24 +131,24 @@ batch_size_test = Y_test.shape[0] // batches
 
 tm = MultiClassConvolutionalTsetlinMachine2D(clauses, T, s, (1, 1))
 for i in range(epochs):
-	start_training = time()
 	for batch in range(batches):
+		start_training = time()
 		tm.fit(X_train[batch*batch_size_train:(batch+1)*batch_size_train], Y_train[batch*batch_size_train:(batch+1)*batch_size_train], epochs=1, incremental=True)
-	stop_training = time()
+		stop_training = time()
 
-	start_testing = time()
-	Y_test_predicted = np.zeros(0, dtype=np.uint32)
-	for batch in range(batches):
-		Y_test_predicted = np.concatenate((Y_test_predicted, tm.predict(X_test[batch*batch_size_test:(batch+1)*batch_size_test])))
-	result_test = 100*(Y_test_predicted == Y_test[:batch_size_test*batches]).mean()
-	f1_test = f1_score(Y_test[:batch_size_test*batches], Y_test_predicted, average='macro')
-	stop_testing = time()
+		start_testing = time()
+		Y_test_predicted = np.zeros(0, dtype=np.uint32)
+		for batch in range(batches):
+			Y_test_predicted = np.concatenate((Y_test_predicted, tm.predict(X_test[batch*batch_size_test:(batch+1)*batch_size_test])))
+		result_test = 100*(Y_test_predicted == Y_test[:batch_size_test*batches]).mean()
+		f1_test = f1_score(Y_test[:batch_size_test*batches], Y_test_predicted, average='macro')
+		stop_testing = time()
 
-	Y_train_predicted = np.zeros(0, dtype=np.uint32)
-	for batch in range(batches):
-		Y_train_predicted = np.concatenate((Y_train_predicted, tm.predict(X_train[batch*batch_size_train:(batch+1)*batch_size_train])))
-	result_train = 100*(Y_train_predicted == Y_train[:batch_size_train*batches]).mean()
+		Y_train_predicted = np.zeros(0, dtype=np.uint32)
+		for batch in range(batches):
+			Y_train_predicted = np.concatenate((Y_train_predicted, tm.predict(X_train[batch*batch_size_train:(batch+1)*batch_size_train])))
+		result_train = 100*(Y_train_predicted == Y_train[:batch_size_train*batches]).mean()
 
-	f1_train = f1_score(Y_train[:batch_size_train*batches], Y_train_predicted, average='macro')
+		f1_train = f1_score(Y_train[:batch_size_train*batches], Y_train_predicted, average='macro')
 
-	print("#%d Accuracy Test: %.2f%% Accuracy Train: %.2f%% Training: %.2fs Testing: %.2fs" % (i+1, result_test, result_train, stop_training-start_training, stop_testing-start_testing))
+		print("#%d/%d Accuracy Test: %.2f%% Accuracy Train: %.2f%% Training: %.2fs Testing: %.2fs" % (batch+1, i+1, result_test, result_train, stop_training-start_training, stop_testing-start_testing))
