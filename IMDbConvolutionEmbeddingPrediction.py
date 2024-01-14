@@ -12,11 +12,11 @@ from collections import deque
 
 from scipy.sparse import csr_matrix, csc_matrix, lil_matrix
 
-from PyCoalescedTsetlinMachineCUDA.tm import MultiOutputConvolutionalTsetlinMachine2D
+from PyCoalescedTsetlinMachineCUDA.tm import MultiOutputTsetlinMachine
 
 epochs = 25
 
-window_size = 2
+window_size = 1
 
 batches = 100
 
@@ -24,8 +24,8 @@ hypervector_size = 256
 bits = 128
 
 clauses = 10000
-T = 1000
-s = 40.0
+T = 100
+s = 10.0
 
 NUM_WORDS=1000
 INDEX_FROM=2
@@ -126,10 +126,13 @@ for e in range(test_y.shape[0]):
 				window.pop()
 			window.appendleft(word_id)
 
+X_train = X_test.reshape(number_of_training_examples, -1)
+X_test = X_test.reshape(number_of_testing_examples, -1)
+
 batch_size_train = Y_train.shape[0] // batches
 batch_size_test = Y_test.shape[0] // batches
 
-tm = MultiOutputConvolutionalTsetlinMachine2D(clauses, T, s, (1, 1))
+tm = MultiOutputTsetlinMachine(clauses, T, s)
 for i in range(epochs):
 	for batch in range(batches):
 		print("Fit")
