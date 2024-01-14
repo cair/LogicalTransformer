@@ -20,6 +20,7 @@ parser.add_argument("--num_clauses", default=10000, type=int)
 parser.add_argument("--T", default=1000, type=int)
 parser.add_argument("--s", default=10.0, type=float)
 parser.add_argument("--hypervector_size", default=512, type=int)
+parser.add_argument("--bits", default=256, type=int)
 parser.add_argument("--epochs", default=100, type=int)
 parser.add_argument("--batches", default=100, type=int)
 parser.add_argument("--window_size", default=2, type=int)
@@ -27,8 +28,6 @@ parser.add_argument("--number_of_examples", default=5000, type=int)
 parser.add_argument("--imdb_num_words", default=1000, type=int)
 parser.add_argument("--imdb_index_from", default=2, type=int)
 args = parser.parse_args()
-
-bits = args.hypervector_size // 2
 
 print("Downloading dataset...")
 
