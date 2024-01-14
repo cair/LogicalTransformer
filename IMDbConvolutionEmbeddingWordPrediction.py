@@ -7,6 +7,7 @@ from time import time
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.metrics import f1_score
+import argparse
 
 from collections import deque
 
@@ -20,15 +21,29 @@ window_size = 2
 
 batches = 100
 
-hypervector_size = 256
-bits = 128
+hypervector_size = 512
+bits = 256
 
 clauses = 10000
-T = 10000
+T = 1000
 s = 10.0
 
 NUM_WORDS=1000
 INDEX_FROM=2
+
+parser = argparse.ArgumentParser()
+parser.add_argument("--num_clauses", default=100, type=int)
+parser.add_argument("--T", default=1000, type=int)
+parser.add_argument("--s", default=1.0, type=float)
+parser.add_argument("--device", default="GPU", type=str)
+parser.add_argument("--target_tokens", default=['bad', 'nice', 'car'], nargs='+', type=str)
+parser.add_argument("--weighted_clauses", default=True, type=bool)
+parser.add_argument("--epochs", default=1, type=int)
+parser.add_argument("--context_size", default=5, type=int)
+parser.add_argument("--number_of_examples", default=5000, type=int)
+parser.add_argument("--imdb-num-words", default=10000, type=int)
+parser.add_argument("--imdb-index-from", default=2, type=int)
+args = parser.parse_args()
 
 print("Downloading dataset...")
 
