@@ -57,7 +57,7 @@ print("Retrieving embeddings...")
 
 indexes = np.arange(args.hypervector_size, dtype=np.uint32)
 encoding = {}
-for i in range(NUM_WORDS+INDEX_FROM):
+for i in range(args.imdb_num_words+args.imdb_index_from):
 	encoding[i] = np.random.choice(indexes, size=(bits), replace=False)
 
 # encoding = {}
