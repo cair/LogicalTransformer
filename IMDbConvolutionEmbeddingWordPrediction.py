@@ -111,7 +111,7 @@ for e in range(test_y.shape[0]):
 			window.appendleft(word_id)
 
 print(number_of_testing_examples)
-X_test = np.zeros((number_of_testing_examples, args.window_size, 1, hypervector_size), dtype=np.uint32)
+X_test = np.zeros((number_of_testing_examples, args.window_size, 1, args.hypervector_size), dtype=np.uint32)
 Y_test = np.zeros(number_of_testing_examples, dtype=np.uint32)
 window = deque([])
 testing_example_id = 0
