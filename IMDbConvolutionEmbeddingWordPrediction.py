@@ -121,7 +121,7 @@ for e in range(test_y.shape[0]):
 			if len(window) == window_size:
 				for i in range(window_size):
 					X_test[testing_example_id, i, 0][encoding[window[i]]] = 1
-				Y_test[training_example_id] = word_id
+				Y_test[testing_example_id] = word_id
 				testing_example_id += 1
 				window.pop()
 			window.appendleft(word_id)
