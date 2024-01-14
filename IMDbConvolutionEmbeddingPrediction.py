@@ -126,7 +126,7 @@ for e in range(test_y.shape[0]):
 				window.pop()
 			window.appendleft(word_id)
 
-X_train = X_test.reshape(number_of_training_examples, -1)
+X_train = X_train.reshape(number_of_training_examples, -1)
 X_test = X_test.reshape(number_of_testing_examples, -1)
 
 batch_size_train = Y_train.shape[0] // batches
