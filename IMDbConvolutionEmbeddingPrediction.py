@@ -24,7 +24,7 @@ hypervector_size = 256
 bits = 128
 
 clauses = 10000
-T = 100
+T = 1000
 s = 2.5
 
 NUM_WORDS=1000
