@@ -32,7 +32,7 @@ INDEX_FROM=2
 
 print("Downloading dataset...")
 
-train,test = keras.datasets.imdb.load_data(num_words=NUM_WORDS, maxlen=maxlen, index_from=INDEX_FROM)
+train,test = keras.datasets.imdb.load_data(num_words=NUM_WORDS, index_from=INDEX_FROM)
 
 train_x, train_y = train
 test_x, test_y = test
