@@ -75,7 +75,6 @@ for i in range(NUM_WORDS+INDEX_FROM):
 print("Producing bit representation...")
 
 window = deque([])
-
 number_of_training_examples = 0
 for e in range(train_y.shape[0]):
 	for word_id in train_x[e]:
@@ -101,6 +100,7 @@ for e in range(train_y.shape[0]):
 				window.pop()
 			window.appendleft(word_id)
 
+window = deque([])
 number_of_testing_examples = 0
 for e in range(test_y.shape[0]):
 	for word_id in test_x[e]:
@@ -121,7 +121,7 @@ for e in range(test_y.shape[0]):
 			if len(window) == window_size:
 				for i in range(window_size):
 					X_test[testing_example_id, i, 0][encoding[window[i]]] = 1
-				Y_test[e] = word_id
+				Y_test[training_example_id] = word_id
 				testing_example_id += 1
 				window.pop()
 			window.appendleft(word_id)
