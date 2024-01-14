@@ -159,4 +159,4 @@ for i in range(args.epochs):
 		f1_train = 100*f1_score(Y_train[batch*batch_size_train:(batch+1)*batch_size_train], Y_train_predicted, average='macro')
 		top_k_accuracy_train = 100*top_k_accuracy_score(Y_train[batch*batch_size_train:(batch+1)*batch_size_train], Y_train_score, k=10)
 
-		print("#%d/%d F1 Test: %.2f%% F1 Train: %.2f%% Training: %.2fs Testing: %.2fs" % (batch+1, i+1, f1_test, f1_train, stop_training-start_training, stop_testing-start_testing))
+		print("#%d/%d F1 Test: %.2f%% F1 Train: %.2f%% Top-k Test: %.2f%% Top-k Train: %.2f%% Training: %.2fs Testing: %.2fs" % (batch+1, i+1, f1_test, f1_train, top_k_accuracy_test, top_k_accuracy_train, stop_training-start_training, stop_testing-start_testing))
