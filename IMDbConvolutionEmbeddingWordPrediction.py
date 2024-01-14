@@ -20,6 +20,7 @@ parser.add_argument("--num_clauses", default=10000, type=int)
 parser.add_argument("--T", default=1000, type=int)
 parser.add_argument("--s", default=10.0, type=float)
 parser.add_argument("--hypervector_size", default=512, type=int)
+parser.add_argument("--convolution_window", default=1, type=int)
 parser.add_argument("--bits", default=256, type=int)
 parser.add_argument("--epochs", default=100, type=int)
 parser.add_argument("--batches", default=100, type=int)
@@ -128,7 +129,7 @@ for e in range(test_y.shape[0]):
 batch_size_train = Y_train.shape[0] // args.batches
 batch_size_test = Y_test.shape[0] // args.batches
 
-tm = MultiClassConvolutionalTsetlinMachine2D(args.num_clauses, args.T, args.s, (1, 1))
+tm = MultiClassConvolutionalTsetlinMachine2D(args.num_clauses, args.T, args.s, (args.convolution_window, 1))
 for i in range(args.epochs):
 	for batch in range(args.batches):
 		print("Fit")
