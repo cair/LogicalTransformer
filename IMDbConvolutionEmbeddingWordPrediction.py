@@ -18,7 +18,7 @@ epochs = 25
 
 window_size = 2
 
-batches = 1000
+batches = 100
 
 hypervector_size = 128
 bits = 64
