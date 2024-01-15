@@ -130,7 +130,7 @@ for e in range(train_y.shape[0]):
 						X_train[training_example_id, i, 0][encoding[window[i]]] = 1
 					for i in range(args.window_size+1, args.window_size*2+1):
 						X_train[training_example_id, i-1, 0][encoding[window[i]]] = 1
-					focus_token_train[training_example_id] = window[args.window_size]
+					focus_token_train[training_example_id] = window[args.window_size] - args.skip - args.imdb_index_from
 					training_example_id += 1
 				window.pop()
 			window.appendleft(word_id)
