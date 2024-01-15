@@ -147,7 +147,7 @@ for e in range(test_y.shape[0]):
 
 print(number_of_testing_examples)
 X_test = np.zeros((number_of_testing_examples, args.window_size, 1, args.hypervector_size), dtype=np.uint32)
-focust_token_test = np.zeros(number_of_testing_examples, dtype=np.uint32)
+focus_token_test = np.zeros(number_of_testing_examples, dtype=np.uint32)
 window = deque([])
 testing_example_id = 0
 for e in range(test_y.shape[0]):	
