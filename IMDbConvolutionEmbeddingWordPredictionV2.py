@@ -176,9 +176,6 @@ for j in range(len(args.target_tokens)):
 	X_train_0 = X_train[Y_train==0] # Gets those training examples where the target token is absent
 	X_train_1 = X_train[Y_train==1] # Gets those training examples where the target token is present
 
-	print(X_train_0.shape)
-	print(X_train_1.shape)
-
 	# Sample 'number_of_examples' exmples
 	X_train_balanced = np.zeros((args.number_of_examples, args.window_size, 1, args.hypervector_size), dtype=np.uint32)
 	Y_train_balanced = np.zeros(args.number_of_examples, dtype=np.uint32)
