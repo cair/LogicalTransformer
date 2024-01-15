@@ -6,7 +6,7 @@ from keras.datasets import imdb
 from time import time
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
-from sklearn.metrics import f1_score, top_k_accuracy_score
+from sklearn.metrics import f1_score, accuracy_score, precision_score, recall_score
 import argparse
 
 from collections import deque
@@ -214,4 +214,4 @@ for j in range(len(args.target_tokens)):
 
 	print("Token: '%s' Accuracy: %.2f%% Precision: %.2f%% Recall: %.2f%%" % (args.target_tokens[j], 100*accuracy_score(Y_test_balanced, Y_test_balanced_predicted), 100*precision_score(Y_test_balanced, Y_test_balanced_predicted), 100*recall_score(Y_test_balanced, Y_test_balanced_predicted)))
 
-	plot_precision_recall_curve(Y_test_balanced_predicted_scores, Y_test_balanced)
+	#plot_precision_recall_curve(Y_test_balanced_predicted_scores, Y_test_balanced)
