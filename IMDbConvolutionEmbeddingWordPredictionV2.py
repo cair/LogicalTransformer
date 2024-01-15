@@ -113,12 +113,12 @@ for e in range(train_y.shape[0]):
 	for word_id in train_x[e]:
 		if word_id in encoding:
 			if len(window) == args.window_size*2+1:
-				if id_to_word[window[args.window_size]] in args.target_tokens:
+				if window[args.window_size] >= args.skip + args.imdb_index_from:
 					number_of_training_examples += 1
 				window.pop()
 			window.appendleft(word_id)
-
 print(number_of_training_examples)
+
 X_train = np.zeros((number_of_training_examples, args.window_size*2, 1, args.hypervector_size), dtype=np.uint32)
 focus_token_train = np.zeros(number_of_training_examples, dtype=np.uint32)
 window = deque([])
@@ -127,7 +127,7 @@ for e in range(train_y.shape[0]):
 	for word_id in train_x[e]:
 		if word_id in encoding:
 			if len(window) == args.window_size*2+1:
-				if id_to_word[window[args.window_size]] in args.target_tokens:
+				if window[args.window_size] >= args.skip + args.imdb_index_from:
 					for i in range(args.window_size):
 						X_train[training_example_id, i, 0][encoding[window[i]]] = 1
 					for i in range(args.window_size+1, args.window_size*2+1):
@@ -143,12 +143,12 @@ for e in range(test_y.shape[0]):
 	for word_id in test_x[e]:
 		if word_id in encoding:
 			if len(window) == args.window_size*2+1:
-				if id_to_word[window[args.window_size]] in args.target_tokens:
+				if window[args.window_size] >= args.skip + args.imdb_index_from:
 					number_of_testing_examples += 1
 				window.pop()
 			window.appendleft(word_id)
-
 print(number_of_testing_examples)
+
 X_test = np.zeros((number_of_testing_examples, args.window_size*2, 1, args.hypervector_size), dtype=np.uint32)
 focus_token_test = np.zeros(number_of_testing_examples, dtype=np.uint32)
 window = deque([])
@@ -157,7 +157,7 @@ for e in range(test_y.shape[0]):
 	for word_id in test_x[e]:
 		if word_id in encoding:
 			if len(window) == args.window_size*2+1:
-				if id_to_word[window[args.window_size]] in args.target_tokens:
+				if window[args.window_size] >= args.skip + args.imdb_index_from:
 					for i in range(args.window_size):
 						X_test[testing_example_id, i, 0][encoding[window[i]]] = 1
 					for i in range(args.window_size+1, args.window_size*2+1):
