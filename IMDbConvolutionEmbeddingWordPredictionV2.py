@@ -43,6 +43,7 @@ def plot_precision_recall_curve(scores, labels, target):
     plt.xlabel("Max Class Sum")
     plt.ylabel("Accuracy")
     plt.savefig('Figure_%s.pdf' % (target))
+    plt.clf()
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--num_clauses", default=10000, type=int)
