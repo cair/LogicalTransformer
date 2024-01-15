@@ -180,7 +180,6 @@ for j in range(len(args.target_tokens)):
 	X_train_balanced = np.zeros((args.number_of_examples, args.window_size, 1, args.hypervector_size), dtype=np.uint32)
 	Y_train_balanced = np.zeros(args.number_of_examples, dtype=np.uint32)
 	for epoch in range(args.epochs):
-		print("EPOCH")
 		for k in range(args.number_of_examples):
 			if np.random.rand() <= present_p:
 				X_train_balanced[k,:] = X_train_1[np.random.randint(X_train_1.shape[0]),:]
