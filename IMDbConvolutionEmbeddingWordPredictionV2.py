@@ -177,7 +177,7 @@ for j in range(len(args.target_tokens)):
 	X_train_1 = X_train[Y_train==1] # Gets those training examples where the target token is present
 
 	# Sample 'number_of_examples' exmples
-	X_train_balanced = np.zeros((args.number_of_examples, X_train.shape[1]), dtype=np.uint32)
+	X_train_balanced = np.zeros((args.number_of_examples, args.window_size, 1, args.hypervector_size), dtype=np.uint32)
 	Y_train_balanced = np.zeros(args.number_of_examples, dtype=np.uint32)
 	for epoch in range(args.epochs):
 		for k in range(args.number_of_examples):
@@ -197,7 +197,7 @@ for j in range(len(args.target_tokens)):
 	X_test_0 = X_test[Y_test==0]
 	X_test_1 = X_test[Y_test==1]
 
-	X_test_balanced = np.zeros((args.number_of_examples, X_test.shape[1]), dtype=np.uint32)
+	X_test_balanced = np.zeros((args.number_of_examples, args.window_size, 1, args.hypervector_size), dtype=np.uint32)
 	Y_test_balanced = np.zeros(args.number_of_examples, dtype=np.uint32)
 
 	for k in range(args.number_of_examples):
