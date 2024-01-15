@@ -81,7 +81,7 @@ word_to_id["<PAD>"] = 0
 word_to_id["<START>"] = 1
 word_to_id["<UNK>"] = 2
 
-id_to_word = {value:key for key,value in word_to_id.items()}
+id_to_word = {value:key.lower() for key,value in word_to_id.items()}
 
 # Read from file instead, otherwise the same
 
