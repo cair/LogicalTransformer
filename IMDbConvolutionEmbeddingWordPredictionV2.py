@@ -17,7 +17,7 @@ from PyCoalescedTsetlinMachineCUDA.tm import MultiClassConvolutionalTsetlinMachi
 
 profile_size = 50
 
-def plot_precision_recall_curve(scores, labels):
+def plot_precision_recall_curve(scores, labels, target):
     max_score = scores.max(axis=1)
     max_score_index = scores.argmax(axis=1)
     sorted_index = np.argsort(-1*max_score)
@@ -41,8 +41,7 @@ def plot_precision_recall_curve(scores, labels):
     plt.grid()
     plt.xlabel("Max Class Sum")
     plt.ylabel("Accuracy")
-    plt.savefig('Figure.pdf')
-    plt.show()
+    plt.savefig('Figure_%s.pdf' % (target))
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--num_clauses", default=10000, type=int)
@@ -213,4 +212,4 @@ for j in range(len(args.target_tokens)):
 
 	print("Token: '%s' Accuracy: %.2f%% Precision: %.2f%% Recall: %.2f%%" % (args.target_tokens[j], 100*accuracy_score(Y_test_balanced, Y_test_balanced_predicted), 100*precision_score(Y_test_balanced, Y_test_balanced_predicted), 100*recall_score(Y_test_balanced, Y_test_balanced_predicted)))
 
-	#plot_precision_recall_curve(Y_test_balanced_predicted_scores, Y_test_balanced)
+	plot_precision_recall_curve(Y_test_balanced_predicted_scores, Y_test_balanced, args.target_tokens[j])
