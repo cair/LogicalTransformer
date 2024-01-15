@@ -182,10 +182,10 @@ for j in range(len(args.target_tokens)):
 	for epoch in range(args.epochs):
 		for k in range(args.number_of_examples):
 			if np.random.rand() <= present_p:
-				X_train_balanced[k,:] = X_train_1[np.random.randint(X_train_1.shape[0]),:].toarray()
+				X_train_balanced[k,:] = X_train_1[np.random.randint(X_train_1.shape[0]),:]
 				Y_train_balanced[k] = 1
 			else:
-				X_train_balanced[k,:] = X_train_0[np.random.randint(X_train_0.shape[0]),:].toarray()
+				X_train_balanced[k,:] = X_train_0[np.random.randint(X_train_0.shape[0]),:]
 				Y_train_balanced[k] = 0
 
 		tm.fit(X_train_balanced, Y_train_balanced, incremental=True)
@@ -202,10 +202,10 @@ for j in range(len(args.target_tokens)):
 
 	for k in range(args.number_of_examples):
 		if (np.random.rand() <= present_p):
-			X_test_balanced[k,:] = X_test_1[np.random.randint(X_test_1.shape[0]),:].toarray()
+			X_test_balanced[k,:] = X_test_1[np.random.randint(X_test_1.shape[0]),:]
 			Y_test_balanced[k] = 1
 		else:
-			X_test_balanced[k,:] = X_test_0[np.random.randint(X_test_0.shape[0]),:].toarray()
+			X_test_balanced[k,:] = X_test_0[np.random.randint(X_test_0.shape[0]),:]
 			Y_test_balanced[k] = 0
 
 	(Y_test_balanced_predicted, Y_test_balanced_predicted_scores) = tm.predict(X_test_balanced, return_class_sums=True)
