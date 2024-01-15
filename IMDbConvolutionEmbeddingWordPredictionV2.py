@@ -168,7 +168,7 @@ for j in range(len(args.target_tokens)):
 
 	tm = MultiClassConvolutionalTsetlinMachine2D(args.num_clauses, args.T, args.s, (args.convolution_window, 1))
 	
-	Y_train = (focus_token_train == word_to_id[args.target_tokens[j]]) # Creates training target, i.e., target token present/absent
+	Y_train = (focus_token_train == (word_to_id[args.target_tokens[j]] - args.skip - args.imdb_index_from)) # Creates training target, i.e., target token present/absent
 
 	# Creates random training samples for balancing and speedup
 	present_p = 0.5#(Y_train.sum()/Y_train.shape[0])*1.0 # Probability of sampling an example where the target token is present
@@ -195,7 +195,7 @@ for j in range(len(args.target_tokens)):
 
 	# Create test data for token prediction
 
-	Y_test = (focus_token_test == word_to_id[args.target_tokens[j]])
+	Y_test = (focus_token_test == (word_to_id[args.target_tokens[j]] - args.skip - args.imdb_index_from))
 
 	X_test_0 = X_test[Y_test==0]
 	X_test_1 = X_test[Y_test==1]
