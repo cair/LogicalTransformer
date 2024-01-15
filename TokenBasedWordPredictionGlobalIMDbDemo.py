@@ -10,7 +10,7 @@ from sklearn.metrics import PrecisionRecallDisplay
 import matplotlib.ticker as mticker
 from collections import deque
 
-profile_size = 50
+profile_size = 100
 
 def plot_precision_recall_curve(scores, labels):
     max_score = scores.max(axis=1)
@@ -46,8 +46,8 @@ parser.add_argument("--s", default=1.0, type=float)
 parser.add_argument("--device", default="GPU", type=str)
 parser.add_argument("--target_tokens", default=['bad', 'nice', 'car'], nargs='+', type=str)
 parser.add_argument("--weighted_clauses", default=True, type=bool)
-parser.add_argument("--epochs", default=1, type=int)
-parser.add_argument("--context_size", default=5, type=int)
+parser.add_argument("--epochs", default=10, type=int)
+parser.add_argument("--context_size", default=3, type=int)
 parser.add_argument("--number_of_examples", default=5000, type=int)
 parser.add_argument("--imdb-num-words", default=10000, type=int)
 parser.add_argument("--imdb-index-from", default=2, type=int)
@@ -134,8 +134,6 @@ print("Producing bit representation... Done")
 
 # Train one TM per token
 for j in range(len(args.target_tokens)):
-	print("\nTraining token model for '%s'\n" % (args.target_tokens[j]))
-
 	tm = TMClassifier(args.num_clauses, args.T, args.s, weighted_clauses=args.weighted_clauses, max_included_literals=32)
 
 	Y_train = (training_focus_token_ids == word_to_id[args.target_tokens[j]]) # Creates training target, i.e., target token present/absent
@@ -150,6 +148,8 @@ for j in range(len(args.target_tokens)):
 	X_train_balanced = np.zeros((args.number_of_examples, X_train.shape[1]), dtype=np.uint32)
 	Y_train_balanced = np.zeros(args.number_of_examples, dtype=np.uint32)
 	for epoch in range(args.epochs):
+		print("\n*** Epoch %d for token '%s' ***" % (epoch + 1, args.target_tokens[j]))
+
 		for k in range(args.number_of_examples):
 			if np.random.rand() <= present_p:
 				X_train_balanced[k,:] = X_train_1[np.random.randint(X_train_1.shape[0]),:].toarray()
@@ -160,70 +160,69 @@ for j in range(len(args.target_tokens)):
 
 		tm.fit(X_train_balanced, Y_train_balanced)
 
-	# Create test data for token prediction
+		# Create test data for token prediction
 
-	Y_test = (testing_focus_token_ids == word_to_id[args.target_tokens[j]])
+		Y_test = (testing_focus_token_ids == word_to_id[args.target_tokens[j]])
 
-	X_test_0 = X_test[Y_test==0]
-	X_test_1 = X_test[Y_test==1]
+		X_test_0 = X_test[Y_test==0]
+		X_test_1 = X_test[Y_test==1]
 
-	X_test_balanced = np.zeros((args.number_of_examples, X_test.shape[1]), dtype=np.uint32)
-	Y_test_balanced = np.zeros(args.number_of_examples, dtype=np.uint32)
+		X_test_balanced = np.zeros((args.number_of_examples, X_test.shape[1]), dtype=np.uint32)
+		Y_test_balanced = np.zeros(args.number_of_examples, dtype=np.uint32)
 
-	for k in range(args.number_of_examples):
-		if (np.random.rand() <= present_p):
-			X_test_balanced[k,:] = X_test_1[np.random.randint(X_test_1.shape[0]),:].toarray()
-			Y_test_balanced[k] = 1
-		else:
-			X_test_balanced[k,:] = X_test_0[np.random.randint(X_test_0.shape[0]),:].toarray()
-			Y_test_balanced[k] = 0
+		for k in range(args.number_of_examples):
+			if (np.random.rand() <= present_p):
+				X_test_balanced[k,:] = X_test_1[np.random.randint(X_test_1.shape[0]),:].toarray()
+				Y_test_balanced[k] = 1
+			else:
+				X_test_balanced[k,:] = X_test_0[np.random.randint(X_test_0.shape[0]),:].toarray()
+				Y_test_balanced[k] = 0
 
-	(Y_test_balanced_predicted, Y_test_balanced_predicted_scores) = tm.predict(X_test_balanced, return_class_sums=True)
+		(Y_test_balanced_predicted, Y_test_balanced_predicted_scores) = tm.predict(X_test_balanced, return_class_sums=True)
 
-	print("Token: '%s' Accuracy: %.2f%% Precision: %.2f%% Recall: %.2f%%" % (args.target_tokens[j], 100*accuracy_score(Y_test_balanced, Y_test_balanced_predicted), 100*precision_score(Y_test_balanced, Y_test_balanced_predicted), 100*recall_score(Y_test_balanced, Y_test_balanced_predicted)))
+		print("\n\tToken: '%s' Accuracy: %.2f%% Precision: %.2f%% Recall: %.2f%%" % (args.target_tokens[j], 100*accuracy_score(Y_test_balanced, Y_test_balanced_predicted), 100*precision_score(Y_test_balanced, Y_test_balanced_predicted), 100*recall_score(Y_test_balanced, Y_test_balanced_predicted)))
 
-	sorted_indexes = np.argsort(-1*Y_test_balanced_predicted_scores[:,1])
-	print ("Example Prediction (Class Sum: %d)" % (Y_test_balanced_predicted_scores[sorted_indexes[0],1]), end=' ')
-	for k in range(X_test_balanced.shape[1]):
-		if X_test_balanced[sorted_indexes[0], k] == 1:
+		sorted_indexes = np.argsort(-1*Y_test_balanced_predicted_scores[:,1])
+		print ("\n\tExample Prediction (Class Sum: %d)" % (Y_test_balanced_predicted_scores[sorted_indexes[0],1]), end=' ')
+		for k in range(X_test_balanced.shape[1]):
+			if X_test_balanced[sorted_indexes[0], k] == 1:
+				print(feature_names[k], end=' ')
+		print("->", args.target_tokens[j])
+
+		print("\n\tPositive Polarity:", end=' ')
+		literal_importance = tm.literal_importance(1, negated_features=False, negative_polarity=False).astype(np.int32)
+		sorted_literals = np.argsort(-1*literal_importance)[0:profile_size]
+		for k in sorted_literals:
+			if literal_importance[k] == 0:
+				break
 			print(feature_names[k], end=' ')
-	print("->", args.target_tokens[j])
 
-	print("\nPositive Polarity:", end=' ')
-	literal_importance = tm.literal_importance(1, negated_features=False, negative_polarity=False).astype(np.int32)
-	sorted_literals = np.argsort(-1*literal_importance)[0:profile_size]
-	for k in sorted_literals:
-		if literal_importance[k] == 0:
-			break
+		literal_importance = tm.literal_importance(1, negated_features=True, negative_polarity=False).astype(np.int32)
+		sorted_literals = np.argsort(-1*literal_importance)[0:profile_size]
+		for k in sorted_literals:
+			if literal_importance[k] == 0:
+				break
 
-		print(feature_names[k], end=' ')
+			print("¬" + feature_names[k - X_train.shape[1]], end=' ')
+		print()
 
-	literal_importance = tm.literal_importance(1, negated_features=True, negative_polarity=False).astype(np.int32)
-	sorted_literals = np.argsort(-1*literal_importance)[0:profile_size]
-	for k in sorted_literals:
-		if literal_importance[k] == 0:
-			break
+		print("\n\tNegative Polarity:", end=' ')
+		literal_importance = tm.literal_importance(1, negated_features=False, negative_polarity=True).astype(np.int32)
+		sorted_literals = np.argsort(-1*literal_importance)[0:profile_size]
+		for k in sorted_literals:
+			if literal_importance[k] == 0:
+				break
 
-		print("¬" + feature_names[k - X_train.shape[1]], end=' ')
+			print(feature_names[k], end=' ')
+		print()
 
-	print()
-	print("\nNegative Polarity:", end=' ')
-	literal_importance = tm.literal_importance(1, negated_features=False, negative_polarity=True).astype(np.int32)
-	sorted_literals = np.argsort(-1*literal_importance)[0:profile_size]
-	for k in sorted_literals:
-		if literal_importance[k] == 0:
-			break
+		literal_importance = tm.literal_importance(1, negated_features=True, negative_polarity=True).astype(np.int32)
+		sorted_literals = np.argsort(-1*literal_importance)[0:profile_size]
+		for k in sorted_literals:
+			if literal_importance[k] == 0:
+				break
 
-		print(feature_names[k], end=' ')
-	print()
+			print("¬" + feature_names[k - X_train.shape[1]], end=' ')
+		print()
 
-	literal_importance = tm.literal_importance(1, negated_features=True, negative_polarity=True).astype(np.int32)
-	sorted_literals = np.argsort(-1*literal_importance)[0:profile_size]
-	for k in sorted_literals:
-		if literal_importance[k] == 0:
-			break
-
-		print("¬" + feature_names[k - X_train.shape[1]], end=' ')
-	print()
-
-	plot_precision_recall_curve(Y_test_balanced_predicted_scores, Y_test_balanced)
+		plot_precision_recall_curve(Y_test_balanced_predicted_scores, Y_test_balanced)
