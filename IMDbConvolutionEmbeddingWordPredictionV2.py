@@ -111,7 +111,7 @@ for e in range(train_y.shape[0]):
 	for word_id in train_x[e]:
 		if word_id in encoding:
 			if len(window) == args.window_size*2+1:
-				if id_to_word[word_id] in args.target_tokens:
+				if id_to_word[window[args.window_size]] in args.target_tokens:
 					number_of_training_examples += 1
 				window.pop()
 			window.appendleft(word_id)
@@ -125,12 +125,12 @@ for e in range(train_y.shape[0]):
 	for word_id in train_x[e]:
 		if word_id in encoding:
 			if len(window) == args.window_size*2+1:
-				if id_to_word[word_id] in args.target_tokens:
+				if id_to_word[window[args.window_size]] in args.target_tokens:
 					for i in range(args.window_size):
 						X_train[training_example_id, i, 0][encoding[window[i]]] = 1
 					for i in range(args.window_size+1, args.window_size*2+1):
 						X_train[training_example_id, i-1, 0][encoding[window[i]]] = 1
-					focus_token_train[training_example_id] = window[args.window_size] - args.skip - args.imdb_index_from
+					focus_token_train[training_example_id] = window[args.window_size]
 					training_example_id += 1
 				window.pop()
 			window.appendleft(word_id)
@@ -141,7 +141,7 @@ for e in range(test_y.shape[0]):
 	for word_id in test_x[e]:
 		if word_id in encoding:
 			if len(window) == args.window_size*2+1:
-				if id_to_word[word_id] in args.target_tokens:
+				if id_to_word[window[args.window_size]] in args.target_tokens:
 					number_of_testing_examples += 1
 				window.pop()
 			window.appendleft(word_id)
@@ -154,8 +154,8 @@ testing_example_id = 0
 for e in range(test_y.shape[0]):	
 	for word_id in test_x[e]:
 		if word_id in encoding:
-			if len(window) == args.window_size:
-				if id_to_word[word_id] in args.target_tokens:
+			if len(window) == args.window_size*2+1:
+				if id_to_word[window[args.window_size]] in args.target_tokens:
 					for i in range(args.window_size):
 						X_test[testing_example_id, i, 0][encoding[window[i]]] = 1
 					for i in range(args.window_size+1, args.window_size*2+1):
