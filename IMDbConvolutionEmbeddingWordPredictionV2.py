@@ -112,7 +112,7 @@ for e in range(train_y.shape[0]):
 	for word_id in train_x[e]:
 		if word_id in encoding:
 			if len(window) == args.window_size:
-				if word_id >= args.skip + args.imdb_index_from:
+				if word_id >= args.skip + args.imdb_index_from and id_to_word[word_id] not in args.target_tokens:
 					number_of_training_examples += 1
 				window.pop()
 			window.appendleft(word_id)
@@ -126,7 +126,7 @@ for e in range(train_y.shape[0]):
 	for word_id in train_x[e]:
 		if word_id in encoding:
 			if len(window) == args.window_size:
-				if word_id >= args.skip + args.imdb_index_from:
+				if word_id >= args.skip + args.imdb_index_from and id_to_word[word_id] not in args.target_tokens:
 					for i in range(args.window_size):
 						X_train[training_example_id, i, 0][encoding[window[i]]] = 1
 					focus_token_train[training_example_id] = word_id - args.skip - args.imdb_index_from
@@ -140,7 +140,7 @@ for e in range(test_y.shape[0]):
 	for word_id in test_x[e]:
 		if word_id in encoding:
 			if len(window) == args.window_size:
-				if word_id >= args.skip + args.imdb_index_from:
+				if word_id >= args.skip + args.imdb_index_from and id_to_word[word_id] not in args.target_tokens:
 					number_of_testing_examples += 1
 				window.pop()
 			window.appendleft(word_id)
@@ -154,7 +154,7 @@ for e in range(test_y.shape[0]):
 	for word_id in test_x[e]:
 		if word_id in encoding:
 			if len(window) == args.window_size:
-				if word_id >= args.skip + args.imdb_index_from:
+				if word_id >= args.skip + args.imdb_index_from and id_to_word[word_id] not in args.target_tokens:
 					for i in range(args.window_size):
 						X_test[testing_example_id, i, 0][encoding[window[i]]] = 1
 					focus_token_test[testing_example_id] = word_id - args.skip - args.imdb_index_from
