@@ -216,4 +216,4 @@ for j in range(len(args.target_tokens)):
 
 	print("Token: '%s' Accuracy: %.2f%% Precision: %.2f%% Recall: %.2f%%" % (args.target_tokens[j], 100*accuracy_score(Y_test_balanced, Y_test_balanced_predicted), 100*precision_score(Y_test_balanced, Y_test_balanced_predicted), 100*recall_score(Y_test_balanced, Y_test_balanced_predicted)))
 
-	plot_precision_recall_curve(Y_test_balanced_predicted_scores, Y_test_balanced, args.target_tokens[j])
+	plot_precision_recall_curve(Y_test_balanced_predicted_score, Y_test_balanced, args.target_tokens[j])
