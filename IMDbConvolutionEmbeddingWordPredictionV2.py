@@ -8,7 +8,8 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.metrics import f1_score, accuracy_score, precision_score, recall_score
 import argparse
-
+import matplotlib.pyplot as plt
+import matplotlib.ticker as mticker
 from collections import deque
 
 from scipy.sparse import csr_matrix, csc_matrix, lil_matrix
