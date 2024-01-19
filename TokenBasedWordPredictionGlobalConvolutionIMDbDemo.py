@@ -57,8 +57,6 @@ args = parser.parse_args()
 
 position_bits = args.context_size*2 - args.convolution_size
 
-print("PB", position_bits)
-
 #### Retrieves and prepares the IMDb dataset ####
 
 print("Preparing dataset")
