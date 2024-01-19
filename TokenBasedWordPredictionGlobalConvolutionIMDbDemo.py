@@ -55,6 +55,10 @@ parser.add_argument("--imdb-num-words", default=10000, type=int)
 parser.add_argument("--imdb-index-from", default=2, type=int)
 args = parser.parse_args()
 
+position_bits = args.context_size*2 - args.convolution_size
+
+print("PB", position_bits)
+
 #### Retrieves and prepares the IMDb dataset ####
 
 print("Preparing dataset")
@@ -211,10 +215,11 @@ for j in range(len(args.target_tokens)):
 
 	sorted_indexes = np.argsort(-1*Y_test_balanced_predicted_scores[:,1])
 	print ("Example Prediction (Class Sum: %d)" % (Y_test_balanced_predicted_scores[sorted_indexes[0],1]), end=' ')
-	for k in range(X_test_balanced.shape[1]):
-		if X_test_balanced[sorted_indexes[0], k] == 1:
-			print(feature_names[k], end=' ')
-	print("->", args.target_tokens[j])
+	for k in range(args.context_size):
+		print(id_to_word[np.flatnonzero(X_test_balanced[sorted_indexes[0], k, 0])[0]], end=' ')
+	print(">", args.target_tokens[j], "<", end=' ')
+	for k in range(args.context_size):
+		print(id_to_word[np.flatnonzero(X_test_balanced[sorted_indexes[0], args.context_size + k, 0])[0]], end=' ')
 
 	print("\nPositive Polarity:", end=' ')
 	literal_importance = tm.literal_importance(1, negated_features=False, negative_polarity=False).astype(np.int32)
@@ -223,7 +228,13 @@ for j in range(len(args.target_tokens)):
 		if literal_importance[k] == 0:
 			break
 
-		print(feature_names[k], end=' ')
+		if k >= position_bits:
+			window_id = (k - position_bits) // X_train_balanced.shape[3]
+			window_offset = window_id * X_train_balanced.shape[3]
+
+			print(str(window_id) + ":" + id_to_word[k - position_bits - window_offset], end=' ')
+		else:
+			print(k, end=' ')
 
 	literal_importance = tm.literal_importance(1, negated_features=True, negative_polarity=False).astype(np.int32)
 	sorted_literals = np.argsort(-1*literal_importance)[0:profile_size]
@@ -231,7 +242,15 @@ for j in range(len(args.target_tokens)):
 		if literal_importance[k] == 0:
 			break
 
-		print("¬" + feature_names[k - X_train.shape[1]], end=' ')
+		number_of_convolution_window_features = position_bits + (X_train_balanced.shape[3]*args.convolution_size)
+
+		if k >= number_of_convolution_window_features + position_bits:
+			window_id = (k - position_bits - number_of_convolution_window_features) // X_train_balanced.shape[3]
+			window_offset = number_of_convolution_window_features + position_bits + window_id * X_train_balanced.shape[3]
+
+			print("¬" + str(window_id) + ":" + id_to_word[k - window_offset], end=' ')
+		else:
+			print("¬" + str(k - number_of_convolution_window_features), end=' ')
 
 	print()
 	print("\nNegative Polarity:", end=' ')
@@ -241,8 +260,13 @@ for j in range(len(args.target_tokens)):
 		if literal_importance[k] == 0:
 			break
 
-		print(feature_names[k], end=' ')
-	print()
+		if k >= position_bits:
+			window_id = (k - position_bits) // X_train_balanced.shape[3]
+			window_offset = window_id * X_train_balanced.shape[3]
+
+			print(str(window_id) + ":" + id_to_word[k - position_bits - window_offset], end=' ')
+		else:
+			print(k, end=' ')
 
 	literal_importance = tm.literal_importance(1, negated_features=True, negative_polarity=True).astype(np.int32)
 	sorted_literals = np.argsort(-1*literal_importance)[0:profile_size]
@@ -250,7 +274,14 @@ for j in range(len(args.target_tokens)):
 		if literal_importance[k] == 0:
 			break
 
-		print("¬" + feature_names[k - X_train.shape[1]], end=' ')
-	print()
+		number_of_convolution_window_features = position_bits + (X_train_balanced.shape[3]*args.convolution_size)
+
+		if k >= number_of_convolution_window_features + position_bits:
+			window_id = (k - position_bits - number_of_convolution_window_features) // X_train_balanced.shape[3]
+			window_offset = number_of_convolution_window_features + position_bits + window_id * X_train_balanced.shape[3]
+
+			print("¬" + str(window_id) + ":" + id_to_word[k - window_offset], end=' ')
+		else:
+			print("¬" + str(k - number_of_convolution_window_features), end=' ')
 
 	plot_precision_recall_curve(Y_test_balanced_predicted_scores, Y_test_balanced)
