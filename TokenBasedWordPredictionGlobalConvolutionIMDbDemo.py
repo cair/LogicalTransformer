@@ -249,8 +249,8 @@ for j in range(len(args.target_tokens)):
 			print("¬" + str(window_id) + ":" + id_to_word[k - window_offset], end=' ')
 		else:
 			print("¬" + str(k - number_of_convolution_window_features), end=' ')
-
 	print()
+
 	print("\nNegative Polarity:", end=' ')
 	literal_importance = tm.literal_importance(1, negated_features=False, negative_polarity=True).astype(np.int32)
 	sorted_literals = np.argsort(-1*literal_importance)[0:profile_size]
@@ -281,5 +281,6 @@ for j in range(len(args.target_tokens)):
 			print("¬" + str(window_id) + ":" + id_to_word[k - window_offset], end=' ')
 		else:
 			print("¬" + str(k - number_of_convolution_window_features), end=' ')
+	print()
 
 	plot_precision_recall_curve(Y_test_balanced_predicted_scores, Y_test_balanced)
