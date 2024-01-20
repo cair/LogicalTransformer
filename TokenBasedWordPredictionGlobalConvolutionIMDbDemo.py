@@ -163,7 +163,7 @@ print("Producing token-centered testing data... Done")
 
 # Train one TM per token
 for j in range(len(args.target_tokens)):
-	print("\nTraining token model for '%s'\n" % (args.target_tokens[j]))
+	print("\n***** Training token model for '%s' *****\n" % (args.target_tokens[j]))
 
 	tm = TMClassifier(args.num_clauses, args.T, args.s, patch_dim=(args.convolution_size, 1), weighted_clauses=args.weighted_clauses, max_included_literals=32)
 
@@ -212,14 +212,39 @@ for j in range(len(args.target_tokens)):
 	print("Token: '%s' Accuracy: %.2f%% Precision: %.2f%% Recall: %.2f%%" % (args.target_tokens[j], 100*accuracy_score(Y_test_balanced, Y_test_balanced_predicted), 100*precision_score(Y_test_balanced, Y_test_balanced_predicted), 100*recall_score(Y_test_balanced, Y_test_balanced_predicted)))
 
 	sorted_indexes = np.argsort(-1*Y_test_balanced_predicted_scores[:,1])
-	print ("Example Prediction (Class Sum: %d)" % (Y_test_balanced_predicted_scores[sorted_indexes[0],1]), end=' ')
+	print ("\nExample Prediction (Class Sum: %d)" % (Y_test_balanced_predicted_scores[sorted_indexes[0],1]), end=' ')
 	for k in range(args.context_size):
 		print(id_to_word[np.flatnonzero(X_test_balanced[sorted_indexes[0], k, 0])[0]], end=' ')
 	print(">", args.target_tokens[j], "<", end=' ')
 	for k in range(args.context_size):
 		print(id_to_word[np.flatnonzero(X_test_balanced[sorted_indexes[0], args.context_size + k, 0])[0]], end=' ')
+	print()
 
-	print("\nPositive Polarity:", end=' ')
+	number_of_convolution_window_features = position_bits + (X_train_balanced.shape[3]*args.convolution_size)
+
+	print("\n*** Positive Polarity ***\n")
+
+	for j in range(args.num_clauses//2):
+		print("\tClause #%d W:%d " % (j, tm.get_weight(1, 0, j)), end=' ')
+		l = []
+		for k in range(X_train_balanced.shape[3]*2):
+			if tm.get_ta_action(j, k, the_class = 1, polarity = 0):
+				if k >= number_of_convolution_window_features + position_bits:
+					window_id = (k - position_bits - number_of_convolution_window_features) // X_train_balanced.shape[3]
+					window_offset = number_of_convolution_window_features + position_bits + window_id * X_train_balanced.shape[3]
+					l.append("¬" + str(window_id) + ":" + id_to_word[k - window_offset])
+				elif k >= number_of_convolution_window_features:
+					l.append("¬" + str(k - number_of_convolution_window_features))
+				elif k >= position_bits:
+					window_id = (k - position_bits) // X_train_balanced.shape[3]
+					window_offset = window_id * X_train_balanced.shape[3]
+					l.append(str(window_id) + ":" + str(id_to_word[k - position_bits - window_offset]))
+				else:
+					l.append(str(k)) 
+		print(" ∧ ".join(l))
+
+	print("\n\tFrequent Positive Polarity Literals:", end=' ')
+
 	literal_importance = tm.literal_importance(1, negated_features=False, negative_polarity=False).astype(np.int32)
 	sorted_literals = np.argsort(-1*literal_importance)[0:profile_size]
 	for k in sorted_literals:
@@ -240,8 +265,6 @@ for j in range(len(args.target_tokens)):
 		if literal_importance[k] == 0:
 			break
 
-		number_of_convolution_window_features = position_bits + (X_train_balanced.shape[3]*args.convolution_size)
-
 		if k >= number_of_convolution_window_features + position_bits:
 			window_id = (k - position_bits - number_of_convolution_window_features) // X_train_balanced.shape[3]
 			window_offset = number_of_convolution_window_features + position_bits + window_id * X_train_balanced.shape[3]
@@ -251,7 +274,29 @@ for j in range(len(args.target_tokens)):
 			print("¬" + str(k - number_of_convolution_window_features), end=' ')
 	print()
 
-	print("\nNegative Polarity:", end=' ')
+	print("\n*** Negative Polarity ***\n")
+
+	for j in range(args.num_clauses//2):
+		print("\tClause #%d W:%d " % (j, tm.get_weight(1, 1, j)), end=' ')
+		l = []
+		for k in range(X_train_balanced.shape[3]*2):
+			if tm.get_ta_action(j, k, the_class = 1, polarity = 1):
+				if k >= number_of_convolution_window_features + position_bits:
+					window_id = (k - position_bits - number_of_convolution_window_features) // X_train_balanced.shape[3]
+					window_offset = number_of_convolution_window_features + position_bits + window_id * X_train_balanced.shape[3]
+					l.append("¬" + str(window_id) + ":" + id_to_word[k - window_offset])
+				elif k >= number_of_convolution_window_features:
+					l.append("¬" + str(k - number_of_convolution_window_features))
+				elif k >= position_bits:
+					window_id = (k - position_bits) // X_train_balanced.shape[3]
+					window_offset = window_id * X_train_balanced.shape[3]
+					l.append(str(window_id) + ":" + str(id_to_word[k - position_bits - window_offset]))
+				else:
+					l.append(str(k)) 
+		print(" ∧ ".join(l))
+
+	print("\n\tFrequent Negative Polarity Literals:", end=' ')
+
 	literal_importance = tm.literal_importance(1, negated_features=False, negative_polarity=True).astype(np.int32)
 	sorted_literals = np.argsort(-1*literal_importance)[0:profile_size]
 	for k in sorted_literals:
@@ -271,8 +316,6 @@ for j in range(len(args.target_tokens)):
 	for k in sorted_literals:
 		if literal_importance[k] == 0:
 			break
-
-		number_of_convolution_window_features = position_bits + (X_train_balanced.shape[3]*args.convolution_size)
 
 		if k >= number_of_convolution_window_features + position_bits:
 			window_id = (k - position_bits - number_of_convolution_window_features) // X_train_balanced.shape[3]
