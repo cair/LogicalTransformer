@@ -10,8 +10,6 @@ from sklearn.metrics import PrecisionRecallDisplay
 import matplotlib.ticker as mticker
 from collections import deque
 
-profile_size = 50
-
 def plot_precision_recall_curve(scores, labels):
     max_score = scores.max(axis=1)
     max_score_index = scores.argmax(axis=1)
@@ -47,6 +45,7 @@ parser.add_argument("--device", default="GPU", type=str)
 parser.add_argument("--target_tokens", default=['bad', 'nice', 'car'], nargs='+', type=str)
 parser.add_argument("--weighted_clauses", default=True, type=bool)
 parser.add_argument("--epochs", default=1, type=int)
+parser.add_argument("--max_included_literals", default=32, type=int)
 parser.add_argument("--context_size", default=5, type=int)
 parser.add_argument("--number_of_examples", default=5000, type=int)
 parser.add_argument("--imdb-num-words", default=10000, type=int)
@@ -136,7 +135,7 @@ print("Producing bit representation... Done")
 for j in range(len(args.target_tokens)):
 	print("\n***** Training token model for '%s' *****\n" % (args.target_tokens[j]))
 
-	tm = TMClassifier(args.num_clauses, args.T, args.s, weighted_clauses=args.weighted_clauses, max_included_literals=32)
+	tm = TMClassifier(args.num_clauses, args.T, args.s, weighted_clauses=args.weighted_clauses, max_included_literals=args.max_included_literals)
 
 	Y_train = (training_focus_token_ids == word_to_id[args.target_tokens[j]]) # Creates training target, i.e., target token present/absent
 
@@ -204,7 +203,7 @@ for j in range(len(args.target_tokens)):
 
 	print("\n\tFrequent Positive Polarity Literals:", end=' ')
 	literal_importance = tm.literal_importance(1, negated_features=False, negative_polarity=False).astype(np.int32)
-	sorted_literals = np.argsort(-1*literal_importance)[0:profile_size]
+	sorted_literals = np.argsort(-1*literal_importance)
 	for k in sorted_literals:
 		if literal_importance[k] == 0:
 			break
@@ -212,7 +211,7 @@ for j in range(len(args.target_tokens)):
 		print(feature_names[k], end=' ')
 
 	literal_importance = tm.literal_importance(1, negated_features=True, negative_polarity=False).astype(np.int32)
-	sorted_literals = np.argsort(-1*literal_importance)[0:profile_size]
+	sorted_literals = np.argsort(-1*literal_importance)
 	for k in sorted_literals:
 		if literal_importance[k] == 0:
 			break
@@ -235,7 +234,7 @@ for j in range(len(args.target_tokens)):
 
 	print("\n\tFrequent Negative Polarity Literals:", end=' ')
 	literal_importance = tm.literal_importance(1, negated_features=False, negative_polarity=True).astype(np.int32)
-	sorted_literals = np.argsort(-1*literal_importance)[0:profile_size]
+	sorted_literals = np.argsort(-1*literal_importance)
 	for k in sorted_literals:
 		if literal_importance[k] == 0:
 			break
@@ -244,7 +243,7 @@ for j in range(len(args.target_tokens)):
 	print()
 
 	literal_importance = tm.literal_importance(1, negated_features=True, negative_polarity=True).astype(np.int32)
-	sorted_literals = np.argsort(-1*literal_importance)[0:profile_size]
+	sorted_literals = np.argsort(-1*literal_importance)
 	for k in sorted_literals:
 		if literal_importance[k] == 0:
 			break
