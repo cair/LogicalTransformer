@@ -217,8 +217,8 @@ for j in range(len(args.target_tokens)):
 			break
 
 		print("¬" + feature_names[k - X_train.shape[1]], end=' ')
-
 	print()
+
 	print("\n*** Negative Polarity ***\n")
 
 	for j in range(args.num_clauses//2):
