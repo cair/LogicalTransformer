@@ -188,7 +188,7 @@ for j in range(len(args.target_tokens)):
 			print(feature_names[k], end=' ')
 	print("->", args.target_tokens[j])
 
-	print("\n*** Positive Polarity ***")
+	print("\n*** Positive Polarity ***\n")
 
 	for j in range(args.num_clauses//2):
 		print("\tClause #%d W:%d " % (j, tm.get_weight(1, 0, j)), end=' ')
@@ -219,7 +219,7 @@ for j in range(len(args.target_tokens)):
 		print("¬" + feature_names[k - X_train.shape[1]], end=' ')
 
 	print()
-	print("\n*** Negative Polarity ***")
+	print("\n*** Negative Polarity ***\n")
 
 	for j in range(args.num_clauses//2):
 		print("\tClause #%d W:%d " % (j, tm.get_weight(1, 1, j)), end=' ')
