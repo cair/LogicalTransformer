@@ -15,8 +15,7 @@ number_of_characterizing_features_per_example = 2 # Each example consists of thi
 number_of_common_features_per_example = 10
 
 number_of_clauses = 100
-#T = number_of_clauses//2
-T = number_of_clauses*10
+T = number_of_clauses*100
 s = 1.0
 
 a = 1.1
@@ -55,10 +54,6 @@ for i in range(number_of_test_examples):
 	indexes = np.random.choice(characterizing_features[Y_test[i]], number_of_characterizing_features_per_example, replace=False)
 	for j in indexes:
 		X_test[i, j] = 1
-
-	indexes = np.random.choice(characterizing_features[1 - Y_test[i]], number_of_characterizing_features_per_example, replace=False)
-	for j in indexes:
-		X_test[i, j] = np.random.choice(2, p=[1.0 - noise[j%len(noise)], noise[j%len(noise)]])
 
 	indexes = np.random.choice(common_features, number_of_common_features_per_example, replace=False, p=p_common_feature)
 	for j in indexes:
