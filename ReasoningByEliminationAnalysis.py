@@ -2,7 +2,8 @@ from tmu.models.classification.vanilla_classifier import TMClassifier
 import numpy as np
 from time import time
 
-number_of_examples = 100000
+number_of_training_examples = 100000
+number_of_test_examples = 1000
 
 noise = [0.0, 0.05, 0.1]
 
@@ -11,7 +12,7 @@ number_of_features = 10000
 number_of_characterizing_features = 1000 # Each class gets this many unique features in total
 
 number_of_characterizing_features_per_example = 2 # Each example consists of this number of unique features
-number_of_common_features_per_example = 2
+number_of_common_features_per_example = 10
 
 number_of_clauses = 100
 #T = number_of_clauses//2
@@ -29,9 +30,9 @@ for k in range(common_features.shape[0]):
 	p_common_feature[k] = (k + b)**(-a)
 p_common_feature = p_common_feature / p_common_feature.sum()
 
-X_train = np.zeros((number_of_examples, number_of_features), dtype=np.uint32)
-Y_train = np.zeros(number_of_examples, dtype=np.uint32)
-for i in range(number_of_examples):
+X_train = np.zeros((number_of_training_examples, number_of_features), dtype=np.uint32)
+Y_train = np.zeros(number_of_training_examples, dtype=np.uint32)
+for i in range(number_of_training_examples):
 	Y_train[i] = np.random.choice(2)
 
 	indexes = np.random.choice(characterizing_features[Y_train[i]], number_of_characterizing_features_per_example, replace=False)
@@ -46,9 +47,9 @@ for i in range(number_of_examples):
 	for j in indexes:
 		X_train[i, j] = 1
 
-X_test = np.zeros((number_of_examples, number_of_features), dtype=np.uint32)
-Y_test = np.zeros(number_of_examples, dtype=np.uint32)
-for i in range(number_of_examples):
+X_test = np.zeros((number_of_test_examples, number_of_features), dtype=np.uint32)
+Y_test = np.zeros(number_of_test_examples, dtype=np.uint32)
+for i in range(number_of_test_examples):
 	Y_test[i] = np.random.choice(2)
 
 	indexes = np.random.choice(characterizing_features[Y_test[i]], number_of_characterizing_features_per_example, replace=False)
