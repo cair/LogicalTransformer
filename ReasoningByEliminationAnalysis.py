@@ -2,7 +2,7 @@ from tmu.models.classification.vanilla_classifier import TMClassifier
 import numpy as np
 from time import time
 
-number_of_examples = 50000
+number_of_examples = 100000
 
 noise = [0.0, 0.05, 0.1]
 
