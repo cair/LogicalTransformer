@@ -5,7 +5,7 @@ from time import time
 number_of_training_examples = 100000
 number_of_test_examples = 1000
 
-noise = [0.0, 0.05, 0.1]
+noise = [0.05, 0.1, 0.2]
 
 number_of_features = 10000
 
