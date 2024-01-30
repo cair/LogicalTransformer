@@ -21,8 +21,6 @@ s = 1.0
 a = 1.1
 b = 2.7
 
-epochs = 1
-
 characterizing_features = np.random.choice(number_of_features, size=(2, number_of_characterizing_features), replace=False).astype(np.uint32)
 common_features = np.setdiff1d(np.arange(number_of_features), characterizing_features.reshape(-1))
 
@@ -67,8 +65,7 @@ for i in range(number_of_examples):
 
 tm = TMClassifier(number_of_clauses, T, s, platform='CPU', weighted_clauses=True, max_included_literals=64)
 
-for i in range(epochs):
-	tm.fit(X_train, Y_train)
+tm.fit(X_train, Y_train)
 
 np.set_printoptions(threshold=np.inf, linewidth=200, precision=2, suppress=True)
 
