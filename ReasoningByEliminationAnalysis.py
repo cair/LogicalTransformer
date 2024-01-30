@@ -2,25 +2,34 @@ from tmu.models.classification.vanilla_classifier import TMClassifier
 import numpy as np
 from time import time
 
-number_of_examples = 100000
+number_of_examples = 50000
 
-noise = [0.0, 0.2, 0.4]
+noise = [0.0, 0.05, 0.1]
 
-number_of_features = 1000
+number_of_features = 10000
 
-number_of_characterizing_features = 25 # Each class gets this many unique features in total
+number_of_characterizing_features = 1000 # Each class gets this many unique features in total
 
-number_of_characterizing_features_per_example = 3 # Each example consists of this number of unique features
+number_of_characterizing_features_per_example = 2 # Each example consists of this number of unique features
 number_of_common_features_per_example = 2
 
 number_of_clauses = 100
+#T = number_of_clauses//2
 T = number_of_clauses*10
 s = 1.0
+
+a = 1.1
+b = 2.7
 
 epochs = 1
 
 characterizing_features = np.random.choice(number_of_features, size=(2, number_of_characterizing_features), replace=False).astype(np.uint32)
 common_features = np.setdiff1d(np.arange(number_of_features), characterizing_features.reshape(-1))
+
+p_common_feature = np.empty(common_features.shape[0])
+for k in range(common_features.shape[0]):
+	p_common_feature[k] = (k + b)**(-a)
+p_common_feature = p_common_feature / p_common_feature.sum()
 
 X_train = np.zeros((number_of_examples, number_of_features), dtype=np.uint32)
 Y_train = np.zeros(number_of_examples, dtype=np.uint32)
@@ -35,7 +44,7 @@ for i in range(number_of_examples):
 	for j in indexes:
 		X_train[i, j] = np.random.choice(2, p=[1.0 - noise[j%len(noise)], noise[j%len(noise)]])
 
-	indexes = np.random.choice(common_features, number_of_common_features_per_example, replace=False)
+	indexes = np.random.choice(common_features, number_of_common_features_per_example, replace=False, p=p_common_feature)
 	for j in indexes:
 		X_train[i, j] = 1
 
@@ -52,11 +61,11 @@ for i in range(number_of_examples):
 	for j in indexes:
 		X_test[i, j] = np.random.choice(2, p=[1.0 - noise[j%len(noise)], noise[j%len(noise)]])
 
-	indexes = np.random.choice(common_features, number_of_common_features_per_example, replace=False)
+	indexes = np.random.choice(common_features, number_of_common_features_per_example, replace=False, p=p_common_feature)
 	for j in indexes:
 		X_test[i, j] = 1
 
-tm = TMClassifier(number_of_clauses, T, s, platform='CPU', weighted_clauses=True, max_included_literals=32)
+tm = TMClassifier(number_of_clauses, T, s, platform='CPU', weighted_clauses=True, max_included_literals=64)
 
 for i in range(epochs):
 	tm.fit(X_train, Y_train)
