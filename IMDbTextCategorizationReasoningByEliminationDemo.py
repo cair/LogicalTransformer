@@ -84,8 +84,8 @@ if __name__ == "__main__":
     SKB.fit(X_train, Y_train)
 
     selected_features = SKB.get_support(indices=True)
-    X_train = SKB.transform(X_train).toarray()
-    X_test = SKB.transform(X_test).toarray()
+    X_train = SKB.transform(X_train).toarray().astype(np.uint32)
+    X_test = SKB.transform(X_test).toarray().astype(np.uint32)
 
     _LOGGER.info("Selecting Features.... Done!")
 
