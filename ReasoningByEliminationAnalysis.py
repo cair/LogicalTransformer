@@ -7,21 +7,22 @@ number_of_test_examples = 10000
 
 noise = [0.05, 0.1, 0.2]
 
-number_of_features = 10000
+number_of_features = 1000
 
-number_of_characterizing_features = 1000 # Each class gets this many unique features in total
+number_of_characterizing_features = 100 # Each class gets this many unique features in total
 
 number_of_characterizing_features_per_example = 2 # Each example consists of this number of unique features
 number_of_common_features_per_example = 10
 
-number_of_clauses = 100
-T = number_of_clauses*100
+number_of_clauses = 10
+T = number_of_clauses*100//10
 s = 1.0
 
 a = 1.1
 b = 2.7
 
-characterizing_features = np.random.choice(number_of_features, size=(2, number_of_characterizing_features), replace=False).astype(np.uint32)
+#characterizing_features = np.random.choice(number_of_features, size=(2, number_of_characterizing_features), replace=False).astype(np.uint32)
+characterizing_features = np.arange(number_of_characterizing_features*2).reshape((2, number_of_characterizing_features)).astype(np.uint32)
 common_features = np.setdiff1d(np.arange(number_of_features), characterizing_features.reshape(-1))
 
 p_common_feature = np.empty(common_features.shape[0])
@@ -59,9 +60,16 @@ for i in range(number_of_test_examples):
 	for j in indexes:
 		X_test[i, j] = 1
 
-tm = TMClassifier(number_of_clauses, T, s, platform='CPU', weighted_clauses=True, max_included_literals=64)
+np.savetxt("ReasoningByEliminationTrainingData.txt", np.concatenate((X_train, Y_train.reshape(-1,1)), axis=1), delimiter=" ")
+np.savetxt("ReasoningByEliminationTestingData.txt", np.concatenate((X_test, Y_test.reshape(-1,1)), axis=1), delimiter=" ")
 
+tm = TMClassifier(number_of_clauses, T, s, platform='CPU', weighted_clauses=False, max_included_literals=32)
+
+start = time()
 tm.fit(X_train, Y_train)
+stop = time()
+
+print(stop-start)
 
 np.set_printoptions(threshold=np.inf, linewidth=200, precision=2, suppress=True)
 
@@ -76,9 +84,9 @@ for j in range(number_of_clauses//2):
 	for k in range(number_of_features*2):
 		if tm.get_ta_action(j, k, the_class = 0, polarity = 0):
 			if k < number_of_features:
-				l.append(" x%d" % (k))
+				l.append(" x%d(%d)" % (k, tm.get_ta_state(j, k, the_class = 1, polarity = 0)))
 			else:
-				l.append("¬x%d" % (k-number_of_features))
+				l.append("¬x%d(%d)" % (k-number_of_features, tm.get_ta_state(j, k, the_class = 0, polarity = 0)))
 	print(" ∧ ".join(l))
 
 print("\nClass 0 Negative Clauses:\n")
@@ -92,9 +100,9 @@ for j in range(number_of_clauses//2):
 	for k in range(number_of_features*2):
 		if tm.get_ta_action(j, k, the_class = 0, polarity = 1):
 			if k < number_of_features:
-				l.append(" x%d" % (k))
+				l.append(" x%d(%d)" % (k, tm.get_ta_state(j, k, the_class = 0, polarity = 1)))
 			else:
-				l.append("¬x%d" % (k-number_of_features))
+				l.append("¬x%d(%d)" % (k-number_of_features, tm.get_ta_state(j, k, the_class = 0, polarity = 1)))
 	print(" ∧ ".join(l))
 
 print("\nClass 1 Positive Clauses:\n")
@@ -108,9 +116,9 @@ for j in range(number_of_clauses//2):
 	for k in range(number_of_features*2):
 		if tm.get_ta_action(j, k, the_class = 1, polarity = 0):
 			if k < number_of_features:
-				l.append(" x%d" % (k))
+				l.append(" x%d(%d)" % (k, tm.get_ta_state(j, k, the_class = 1, polarity = 0)))
 			else:
-				l.append("¬x%d" % (k-number_of_features))
+				l.append("¬x%d(%d)" % (k-number_of_features, tm.get_ta_state(j, k, the_class = 1, polarity = 0)))
 	print(" ∧ ".join(l))
 
 print("\nClass 1 Negative Clauses:\n")
@@ -124,9 +132,9 @@ for j in range(number_of_clauses//2):
 	for k in range(number_of_features*2):
 		if tm.get_ta_action(j, k, the_class = 1, polarity = 1):
 			if k < number_of_features:
-				l.append(" x%d" % (k))
+				l.append(" x%d(%d)" % (k, tm.get_ta_state(j, k, the_class = 1, polarity = 1)))
 			else:
-				l.append("¬x%d" % (k-number_of_features))
+				l.append("¬x%d(%d)" % (k-number_of_features, tm.get_ta_state(j, k, the_class = 1, polarity = 1)))
 	print(" ∧ ".join(l))
 
 print("\nLiteral Clause Frequency:", end=' ')
