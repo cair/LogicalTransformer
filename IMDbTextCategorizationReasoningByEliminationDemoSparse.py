@@ -82,19 +82,8 @@ if __name__ == "__main__":
     Y_test = test_y.astype(np.uint32)
     _LOGGER.info("Producing bit representation... Done!")
 
-    # _LOGGER.info("Selecting Features....")
-
-    # SKB = SelectKBest(chi2, k=args.features)
-    # SKB.fit(X_train, Y_train)
-
-    # selected_features = SKB.get_support(indices=True)
-    # X_train = SKB.transform(X_train).toarray().astype(np.uint32)
-    # X_test = SKB.transform(X_test).toarray().astype(np.uint32)
-
     X_train = X_train.astype(np.uint32)
     X_test = X_test.astype(np.uint32)
-
-    _LOGGER.info("Selecting Features.... Done!")
 
     tm = TMClassifier(args.num_clauses, args.T, args.s, platform='CPU_sparse', weighted_clauses=args.weighted_clauses, absorbing=100, literal_insertion_state=127, literal_sampling=0.05)
 
