@@ -2,20 +2,20 @@ from tmu.models.classification.vanilla_classifier import TMClassifier
 import numpy as np
 from time import time
 
-number_of_training_examples = 100000
+number_of_training_examples = 500000
 number_of_test_examples = 10000
 
 noise = [0.05, 0.1, 0.2]
 
-number_of_features = 1000
+number_of_features = 10000
 
-number_of_characterizing_features = 100 # Each class gets this many unique features in total
+number_of_characterizing_features = 1000 # Each class gets this many unique features in total
 
 number_of_characterizing_features_per_example = 2 # Each example consists of this number of unique features
 number_of_common_features_per_example = 10
 
-number_of_clauses = 10
-T = number_of_clauses*100//10
+number_of_clauses = 100
+T = number_of_clauses*100
 s = 1.0
 
 a = 1.1
@@ -63,7 +63,7 @@ for i in range(number_of_test_examples):
 np.savetxt("ReasoningByEliminationTrainingData.txt", np.concatenate((X_train, Y_train.reshape(-1,1)), axis=1), delimiter=" ")
 np.savetxt("ReasoningByEliminationTestingData.txt", np.concatenate((X_test, Y_test.reshape(-1,1)), axis=1), delimiter=" ")
 
-tm = TMClassifier(number_of_clauses, T, s, platform='CPU', weighted_clauses=False, max_included_literals=32)
+tm = TMClassifier(number_of_clauses, T, s, platform='CPU', weighted_clauses=True, max_included_literals=64)
 
 start = time()
 tm.fit(X_train, Y_train)
