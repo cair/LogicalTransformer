@@ -105,6 +105,72 @@ if __name__ == "__main__":
         _LOGGER.info(f"Epoch: {epoch + 1}, Accuracy: {result:.2f}, Training Time: {benchmark1.elapsed():.2f}s, "
                      f"Testing Time: {benchmark2.elapsed():.2f}s")
 
+np.set_printoptions(threshold=np.inf, linewidth=200, precision=2, suppress=True)
+
+print("\nClass 0 Positive Clauses:\n")
+
+precision = tm.clause_precision(0, 0, X_test, Y_test)
+recall = tm.clause_recall(0, 0, X_test, Y_test)
+
+for j in range(number_of_clauses//2):
+    print("Clause #%d W:%d P:%.2f R:%.2f " % (j, tm.get_weight(0, 0, j), precision[j], recall[j]), end=' ')
+    l = []
+    for k in range(number_of_features*2):
+        if tm.get_ta_action(j, k, the_class = 0, polarity = 0):
+            if k < number_of_features:
+                l.append(" x%d(%d)" % (k, tm.get_ta_state(j, k, the_class = 0, polarity = 0)))
+            else:
+                l.append("¬x%d(%d)" % (k-number_of_features, tm.get_ta_state(j, k, the_class = 0, polarity = 0)))
+    print(" ∧ ".join(l))
+
+    print("\nClass 0 Negative Clauses:\n")
+
+    precision = tm.clause_precision(0, 1, X_test, Y_test)
+    recall = tm.clause_recall(0, 1, X_test, Y_test)
+
+    for j in range(number_of_clauses//2):
+        print("Clause #%d W:%d P:%.2f R:%.2f " % (j, tm.get_weight(0, 1, j), precision[j], recall[j]), end=' ')
+        l = []
+        for k in range(number_of_features*2):
+            if tm.get_ta_action(j, k, the_class = 0, polarity = 1):
+                if k < number_of_features:
+                    l.append(" x%d(%d)" % (k, tm.get_ta_state(j, k, the_class = 0, polarity = 1)))
+                else:
+                    l.append("¬x%d(%d)" % (k-number_of_features, tm.get_ta_state(j, k, the_class = 0, polarity = 1)))
+        print(" ∧ ".join(l))
+
+    print("\nClass 1 Positive Clauses:\n")
+
+    precision = tm.clause_precision(1, 0, X_test, Y_test)
+    recall = tm.clause_recall(1, 0, X_test, Y_test)
+
+    for j in range(number_of_clauses//2):
+        print("Clause #%d W:%d P:%.2f R:%.2f " % (j, tm.get_weight(1, 0, j), precision[j], recall[j]), end=' ')
+        l = []
+        for k in range(number_of_features*2):
+            if tm.get_ta_action(j, k, the_class = 1, polarity = 0):
+                if k < number_of_features:
+                    l.append(" x%d(%d)" % (k, tm.get_ta_state(j, k, the_class = 1, polarity = 0)))
+                else:
+                    l.append("¬x%d(%d)" % (k-number_of_features, tm.get_ta_state(j, k, the_class = 1, polarity = 0)))
+        print(" ∧ ".join(l))
+
+    print("\nClass 1 Negative Clauses:\n")
+
+    precision = tm.clause_precision(1, 1, X_test, Y_test)
+    recall = tm.clause_recall(1, 1, X_test, Y_test)
+
+    for j in range(number_of_clauses//2):
+        print("Clause #%d W:%d P:%.2f R:%.2f " % (j, tm.get_weight(1, 1, j), precision[j], recall[j]), end=' ')
+        l = []
+        for k in range(number_of_features*2):
+            if tm.get_ta_action(j, k, the_class = 1, polarity = 1):
+                if k < number_of_features:
+                    l.append(" x%d(%d)" % (k, tm.get_ta_state(j, k, the_class = 1, polarity = 1)))
+                else:
+                    l.append("¬x%d(%d)" % (k-number_of_features, tm.get_ta_state(j, k, the_class = 1, polarity = 1)))
+        print(" ∧ ".join(l))
+
 
     print("\nPositive Polarity:", end=' ')
     literal_importance = tm.literal_importance(1, negated_features=False, negative_polarity=False).astype(np.int32)
