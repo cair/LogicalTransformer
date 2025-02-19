@@ -14,8 +14,6 @@ from sklearn.metrics import precision_score
 _LOGGER = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
 
-profile_size = 50
-
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
@@ -27,7 +25,9 @@ if __name__ == "__main__":
     parser.add_argument("--weighted_clauses", default=True, type=bool)
     parser.add_argument("--epochs", default=1, type=int)
     parser.add_argument("--type_i_ii_ratio", default=1.0, type=float)
-    parser.add_argument("--max-ngram", default=2, type=int)
+    parser.add_argument("--min_ngram", default=1, type=int)
+    parser.add_argument("--max_ngram", default=2, type=int)
+    parser.add_argument("--profile_size", default=100, type=int)
     parser.add_argument("--features", default=10000, type=int)
     parser.add_argument("--imdb-num-words", default=10000, type=int)
     parser.add_argument("--imdb-index-from", default=2, type=int)
@@ -68,7 +68,7 @@ if __name__ == "__main__":
     vectorizer_X = CountVectorizer(
         tokenizer=lambda s: s,
         token_pattern=None,
-        ngram_range=(args.max_ngram, args.max_ngram),
+        ngram_range=(args.min_ngram, args.max_ngram),
         lowercase=False,
         binary=True,
         max_features=args.features
@@ -116,15 +116,15 @@ if __name__ == "__main__":
         _LOGGER.info(f"Epoch: {epoch + 1}, Accuracy: {result:.2f}, Recall: {recall:.2f}, Precision: {precision:.2f}, Training Time: {benchmark1.elapsed():.2f}s, "
                      f"Testing Time: {benchmark2.elapsed():.2f}s")
 
-X_test = X_train
-Y_test = Y_train
+#X_test = X_train
+#Y_test = Y_train
 
 np.set_printoptions(threshold=np.inf, linewidth=200, precision=2, suppress=True)
 
 print("\nClass 0 Positive Clauses:\n")
 
-precision = tm.clause_precision(0, 0, X_test, Y_test)
-recall = tm.clause_recall(0, 0, X_test, Y_test)
+precision = 100*tm.clause_precision(0, 0, X_test, Y_test)
+recall = 100*tm.clause_recall(0, 0, X_test, Y_test)
 
 for j in range(args.num_clauses//2):
     print("Clause #%d W:%d P:%.2f R:%.2f " % (j, tm.get_weight(0, 0, j), precision[j], recall[j]), end=' ')
@@ -173,8 +173,8 @@ for j in range(args.num_clauses//2):
 
 print("\nClass 1 Negative Clauses:\n")
 
-precision = tm.clause_precision(1, 1, X_test, Y_test)
-recall = tm.clause_recall(1, 1, X_test, Y_test)
+precision = 100*tm.clause_precision(1, 1, X_test, Y_test)
+recall = 100*tm.clause_recall(1, 1, X_test, Y_test)
 
 print("Average Recall and Precision:", np.average(recall), np.average(precision))
 
@@ -192,7 +192,7 @@ for j in range(args.num_clauses//2):
 
 print("\nPositive Polarity:", end=' ')
 literal_importance = tm.literal_importance(1, negated_features=False, negative_polarity=False).astype(np.int32)
-sorted_literals = np.argsort(-1*literal_importance)[0:profile_size]
+sorted_literals = np.argsort(-1*literal_importance)[0:args.profile_size]
 for k in sorted_literals:
     if literal_importance[k] == 0:
         break
@@ -200,7 +200,7 @@ for k in sorted_literals:
     print("'" + feature_names[selected_features[k]] + "'", end=' ')
 
 literal_importance = tm.literal_importance(1, negated_features=True, negative_polarity=False).astype(np.int32)
-sorted_literals = np.argsort(-1*literal_importance)[0:profile_size]
+sorted_literals = np.argsort(-1*literal_importance)[0:args.profile_size]
 for k in sorted_literals:
     if literal_importance[k] == 0:
         break
@@ -210,7 +210,7 @@ for k in sorted_literals:
 print()
 print("\nNegative Polarity:", end=' ')
 literal_importance = tm.literal_importance(1, negated_features=False, negative_polarity=True).astype(np.int32)
-sorted_literals = np.argsort(-1*literal_importance)[0:profile_size]
+sorted_literals = np.argsort(-1*literal_importance)[0:args.profile_size]
 for k in sorted_literals:
     if literal_importance[k] == 0:
         break
@@ -218,7 +218,7 @@ for k in sorted_literals:
     print("'" + feature_names[selected_features[k]] + "'", end=' ')
 
 literal_importance = tm.literal_importance(1, negated_features=True, negative_polarity=True).astype(np.int32)
-sorted_literals = np.argsort(-1*literal_importance)[0:profile_size]
+sorted_literals = np.argsort(-1*literal_importance)[0:args.profile_size]
 for k in sorted_literals:
     if literal_importance[k] == 0:
         break
