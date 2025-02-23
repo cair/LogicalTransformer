@@ -29,7 +29,7 @@ if __name__ == "__main__":
     parser.add_argument("--max_ngram", default=2, type=int)
     parser.add_argument("--profile_size", default=100, type=int)
     parser.add_argument("--features", default=10000, type=int)
-    parser.add_argument("--imdb-num-words", default=10000, type=int)
+    parser.add_argument("--imdb-num-words", default=25000, type=int)
     parser.add_argument("--imdb-index-from", default=2, type=int)
     args = parser.parse_args()
 
@@ -139,8 +139,8 @@ for j in range(args.num_clauses//2):
 
 print("\nClass 0 Negative Clauses:\n")
 
-precision = tm.clause_precision(0, 1, X_test, Y_test)
-recall = tm.clause_recall(0, 1, X_test, Y_test)
+precision = 100*tm.clause_precision(0, 1, X_test, Y_test)
+recall = 100*tm.clause_recall(0, 1, X_test, Y_test)
 
 for j in range(args.num_clauses//2):
     print("Clause #%d W:%d P:%.2f R:%.2f " % (j, tm.get_weight(0, 1, j), precision[j], recall[j]), end=' ')
@@ -155,8 +155,8 @@ for j in range(args.num_clauses//2):
 
 print("\nClass 1 Positive Clauses:\n")
 
-precision = tm.clause_precision(1, 0, X_test, Y_test)
-recall = tm.clause_recall(1, 0, X_test, Y_test)
+precision = 100*tm.clause_precision(1, 0, X_test, Y_test)
+recall = 100*tm.clause_recall(1, 0, X_test, Y_test)
 
 print("Average Recall and Precision:", np.average(recall), np.average(precision))
 
@@ -197,7 +197,13 @@ for k in sorted_literals:
     if literal_importance[k] == 0:
         break
 
-    print("'" + feature_names[selected_features[k]] + "'", end=' ')
+    #literal_precision = 100.0 - 100*Y_test[X_test[:,k] == 1].mean()
+    #literal_recall = 100*(1 - Y_test[X_test[:,k] == 1]).sum()/(1 - Y_test).sum()
+
+    literal_precision = 100*Y_test[X_test[:,k] == 1].mean()
+    literal_recall = 100*Y_test[X_test[:,k] == 1].sum()/Y_test.sum()
+
+    print("'%s'(%.2f/%.2f)"  % (feature_names[selected_features[k]], literal_precision, literal_recall), end=' ')
 
 literal_importance = tm.literal_importance(1, negated_features=True, negative_polarity=False).astype(np.int32)
 sorted_literals = np.argsort(-1*literal_importance)[0:args.profile_size]
@@ -215,7 +221,13 @@ for k in sorted_literals:
     if literal_importance[k] == 0:
         break
 
-    print("'" + feature_names[selected_features[k]] + "'", end=' ')
+    #literal_precision = 100*Y_test[X_test[:,k] == 1].mean()
+    #literal_recall = 100*Y_test[X_test[:,k] == 1].sum()/Y_test.sum()
+
+    literal_precision = 100.0 - 100*Y_test[X_test[:,k] == 1].mean()
+    literal_recall = 100*(1 - Y_test[X_test[:,k] == 1]).sum()/(1 - Y_test).sum()
+
+    print("'%s'(%.2f/%.2f)"  % (feature_names[selected_features[k]], literal_precision, literal_recall), end=' ')
 
 literal_importance = tm.literal_importance(1, negated_features=True, negative_polarity=True).astype(np.int32)
 sorted_literals = np.argsort(-1*literal_importance)[0:args.profile_size]
