@@ -11,19 +11,19 @@ number_of_features = 1000
 
 number_of_characterizing_features = 100 # Each class gets this many unique features in total
 
-number_of_low_precision_features = 2
+number_of_low_precision_features = 1
 
-number_of_characterizing_features_per_example = 2 # Each example consists of this number of unique features
+number_of_characterizing_features_per_example = 1 # Each example consists of this number of unique features
 number_of_common_features_per_example = 10
 
 number_of_clauses = 10
-T = number_of_clauses*10
+T = number_of_clauses*100
 s = 1.0
 
 a = 1.1
 b = 2.7
 
-low_precision_features_p = 0.7
+low_precision_features_p = 0.5
 
 #characterizing_features = np.random.choice(number_of_features, size=(2, number_of_characterizing_features), replace=False).astype(np.uint32)
 characterizing_features = np.arange(number_of_characterizing_features*2).reshape((2, number_of_characterizing_features)).astype(np.uint32)
@@ -80,10 +80,10 @@ for i in range(number_of_test_examples):
 np.savetxt("ReasoningByEliminationTrainingData.txt", np.concatenate((X_train, Y_train.reshape(-1,1)), axis=1), delimiter=" ")
 np.savetxt("ReasoningByEliminationTestingData.txt", np.concatenate((X_test, Y_test.reshape(-1,1)), axis=1), delimiter=" ")
 
-tm = TMClassifier(number_of_clauses, T, s, platform='CPU', weighted_clauses=True, max_included_literals=256)
+tm = TMClassifier(number_of_clauses, T, s, platform='CPU', weighted_clauses=True, max_included_literals=256, type_i_ii_ratio=1.0)
 
 start = time()
-for epoch in range(10):
+for epoch in range(25):
 	tm.fit(X_train, Y_train)
 stop = time()
 
