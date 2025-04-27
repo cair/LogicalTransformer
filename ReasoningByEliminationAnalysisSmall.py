@@ -16,14 +16,14 @@ number_of_low_precision_features = 2
 number_of_characterizing_features_per_example = 2 # Each example consists of this number of unique features
 number_of_common_features_per_example = 10
 
-number_of_clauses = 2
-T = number_of_clauses*100
+number_of_clauses = 10
+T = number_of_clauses*10
 s = 1.0
 
 a = 1.1
 b = 2.7
 
-low_precision_features_p = 1.0
+low_precision_features_p = 0.7
 
 #characterizing_features = np.random.choice(number_of_features, size=(2, number_of_characterizing_features), replace=False).astype(np.uint32)
 characterizing_features = np.arange(number_of_characterizing_features*2).reshape((2, number_of_characterizing_features)).astype(np.uint32)
@@ -83,9 +83,8 @@ np.savetxt("ReasoningByEliminationTestingData.txt", np.concatenate((X_test, Y_te
 tm = TMClassifier(number_of_clauses, T, s, platform='CPU', weighted_clauses=True, max_included_literals=256)
 
 start = time()
-tm.fit(X_train, Y_train)
-tm.fit(X_train, Y_train)
-tm.fit(X_train, Y_train)
+for epoch in range(10):
+	tm.fit(X_train, Y_train)
 stop = time()
 
 print(stop-start)
@@ -103,7 +102,7 @@ for j in range(number_of_clauses//2):
 	for k in range(number_of_features*2):
 		if tm.get_ta_action(j, k, the_class = 0, polarity = 0):
 			if k < number_of_features:
-				l.append(" x%d(%d)" % (k, tm.get_ta_state(j, k, the_class = 1, polarity = 0)))
+				l.append(" x%d(%d)" % (k, tm.get_ta_state(j, k, the_class = 0, polarity = 0)))
 			else:
 				l.append("¬x%d(%d)" % (k-number_of_features, tm.get_ta_state(j, k, the_class = 0, polarity = 0)))
 	print(" ∧ ".join(l))
