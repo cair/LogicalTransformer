@@ -23,7 +23,7 @@ s = 1.0
 a = 1.1
 b = 2.7
 
-low_precision_features_p = 0.7
+low_precision_features_p = 1.0
 
 #characterizing_features = np.random.choice(number_of_features, size=(2, number_of_characterizing_features), replace=False).astype(np.uint32)
 characterizing_features = np.arange(number_of_characterizing_features*2).reshape((2, number_of_characterizing_features)).astype(np.uint32)
@@ -68,10 +68,10 @@ for i in range(number_of_test_examples):
 		X_test[i, j] = 1
 
 	for j in low_precision_features[Y_test[i]]:
-		X_test[i, j] = np.random.choice(2, p=[0.3, 0.7])
+		X_test[i, j] = np.random.choice(2, p=[1-low_precision_features_p, low_precision_features_p])
 
 	for j in low_precision_features[1-Y_test[i]]:
-		X_test[i, j] = np.random.choice(2, p=[0.7, 0.3])
+		X_test[i, j] = np.random.choice(2, p=[low_precision_features_p, 1-low_precision_features_p])
 
 	indexes = np.random.choice(common_features, number_of_common_features_per_example, replace=False, p=p_common_feature)
 	for j in indexes:
