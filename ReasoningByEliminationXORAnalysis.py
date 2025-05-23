@@ -1,27 +1,26 @@
-from tmu.models.classification.vanilla_classifier import TMClassifier
+﻿from tmu.models.classification.vanilla_classifier import TMClassifier
 import numpy as np
 from time import time
 
 number_of_training_examples = 500000
-number_of_test_examples = 10000
+number_of_testing_examples = 10000
 
-noise = [0.05, 0.1, 0.2]
+noise_p = 0.0
 
-number_of_features = 10000
+number_of_features = 1000
 
-number_of_characterizing_features = 1000 # Each class gets this many unique features in total
+number_of_characterizing_features = 10 # Each class gets this many unique features in total
 
-number_of_characterizing_features_per_example = 2 # Each example consists of this number of unique features
+number_of_characterizing_features_per_example = 1 # Each example consists of this number of unique features
 number_of_common_features_per_example = 10
 
 number_of_clauses = 100
-T = number_of_clauses*100
+T = number_of_clauses*10
 s = 1.0
 
 a = 1.1
 b = 2.7
 
-#characterizing_features = np.random.choice(number_of_features, size=(2, number_of_characterizing_features), replace=False).astype(np.uint32)
 characterizing_features = np.arange(number_of_characterizing_features*2).reshape((2, number_of_characterizing_features)).astype(np.uint32)
 common_features = np.setdiff1d(np.arange(number_of_features), characterizing_features.reshape(-1))
 
@@ -33,26 +32,36 @@ p_common_feature = p_common_feature / p_common_feature.sum()
 X_train = np.zeros((number_of_training_examples, number_of_features), dtype=np.uint32)
 Y_train = np.zeros(number_of_training_examples, dtype=np.uint32)
 for i in range(number_of_training_examples):
-	Y_train[i] = np.random.choice(2)
+	x_1 = np.random.choice(2)
+	x_2 = np.random.choice(2)
+	Y_train[i] = np.logical_xor(x_1, x_2)
 
-	indexes = np.random.choice(characterizing_features[Y_train[i]], number_of_characterizing_features_per_example, replace=False)
+	indexes = np.random.choice(characterizing_features[x_1], number_of_characterizing_features_per_example, replace=False)
 	for j in indexes:
 		X_train[i, j] = 1
 
-	indexes = np.random.choice(characterizing_features[1 - Y_train[i]], number_of_characterizing_features_per_example, replace=False)
+	indexes = np.random.choice(characterizing_features[x_2], number_of_characterizing_features_per_example, replace=False)
 	for j in indexes:
-		X_train[i, j] = np.random.choice(2, p=[1.0 - noise[j%len(noise)], noise[j%len(noise)]])
+		X_train[i, j] = 1
 
 	indexes = np.random.choice(common_features, number_of_common_features_per_example, replace=False, p=p_common_feature)
 	for j in indexes:
 		X_train[i, j] = 1
 
-X_test = np.zeros((number_of_test_examples, number_of_features), dtype=np.uint32)
-Y_test = np.zeros(number_of_test_examples, dtype=np.uint32)
-for i in range(number_of_test_examples):
-	Y_test[i] = np.random.choice(2)
+Y_train = np.where(np.random.rand(Y_train.shape[0]) <= noise_p, 1 - Y_train, Y_train)  # Adds noise
 
-	indexes = np.random.choice(characterizing_features[Y_test[i]], number_of_characterizing_features_per_example, replace=False)
+X_test = np.zeros((number_of_testing_examples, number_of_features), dtype=np.uint32)
+Y_test = np.zeros(number_of_testing_examples, dtype=np.uint32)
+for i in range(number_of_testing_examples):
+	x_1 = np.random.choice(2)
+	x_2 = np.random.choice(2)
+	Y_test[i] = np.logical_xor(x_1, x_2)
+
+	indexes = np.random.choice(characterizing_features[x_1], number_of_characterizing_features_per_example, replace=False)
+	for j in indexes:
+		X_test[i, j] = 1
+
+	indexes = np.random.choice(characterizing_features[x_2], number_of_characterizing_features_per_example, replace=False)
 	for j in indexes:
 		X_test[i, j] = 1
 
@@ -60,10 +69,7 @@ for i in range(number_of_test_examples):
 	for j in indexes:
 		X_test[i, j] = 1
 
-#np.savetxt("ReasoningByEliminationTrainingData.txt", np.concatenate((X_train, Y_train.reshape(-1,1)), axis=1), delimiter=" ")
-#np.savetxt("ReasoningByEliminationTestingData.txt", np.concatenate((X_test, Y_test.reshape(-1,1)), axis=1), delimiter=" ")
-
-tm = TMClassifier(number_of_clauses, T, s, platform='CPU', weighted_clauses=True)#, max_included_literals=64)
+tm = TMClassifier(number_of_clauses, T, s, platform='CPU', weighted_clauses=True, max_included_literals=10)
 
 start = time()
 tm.fit(X_train, Y_train)
@@ -145,9 +151,9 @@ for k in sorted_literals:
 			break
 
 		if k < number_of_features:
-			print("%d(%.2f,%d,%d)" % (k, 1.0*literal_frequency[k]/number_of_clauses, (k - number_of_features) % len(noise), k in common_features), end=' ')
+			print("%d(%.2f)" % (k, 1.0*literal_frequency[k]/number_of_clauses), end=' ')
 		else:
-			print("¬%d(%.2f,%d,%d)" % (k - number_of_features, 1.0*literal_frequency[k]/number_of_clauses, (k - number_of_features) % len(noise), k in common_features), end=' ')
+			print("¬%d(%.2f)" % (k - number_of_features, 1.0*literal_frequency[k]/number_of_clauses), end=' ')
 print()
 
 for i in range(2):
